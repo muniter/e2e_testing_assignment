@@ -77,7 +77,7 @@ npx playwright test
 Nueva instancia de Ghost y corre todas las pruebas de Playwright.
 
 ```bash
-rm -rf Ghost/content/data/ghost-local.db && npx ghost restart -d Ghost && npx playwright test --repeat-each 10
+rm -rf Ghost/content/data/ghost-local.db && npx ghost restart -d Ghost && npx playwright test
 ```
 
 Si quiere correr el test muchas veces para asegurarse que no sea flaky
