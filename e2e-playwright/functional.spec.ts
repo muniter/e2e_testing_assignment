@@ -47,7 +47,7 @@ test.describe('member', () => {
   // Find the navigation bar
   // Additional beforeEAch
   test.beforeEach(async ({ page }) => {
-    await page.locator('css=li:has(a[href="#/members/"]) >> visible=true').click();
+    await page.locator('.gh-nav').locator('li:has(a[href="#/members/"])').click();
   });
 
   const selectors = {
