@@ -12,11 +12,11 @@ Las siguientes son las funcionalidades elegidas para realizar las pruebas.
 | 3  | **Eliminar una publicación**: Se puede eliminar una publicación ya creada.                                                                                                                 |
 | 4  | **Crear una página**: Se puede crear una página con menos funcionalidades a un post, pues esta página no tendrá autor, tags, etc.                                                          |
 | 5  | **Crear una tag**: Se puede crear un tag, este es un elemento de organización bajo agrupación, se provee un nombre, descripción y post asociados.                                          |
-| 6  | **Crear un member**: Se crean los miembros de la página, aquellos que están suscritos a su contenido, se provee un nombre, correo y labels.                                                |
-| 7  | **Editar un member**: Se puede editar todos los datos de un member ya creado.                                                                                                              |
-| 8  | **Eliminar un member**: Se puede eliminar un member ya creado.                                                                                                                             |
-| 9  | **Crear un staff**: Se crean los staff de la página, aquellos que escriben contenido en la página, se provee un nombre, correo, password, etc.                                             |
-| 10 | **Editar un staff**: Se puede editar todos los datos de un staff ya creado.                                                                                                                |
+| 6  | **Crear un staff**: Se crean los staff de la página, aquellos que escriben contenido en la página, se provee un nombre, correo, password, etc.                                             |
+| 7  | **Editar un staff**: Se puede editar todos los datos de un staff ya creado.                                                                                                                |
+| 8  | **Crear un member**: Se crean los miembros de la página, aquellos que están suscritos a su contenido, se provee un nombre, correo y labels.                                                |
+| 9  | **Editar un member**: Se puede editar todos los datos de un member ya creado.                                                                                                              |
+| 10 | **Eliminar un member**: Se puede eliminar un member ya creado.                                                                                                                             |
 
 ## Escenarios de prueba
 
@@ -43,6 +43,32 @@ Las siguientes son las funcionalidades elegidas para realizar las pruebas.
 | 18 | 9             |                                                                                                                                                                            |
 | 19 | 10            |                                                                                                                                                                            |
 | 20 | 10            |                                                                                                                                                                            |
+
+## Instrucciones
+
+* Instalar dependencias
+
+```
+npm install
+```
+
+* Instalar Ghost
+
+```
+npx ghost install 4.41.1 --local --port 9333 --dir ./Ghost
+```
+
+* Correr ghost
+
+```
+npx ghost start --dir ./Ghost
+```
+
+* Correr test de playwright
+
+```
+npx playwright test
+```
 
 ## Autores
 
