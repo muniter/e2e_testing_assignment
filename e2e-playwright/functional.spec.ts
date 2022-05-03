@@ -116,6 +116,13 @@ test.describe('member', () => {
     await expect(page.locator('button', { hasText: 'Retry' })).toHaveCount(1);
   });
 
+  test('should not create a new member with an invalid email', async ({ page }) => {
+    await createmember(page, faker.internet.email().replace(/@.*$/, ''), false);
+    // Should have failed now button has retry text
+    await expect(page.locator('button', { hasText: 'Retry' })).toHaveCount(1);
+    await expect(page.locator('p[class="response"] >> text="Invalid Email."')).toHaveCount(1);
+  });
+
   test('should edit members', async ({ page }) => {
     const member = await createmember(page);
     await page.locator('h3', { hasText: member.name }).click();
