@@ -1,53 +1,75 @@
 import faker from '@faker-js/faker';
 import { test, expect, Page } from '@playwright/test';
 
-let url = process.env.GHOST_URL || 'http://localhost:9333';
-url = url.replace(/\/$/, '')
-let adminDashboard = url + '/ghost/#/dashboard';
+let Url = process.env.GHOST_URL || 'http://localhost:9333';
+Url = Url.replace(/\/$/, '')
+let adminDashboard = Url + '/ghost/#/dashboard';
+const UserPassword = process.env.GHOST_PASSWORD || 'Very_Strong1!';
+const UserEmail = process.env.GHOST_EMAIL || 'tester@tester.com';
 
-const login = async (page: Page) => {
-  const password = process.env.GHOST_PASSWORD || 'Very_Strong1!';
-  const email = process.env.GHOST_EMAIL || 'tester@tester.com';
-  // Determine if we need to create a new user or not
-  await page.goto(url + '/ghost/#/signin', { waitUntil: 'networkidle' });
+// Run this tests in parallel
+test.describe.configure({ mode: 'parallel' })
 
+const setup = async (page: Page) => {
+  await page.goto(Url + '/ghost/#/signin', { waitUntil: 'networkidle' });
   let curr_url = page.url();
   if (curr_url.includes('setup')) {
     // Check if we need to create a new user
+    await page.waitForSelector('input[id="blog-title"]');
     const input = await page.$('input[id="blog-title"]')
     await input.type(process.env.GHOST_TITLE || 'Ghost Testing');
     const name = await page.$('input[id="name"]')
     await name.type(process.env.GHOST_NAME || 'Ghost Testing');
     const emailInput = await page.$('input[id="email"]')
-    await emailInput.type(email);
+    await emailInput.type(UserEmail);
     const passwordInput = await page.$('input[id="password"]')
-    await passwordInput.type(password);
+    await passwordInput.type(UserPassword);
     const submit = await page.$('button[type="submit"]')
     await submit.click();
-    // Sleep 5 seconds
-  } else if (curr_url.includes('signin')) {
+  } else if (curr_url.includes('signin') || curr_url.includes('dashboard')) {
+    return;
+  } else {
+    throw new Error('Failed setting up Ghost');
+  }
+};
+
+const login = async (page: Page) => {
+  // Determine if we need to create a new user or not
+  await page.goto(Url + '/ghost/#/signin', { waitUntil: 'networkidle' });
+
+  let curr_url = page.url();
+  if (curr_url.includes('signin')) {
     // Just log in
+    await page.waitForSelector('input[type="email"]');
     const emailInput = await page.$('input[type="email"]');
     const passwordInput = await page.$('input[type="password"]');
-    await emailInput.type(email);
-    await passwordInput.type(password);
+    await emailInput.type(UserEmail);
+    await passwordInput.type(UserPassword);
     const submit = await page.$('button[type="submit"]');
     await submit.click();
   } else if (curr_url.includes('dashboard')) {
     return
+  } else {
+    throw new Error('Failed logging in');
   }
   await page.goto(adminDashboard, { waitUntil: 'networkidle' });
 }
 
-test.beforeEach(async ({ page }) => {
-  await login(page);
-});
+
+test.beforeAll(async ({ browser }) => {
+  // The first login guarantees that we have a valid session
+  // and then we can parallelize the tests
+  const page = await browser.newPage();
+  await setup(page);
+  await page.close();
+})
 
 test.describe('member', () => {
   // Find the navigation bar
   // Additional beforeEAch
   test.beforeEach(async ({ page }) => {
-    await page.locator('.gh-nav').locator('li:has(a[href="#/members/"])').click();
+    await login(page);
+    await page.locator('.gh-nav').locator('li:has(a[href="#/members/"])').click({ timeout: 5000 });
   });
 
   const selectors = {
