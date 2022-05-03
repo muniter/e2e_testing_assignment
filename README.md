@@ -46,6 +46,8 @@ Las siguientes son las funcionalidades elegidas para realizar las pruebas.
 
 ## Instrucciones
 
+### Playwright
+
 * Instalar dependencias
 
 ```bash
@@ -70,17 +72,9 @@ npx ghost start --dir ./Ghost
 npx playwright test
 ```
 
-### Tips
+#### Tips
 
-Si quiere correr las pruebas con una nueva instancia de Ghost en cada ocasión:
-
-Corra el siguiente comando antes:
-
-```bash
-rm -rf Ghost/content/data/ghost-local.db
-```
-
-En Linux puede correrlos juntos así:
+Nueva instancia de Ghost y corre todas las pruebas de Playwright.
 
 ```bash
 rm -rf Ghost/content/data/ghost-local.db && npx ghost restart -d Ghost && npx playwright test --repeat-each 10
@@ -96,6 +90,49 @@ Si quiere correr el test en solamente un worker y un browser
 
 ```bash
 npx playwright test --workers 1 --project firefox
+```
+
+
+### Kraken
+
+* Instalar dependencias
+
+```bash
+npm install
+```
+
+* Instalar Ghost
+
+```bash
+npx ghost install 4.41.1 --local --port 9333 --dir ./Ghost
+```
+
+* Correr ghost
+
+```bash
+npx ghost start --dir ./Ghost
+```
+
+* Correr test de playwright
+
+```bash
+npx kraken-node run
+```
+
+#### Tips
+
+Si quiere correr las pruebas con una nueva instancia de Ghost en cada ocasión:
+
+Corra el siguiente comando antes:
+
+```bash
+rm -rf Ghost/content/data/ghost-local.db
+```
+
+Nueva instancia de Ghost y corre todas las pruebas de Kraken.
+
+```bash
+rm -rf Ghost/content/data/ghost-local.db && npx kraken-node run
 ```
 
 ## Autores
