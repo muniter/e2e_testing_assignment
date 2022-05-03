@@ -112,8 +112,7 @@ test.describe('member', () => {
   test('should not create a new member with the same email', async ({ page }) => {
     const member = await createmember(page);
     await createmember(page, member.email, false);
-    // Should have failed
-    await expect(page.locator('aside', { hasText: 'existing email address' })).toHaveCount(1);
+    // Should have failed now button has retry text
     await expect(page.locator('button', { hasText: 'Retry' })).toHaveCount(1);
   });
 
@@ -122,13 +121,23 @@ test.describe('member', () => {
     await page.locator('h3', { hasText: member.name }).click();
     // Get input contents
     let newName = faker.name.findName();
-    await page.locator(selectors.name).type(newName);
+    await page.locator(selectors.name).fill(newName);
     await page.locator(selectors.save).click();
     await page.waitForLoadState('networkidle');
     await page.goBack();
-    await page.reload();
     // Check if the new member is in the list
-    await expect(page.locator('h3', { hasText: newName })).toHaveCount(1);
+    await expect(page.locator('h3', { hasText: newName })).toHaveCount(1, { timeout: 5000 });
+  });
+
+  test('should not accept edit of members with duplicate email', async ({ page }) => {
+    const member = await createmember(page);
+    const anotherMember = await createmember(page);
+    await page.locator('h3', { hasText: member.name }).click();
+    await page.locator(selectors.email).fill(anotherMember.email);
+    await page.locator(selectors.save).click();
+    // Wait for the warning to appear
+    await page.waitForLoadState('networkidle');
+    await expect(page.locator('button', { hasText: 'Retry' })).toHaveCount(1);
   });
 
   test('should delete members', async ({ page }) => {
@@ -136,11 +145,8 @@ test.describe('member', () => {
     await page.locator('h3', { hasText: member.name }).click();
     await page.locator('button:has-text("Actions")').click();
     await page.locator('button:has-text("Delete member")').click();
-    let modal = page.locator('.modal-footer');
-    await modal.locator('button:has-text("Delete member") >> nth=1').click();
-    // Get input contents
-    await page.waitForLoadState('networkidle');
-    await page.reload();
+    await page.keyboard.press('Enter');
+    await page.waitForNavigation();
     // Check that the new member is not in the list
     await expect(page.locator('p', { hasText: member.email })).toHaveCount(0);
   });
