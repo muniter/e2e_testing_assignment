@@ -105,3 +105,5 @@ dist
 
 Ghost/
 playwright-report/
+
+test-results/
