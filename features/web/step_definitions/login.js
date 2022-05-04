@@ -1,11 +1,6 @@
 const UserPassword = process.env.GHOST_PASSWORD || 'Very_Strong1!';
 const UserEmail = process.env.GHOST_EMAIL || 'tester@tester.com';
-const Url = process.env.GHOST_URL || 'http://localhost:9333';
-const Urls = {
-  "signin": Url + "/ghost/#/signin/",
-  "setup": Url + "/ghost/#/setup/",
-  "dashboard": Url + "/ghost/#/dashboard/",
-}
+const Urls = require('./urls').Urls;
 
 const getPuppeteerPage = async (driver) => {
   let browser = await driver.getPuppeteer();

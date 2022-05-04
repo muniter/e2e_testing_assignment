@@ -1,17 +1,16 @@
-Feature: Login and create a member
+Feature: Login create a member and check that the member email is in the list
 
 @user1 @web
-Scenario: Login and create a member
-  When I login
-  And I wait for 2 seconds
-  When I click "members-menu-item"
-  And I wait for 2 seconds
-  When I click "members-menu-new"
-  When I enter the member "name" "|FAKE_NAME|1"
-  And I enter the member "email" "|FAKE_EMAIL|1"
-  And I enter the member "notes" "|FAKE_PARAGRAPH|1"
-  And I click "save-member"
-  And I wait for 1 seconds
-  When I go back
-  And I wait for 1 seconds
-  Then I should see "|FAKE_NAME|1" in "member-list-names"
+Scenario: Login create a member and check that the member email is in the list
+  Given I login
+  And I navigate to the "member" functionality
+
+  When I navigate to the "create member" functionality
+  And I fill the "member" "name" to "|FAKE_NAME|1"
+  And I fill the "member" "email" to "|FAKE_EMAIL|1"
+  And I fill the "member" "notes" to "|FAKE_PARAGRAPH|1"
+  And I "save" the "member"
+  And I go back
+
+  Then I should see the "member" "email" "|FAKE_EMAIL|1" in the "list"
+  And I should see the "member" "name" "|FAKE_NAME|1" in the "list"
