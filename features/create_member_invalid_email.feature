@@ -1,14 +1,14 @@
 Feature: Login and create a member
 
 @user1 @web
-Scenario: Login and create a member
-  When I login
-  And I wait for 2 seconds
-  When I click "members-menu-item"
-  And I wait for 2 seconds
-  When I click "members-menu-new"
-  When I enter the member "name" "|FAKE_NAME|1"
-  And I enter the member "email" "invalidemail"
-  And I enter the member "notes" "|FAKE_PARAGRAPH|1"
-  And I click "save-member"
-  Then I should see "member-create-retry"
+Scenario: Login create a member and check that the member email is in the list
+  Given I login
+  And I navigate to the "member" functionality
+
+  When I navigate to the "create member" functionality
+  And I fill the "member" "name" to "|FAKE_NAME|1"
+  And I fill the "member" "email" to "invalidemail"
+  And I fill the "member" "notes" to "|FAKE_PARAGRAPH|1"
+  And I "save" the "member"
+
+  Then I should see member saving failed
