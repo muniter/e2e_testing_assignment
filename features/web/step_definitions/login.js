@@ -28,9 +28,12 @@ async function firstLogin(driver) {
   element = await page.$('input[id="password"]')
   await element.type(UserPassword);
   element = await page.$('button[type="submit"]')
-  await element.click();
-  page.waitForNavigation();
+  await Promise.all([
+    element.click(),
+    page.waitForNavigation(),
+  ]);
   console.log('Ghost site setup complete');
+  page.goto(Urls.dashboard);
 }
 
 async function normalLogin(driver) {
@@ -56,13 +59,8 @@ async function login(driver) {
   let idProp = await relement.getProperty('id')
   let id = await idProp.jsonValue()
   if (id === SetupId) {
-    console.log('first LOGIN');
-    firstLogin(driver);
-    await page.goto(Urls.dashboard);
-    await page.waitForNavigation();
-    return;
+    return firstLogin(driver);
   } else if (id === loginId) {
-    console.log('Normal LOGIN');
     return normalLogin(driver);
   } else {
     throw new Error('Already logged in');
