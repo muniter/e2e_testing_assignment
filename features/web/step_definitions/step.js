@@ -16,17 +16,13 @@ const ValueGenerators = {
 const SavedGeneratedValues = {}
 
 const Selectors = {
-  "member-list-names": "//h3[contains(., '{}')]",
-  "member-create-retry": "//button[contains(., 'Retry')]",
+  // Dashboard menu
+  "dashborad/menu/member": 'a[href="#/members/"]',
 
   // Member functionality
-  "member/dashborad-menu-item": 'a[href="#/members/"]',
   "member/list/new": 'a[href="#/members/new/"]',
   "member/list/name": "//h3[contains(., '{}')]",
   "member/list/email": "//p[contains(., '{}')]",
-  // Edit
-  // "members/edit/save": "//button/span[contains(., 'Save')]",
-  // "members/edit/save-retry": "//button[contains(., 'Retry')]",
   // Edit fill
   "member/edit/fill/name": 'input[id="member-name"]',
   "member/edit/fill/email": 'input[id="member-email"]',
@@ -115,7 +111,7 @@ const Navigators = {
   member: async (page) => {
     await NavigateTo(page, "dashboard");
     await page.waitForTimeout(1000);
-    let element = await getElement(page, true, Selectors["member/dashborad-menu-item"]);
+    let element = await getElement(page, true, Selectors["dashborad/menu/member"]);
     return element.click();
   },
   "create member": async (page) => {
