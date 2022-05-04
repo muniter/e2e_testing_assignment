@@ -25,14 +25,16 @@ const Selectors = {
   "member/list/name": "//h3[contains(., '{}')]",
   "member/list/email": "//p[contains(., '{}')]",
   // Edit
-  "members/edit/save": "//button/span[contains(., 'Save')]",
-  "members/edit/save-retry": "//button[contains(., 'Retry')]",
+  // "members/edit/save": "//button/span[contains(., 'Save')]",
+  // "members/edit/save-retry": "//button[contains(., 'Retry')]",
   // Edit fill
   "member/edit/fill/name": 'input[id="member-name"]',
   "member/edit/fill/email": 'input[id="member-email"]',
   "member/edit/fill/notes": 'textarea[id="member-note"]',
   // Actions
   "member/action/save": "//button/span[contains(., 'Save')]",
+  // See
+  "member/see/save-retry": "//button[contains(., 'Retry')]",
 }
 
 const getElement = async (page, wait, selector, value) => {
@@ -67,13 +69,17 @@ const getElement = async (page, wait, selector, value) => {
   return result;
 }
 
-async function FillElement(page, wait, selector, value) {
+async function FillElement(page, wait, selector, value, clear) {
   if (page === undefined) throw new Error("No page provided");
   if (selector === undefined) throw new Error("No selector provided");
-  if (value === undefined) throw new Error("No value provided");
+  if (value === undefined || value === null) throw new Error("No value provided");
   let element = await getElement(page, wait, selector, value);
   value = ValueTransform(value)
   if (element) {
+    if (clear) {
+      // Clear the element for later typing
+      await element.evaluate((el) => { el.value = ''})
+    }
     await element.type(value);
   } else {
     throw new Error(`Element not found: ${selector}`);
@@ -81,13 +87,18 @@ async function FillElement(page, wait, selector, value) {
 }
 
 function ValueTransform(value) {
+  // Return if the value is not a string
+  if (typeof value !== 'string') return value;
+  // Check if value is a string
   if (value.startsWith('|')) {
     let generated_value = SavedGeneratedValues[value];
     if (!generated_value) {
-      generated_value = ValueGenerators[value.replace(/\d+$/, "")]();
+      generator = ValueGenerators[value.replace(/\d+$/, "")]
+      generated_value = generator();
       SavedGeneratedValues[value] = generated_value;
     }
     value = generated_value;
+    console.log(SavedGeneratedValues);
   }
   return value
 }
@@ -102,7 +113,7 @@ const replaceWithGeneratedValue = (text, generated) => {
 
 const Navigators = {
   member: async (page) => {
-    await NavigateTo("dashboard", page);
+    await NavigateTo(page, "dashboard");
     await page.waitForTimeout(1000);
     let element = await getElement(page, true, Selectors["member/dashborad-menu-item"]);
     return element.click();
@@ -110,6 +121,16 @@ const Navigators = {
   "create member": async (page) => {
     if (page.url().includes(Urls["members/list"])) {
       let element = await getElement(page, true, Selectors["member/list/new"]);
+      return element.click();
+    } else {
+      throw new Error("Not on members list page");
+    }
+  },
+  "edit member": async (page, email) => {
+    console.log(`Edit member: ${email}`)
+    console.log(`Email resolved: ${SavedGeneratedValues[email]}`)
+    if (page.url().includes(Urls["members/list"])) {
+      let element = await getElement(page, true, Selectors["member/list/email"], email);
       return element.click();
     } else {
       throw new Error("Not on members list page");
@@ -125,12 +146,12 @@ const Navigators = {
   }
 }
 
-async function NavigateTo(name, page) {
+async function NavigateTo(page, name, additional) {
   let target = Navigators[name];
   if (!target) {
     throw new Error(`Unknown section name: ${name}`);
   } else {
-    return target(page);
+    return target(page, additional);
   }
 }
 
@@ -156,18 +177,19 @@ When('I click {string}', async function(selectorName) {
   return await element.click();
 });
 
-When('I navigate to the {string} functionality', async function(functionalityName) {
-  await NavigateTo(functionalityName, this.page);
+When(/I navigate to the "(.*?)" functionality(?:$|.*?"(.*?)")/, async function(name, additional) {
+  console.log(`Navigate to the ${name} functionality ${additional}`)
+  await NavigateTo(this.page, name, additional);
 });
 
-When('I fill the {string} {string} to {string}', async function(scope, selectorName, value) {
+When(/I (fill|set) the ("(.*)?") ("(.*)?") to ("(.*)?")/, async function(verb, scope, selectorName, value) {
   if (scope === undefined) throw new Error("No scope provided");
   if (selectorName === undefined) throw new Error("No selector name provided");
   if (value === undefined) throw new Error("No value provided");
   let key = scope + '/edit/fill/' + selectorName;
   let selector = Selectors[key]
   if (selector === undefined) throw new Error(`Couldn't find selector for key ${key}`);
-  await FillElement(this.page, true, selector, value);
+  await FillElement(this.page, true, selector, value, verb === 'set');
 });
 
 When('I {string} the {string}', async function(action, scope) {
@@ -203,34 +225,8 @@ Then('I should see the {string} {string} {string} in the {string}', async functi
   }
 })
 
-Then('I should see {string} in {string}', async function(value, selectorName) {
-  console.log('The generated values', SavedGeneratedValues);
-  let selector = Selectors[selectorName];
-  if (!selector) {
-    throw new Error(`Unknown selectorName key: ${selectorName}`);
-  }
-  let element;
-  if (selector.includes('{}')) {
-    selector = replaceWithGeneratedValue(selector, value);
-  }
-  if (selectorName.startsWith('/')) {
-    element = await this.driver.$x(selector);
-  } else {
-    element = await this.driver.$(selector);
-  }
-  return await element.isDisplayed();
-});
-
-Then('I should see {string}', async function(selectorName) {
-  let selector = Selectors[selectorName];
-  if (!selector) {
-    throw new Error(`Unknown selectorName key: ${selectorName}`);
-  }
-  let element;
-  if (selectorName.startsWith('/')) {
-    element = await this.driver.$x(selector);
-  } else {
-    element = await this.driver.$(selector);
-  }
-  return await element.isDisplayed();
+Then('I should see member saving failed', async function() {
+  let selector = Selectors["member/see/save-retry"];
+  let element = await getElement(this.page, true, selector);
+  if (element === null) throw new Error(`Couldn't find element with selector ${selector}`);
 })
