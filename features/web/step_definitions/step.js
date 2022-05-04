@@ -1,16 +1,8 @@
 const { Given, When, Then } = require('@cucumber/cucumber');
 const { faker } = require('@faker-js/faker');
-const UserPassword = process.env.GHOST_PASSWORD || 'Very_Strong1!';
-const UserEmail = process.env.GHOST_EMAIL || 'tester@tester.com';
-
-const getPuppeteerPage = async (driver) => {
-  let browser = await driver.getPuppeteer();
-  let pages = await browser.pages();
-  return pages[0];
-}
+const login = require('./login');
 
 const buttons = {
-  "sign-in": 'button[type="submit"]',
   "members-menu-item": 'a[href="#/members/"]',
   "members-menu-new": 'a[href="#/members/new/"]',
   "save-member": "//button/span[contains(., 'Save')]",
@@ -39,30 +31,12 @@ const Selectors = {
 }
 
 When('I login', async function() {
-  let page = await getPuppeteerPage(this.driver);
-  await page.goto('http://localhost:9333/ghost/#/signin');
-  let element;
-  element = await this.driver.$('input[type="email"]');
-  await element.setValue(UserEmail);
-  element = await this.driver.$('input[type="password"]');
-  await element.setValue(UserPassword);
-  element = await this.driver.$(buttons["sign-in"]);
-  return await element.click();
+  return await login.login(this.driver);
 });
 
 When('I go back', async function() {
   return await this.driver.back();
 })
-
-When('I enter the email', async function() {
-  let element = await this.driver.$('input[type="email"]');
-  return await element.setValue(UserEmail);
-});
-
-When('I enter the password', async function() {
-  let element = await this.driver.$('input[type="password"]');
-  return await element.setValue(UserPassword);
-});
 
 When('I click {string}', async function(selectorName) {
   let selector = buttons[selectorName];
