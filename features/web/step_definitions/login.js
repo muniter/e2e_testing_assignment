@@ -1,5 +1,11 @@
 const UserPassword = process.env.GHOST_PASSWORD || 'Very_Strong1!';
 const UserEmail = process.env.GHOST_EMAIL || 'tester@tester.com';
+const Url = process.env.GHOST_URL || 'http://localhost:9333';
+const Urls = {
+  "signin": Url + "/ghost/#/signin/",
+  "setup": Url + "/ghost/#/setup/",
+  "dashboard": Url + "/ghost/#/dashboard/",
+}
 
 const getPuppeteerPage = async (driver) => {
   let browser = await driver.getPuppeteer();
@@ -8,8 +14,9 @@ const getPuppeteerPage = async (driver) => {
 }
 
 async function firstLogin(driver) {
+  // Setup ghost for the first time, and log in.
   let page = await getPuppeteerPage(driver);
-  await page.goto('http://localhost:9333/ghost/#/signin');
+  await page.goto(Urls.signin);
   let element;
   await page.waitFor('input[id="blog-title"]');
   element = await page.$('input[id="blog-title"]')
@@ -38,23 +45,23 @@ async function normalLogin(driver) {
 
 async function login(driver) {
   let page = await getPuppeteerPage(driver);
-  await page.goto('http://localhost:9333/ghost/#/signin');
+  let loginId = 'login'
+  let SetupId = 'blog-title'
+  await page.goto(Urls.signin);
   let watchdog = [
-    page.waitForSelector('#login'),
-    page.waitForSelector('input[id="blog-title"]')
+    page.waitForSelector("#" + loginId),
+    page.waitForSelector("#" + SetupId),
   ]
-  await Promise.race(watchdog)
-  let title = await page.$('title')
-  title = await title.evaluate(element => element.textContent);
-  console.log('LOGIN The page url is: ' + page.url());
-  console.log('LOGIN The page title is: ' + title);
-  if (title.includes('Setup')) {
+  let relement = await Promise.race(watchdog)
+  let idProp = await relement.getProperty('id')
+  let id = await idProp.jsonValue()
+  if (id === SetupId) {
     console.log('first LOGIN');
     firstLogin(driver);
-    await page.goto('http://localhost:9333/ghost/#/dashboard');
+    await page.goto(Urls.dashboard);
     await page.waitForNavigation();
     return;
-  } else if (title.includes('Sign In')) {
+  } else if (id === loginId) {
     console.log('Normal LOGIN');
     return normalLogin(driver);
   } else {
