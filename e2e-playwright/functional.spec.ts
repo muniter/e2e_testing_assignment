@@ -15,7 +15,7 @@ const setup = async (page: Page) => {
   let curr_url = page.url();
   if (curr_url.includes('setup')) {
     // Check if we need to create a new user
-    await page.waitForTimeout(1000);
+    await page.waitForSelector('input[id="blog-title"]');
     const input = await page.$('input[id="blog-title"]')
     await input.type(process.env.GHOST_TITLE || 'Ghost Testing');
     const name = await page.$('input[id="name"]')
