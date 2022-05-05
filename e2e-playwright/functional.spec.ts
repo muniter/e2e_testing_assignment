@@ -183,7 +183,7 @@ test.describe('post', () => {
     deleteConfirm: 'div .modal-content button:has-text("Delete")',
   }
 
-  async function createpost(page: Page, goback: boolean = true) {
+  async function createpost(page: Page) {
     const values = {
       title: faker.lorem.sentence(),
       content: faker.lorem.paragraph(),
@@ -199,13 +199,6 @@ test.describe('post', () => {
     await page.locator(selectors.publishConfirm).click();
         // Wait for the publish to be confirmed
     await page.waitForLoadState('networkidle');
-
-    // Go back
-    if (goback) {
-      await page.goBack();
-      await page.reload();
-    }
-
     return values;
   }
 
