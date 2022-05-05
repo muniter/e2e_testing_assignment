@@ -11,7 +11,7 @@ const buttons = {
 const ValueGenerators = {
   "|FAKE_NAME|": faker.name.findName,
   "|FAKE_EMAIL|": faker.internet.email,
-  "|FAKE_PARAGRAPH|": faker.lorem.paragraph,
+  "|FAKE_PARAGRAPH|": () => faker.lorem.paragraph(1),
 }
 const SavedGeneratedValues = {}
 
@@ -29,6 +29,8 @@ const Selectors = {
   "member/edit/fill/notes": 'textarea[id="member-note"]',
   // Actions
   "member/action/save": "//button/span[contains(., 'Save')]",
+  "member/action/actions": "//button[./span/span[contains(., 'Actions')]]",
+  "member/action/actions/delete": "//button/span[contains(., 'Delete member')]",
   // See
   "member/see/save-retry": "//button[contains(., 'Retry')]",
 }
@@ -49,15 +51,15 @@ const getElement = async (page, wait, selector, value) => {
   console.log(`Page: ${page}`)
   if (wait) {
     if (isxpath) {
-      await page.waitForXPath(selector, { timeout: 100000 })
+      await page.waitForXPath(selector, { timeout: 5000 })
     } else {
-      await page.waitForSelector(selector, { timeout: 100000 })
+      await page.waitForSelector(selector, { timeout: 5000 })
     }
   }
   if (isxpath) {
     // Xpath
     result = await page.$x(selector);
-    result = result[0];
+    result = result.length > 0 ? result[0] : null;
   } else {
     // CSS
     result = await page.$(selector);
@@ -74,7 +76,7 @@ async function FillElement(page, wait, selector, value, clear) {
   if (element) {
     if (clear) {
       // Clear the element for later typing
-      await element.evaluate((el) => { el.value = ''})
+      await element.evaluate((el) => { el.value = '' })
     }
     await element.type(value);
   } else {
@@ -94,7 +96,6 @@ function ValueTransform(value) {
       SavedGeneratedValues[value] = generated_value;
     }
     value = generated_value;
-    console.log(SavedGeneratedValues);
   }
   return value
 }
@@ -123,8 +124,6 @@ const Navigators = {
     }
   },
   "edit member": async (page, email) => {
-    console.log(`Edit member: ${email}`)
-    console.log(`Email resolved: ${SavedGeneratedValues[email]}`)
     if (page.url().includes(Urls["members/list"])) {
       let element = await getElement(page, true, Selectors["member/list/email"], email);
       return element.click();
@@ -199,6 +198,24 @@ When('I {string} the {string}', async function(action, scope) {
   return await element.click();
 });
 
+
+When('I delete the {string}', async function(scope) {
+  if (scope === 'member') {
+    // Press the action button first
+    let selector = Selectors['member/action/actions']
+    let element = await getElement(this.page, true, selector);
+    element.click();
+    // Press the delete button now
+    selector = Selectors['member/action/actions/delete']
+    element = await getElement(this.page, true, selector);
+    await element.click();
+    // Press enter to confirm the dialog
+    return await this.page.keyboard.press('Enter');
+  }
+  throw new Error("Only member scope is supported");
+});
+
+
 Then('I should see the {string} {string} {string} in the {string}', async function(scope, selector_key, value, view) {
   // Pre validation
   if (scope === undefined) throw new Error("No scope provided");
@@ -225,4 +242,12 @@ Then('I should see member saving failed', async function() {
   let selector = Selectors["member/see/save-retry"];
   let element = await getElement(this.page, true, selector);
   if (element === null) throw new Error(`Couldn't find element with selector ${selector}`);
+})
+
+Then('I should not see the member with email {string} in the list', async function(email) {
+  // NOTE: Page should be fully loaded before this step
+  let selector = Selectors["member/list/email"];
+  selector = ValueTransform(selector, email);
+  // Wait for the element to be removed/hidden, it throws an exception if it's not
+  await this.page.waitForXPath(selector, { hidden: true, timeout: 2000 });
 })
