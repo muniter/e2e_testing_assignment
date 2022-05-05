@@ -169,7 +169,7 @@ test.describe('post', () => {
 
   const selectors = {
     newPost: 'a:has-text("New Post")',
-    posts: 'span:has-text("Posts")',
+    posts: 'li:has(a[href="#/posts/"])',
     title: 'textarea[placeholder="Post title"]',
     settingsButton: 'main .settings-menu-toggle',
     content: 'div[data-placeholder="Begin writing your post..."]',
@@ -218,15 +218,17 @@ test.describe('post', () => {
 
   test('should edit posts', async ({ page }) => {
     const post = await createpost(page);
-    await page.locator(selectors.posts).click();
-    await page.locator('h3', { hasText: post.title }).click({ timeout: 3000});
+    await page.goto('http://localhost:9333/ghost/#/posts');
+    await page.waitForLoadState('networkidle');
+    await page.locator('li', { hasText: post.title }).click();
     // Get input contents
     
     let newTitle = faker.lorem.sentence();
     await page.locator(selectors.title).fill(newTitle);
+    await page.waitForTimeout(1000);
     await page.locator(selectors.updateDrowndown).click();
     await page.locator(selectors.updateButton).click({ timeout: 3000});
-    await page.locator(selectors.posts).click();
+    await page.goto('http://localhost:9333/ghost/#/posts');
     await page.waitForLoadState('networkidle');
     // Check if the new member is in the list
     await expect(page.locator('h3', { hasText: newTitle })).toHaveCount(1, { timeout: 5000 });
@@ -235,12 +237,13 @@ test.describe('post', () => {
 
   test('should delete posts', async ({ page }) => {
     const post = await createpost(page);
-    await page.locator(selectors.posts).click();
-    await page.locator('h3', { hasText: post.title }).click({ timeout: 3000});
+    await page.goto('http://localhost:9333/ghost/#/posts');
+    await page.waitForLoadState('networkidle');
+    await page.locator('li', { hasText: post.title }).click({ timeout: 3000});
     await page.locator(selectors.settingsButton).click();
     await page.locator(selectors.deleteButton).click({ timeout: 3000 });
     await page.locator(selectors.deleteConfirm).click();
-    await page.locator(selectors.posts).click();
+    await page.goto('http://localhost:9333/ghost/#/posts');
     await page.waitForLoadState('networkidle');
     // Check that the new member is not in the list
     await expect(page.locator('h3', { hasText: post.title })).toHaveCount(0);
