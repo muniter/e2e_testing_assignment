@@ -157,4 +157,93 @@ test.describe('member', () => {
     // Check that the new member is not in the list
     await expect(page.locator('p', { hasText: member.email })).toHaveCount(0);
   });
-});
+}); 
+
+test.describe('post', () => {
+  // Find the navigation bar
+  // Additional beforeEAch
+  test.beforeEach(async ({ page }) => {
+    await login(page);
+    await page.locator('.gh-nav').locator('li:has(a[href="#/posts/"])').click({ timeout: 5000 });
+  });
+
+  const selectors = {
+    newPost: 'a:has-text("New Post")',
+    posts: 'span:has-text("Posts")',
+    title: 'textarea[placeholder="Post title"]',
+    settingsButton: 'main .settings-menu-toggle',
+    content: 'div[data-placeholder="Begin writing your post..."]',
+    publishDrowndown: 'span:has-text("Publish")',
+    publishButton: 'button:has-text("Publish")',
+    publishConfirm: 'button:has-text("Publish")',
+    publishedMessage: 'span:has-text("Published")',
+    updateDrowndown: 'span:has-text("Update")',
+    updateButton: 'button:has-text("Update")',
+    deleteButton: 'form .settings-menu-delete-button',
+    deleteConfirm: 'div .modal-content button:has-text("Delete")',
+  }
+
+  async function createpost(page: Page, goback: boolean = true) {
+    const values = {
+      title: faker.lorem.sentence(),
+      content: faker.lorem.paragraph(),
+      confirm: 'Published',
+    }
+    await page.locator(selectors.newPost).click();
+    await page.locator(selectors.title).type(values.title);
+    await page.locator(selectors.content).type(values.content);
+
+    // Select publish
+    await page.locator(selectors.publishDrowndown).click();
+    await page.locator(selectors.publishButton).click({ timeout: 3000});
+    await page.locator(selectors.publishConfirm).click();
+        // Wait for the publish to be confirmed
+    await page.waitForLoadState('networkidle');
+
+    // Go back
+    if (goback) {
+      await page.goBack();
+      await page.reload();
+    }
+
+    return values;
+  }
+
+  test('should create a new post', async ({ page }) => {
+    const post = await createpost(page);
+    await page.waitForLoadState('networkidle');
+    // Check if the new member is in the list
+    await expect(page.locator('span', { hasText: post.confirm })).toHaveCount(1);
+  });
+
+  test('should edit posts', async ({ page }) => {
+    const post = await createpost(page);
+    await page.locator(selectors.posts).click();
+    await page.locator('h3', { hasText: post.title }).click({ timeout: 3000});
+    // Get input contents
+    
+    let newTitle = faker.lorem.sentence();
+    await page.locator(selectors.title).fill(newTitle);
+    await page.locator(selectors.updateDrowndown).click();
+    await page.locator(selectors.updateButton).click({ timeout: 3000});
+    await page.locator(selectors.posts).click();
+    await page.waitForLoadState('networkidle');
+    // Check if the new member is in the list
+    await expect(page.locator('h3', { hasText: newTitle })).toHaveCount(1, { timeout: 5000 });
+  }
+  );
+
+  test('should delete posts', async ({ page }) => {
+    const post = await createpost(page);
+    await page.locator(selectors.posts).click();
+    await page.locator('h3', { hasText: post.title }).click({ timeout: 3000});
+    await page.locator(selectors.settingsButton).click();
+    await page.locator(selectors.deleteButton).click({ timeout: 3000 });
+    await page.locator(selectors.deleteConfirm).click();
+    await page.locator(selectors.posts).click();
+    await page.waitForLoadState('networkidle');
+    // Check that the new member is not in the list
+    await expect(page.locator('h3', { hasText: post.title })).toHaveCount(0);
+  });
+
+ });
