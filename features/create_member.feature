@@ -6,9 +6,9 @@ Scenario: Login create a member and check that the member email is in the list
   And I navigate to the "member" functionality
 
   When I navigate to the "create member" functionality
-  And I fill the "member" "name" to "|FAKE_NAME|1"
-  And I fill the "member" "email" to "|FAKE_EMAIL|1"
-  And I fill the "member" "notes" to "|FAKE_PARAGRAPH|1"
+  And I fill the "member edit" "name" to "|FAKE_NAME|1"
+  And I fill the "member edit" "email" to "|FAKE_EMAIL|1"
+  And I fill the "member edit" "notes" to "|FAKE_PARAGRAPH|1"
   And I "save" the "member"
   And I go back
 

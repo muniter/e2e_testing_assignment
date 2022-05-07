@@ -6,12 +6,12 @@ Scenario: Login and create a member, then edit it with an invalid email, see tha
   And I navigate to the "member" functionality
 
   When I navigate to the "create member" functionality
-  And I fill the "member" "name" to "|FAKE_NAME|1"
-  And I fill the "member" "email" to "invalidemail"
-  And I fill the "member" "notes" to "|FAKE_PARAGRAPH|1"
+  And I fill the "member edit" "name" to "|FAKE_NAME|1"
+  And I fill the "member edit" "email" to "invalidemail"
+  And I fill the "member edit" "notes" to "|FAKE_PARAGRAPH|1"
   And I "save" the "member"
   And I should see member saving failed
-  And I set the "member" "email" to "|FAKE_EMAIL|2"
+  And I set the "member edit" "email" to "|FAKE_EMAIL|2"
   And I "retry save" the "member"
   And I go back
 

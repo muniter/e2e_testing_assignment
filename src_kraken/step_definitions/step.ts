@@ -18,6 +18,7 @@ type ValueGeneratorCollection = {
 
 const ValueGenerators: ValueGeneratorCollection = {
   "|FAKE_NAME|": faker.name.findName,
+  "|OBSCURED_NAME|": faker.name.firstName,
   "|FAKE_EMAIL|": faker.internet.email,
   "|FAKE_PARAGRAPH|": () => faker.lorem.paragraph(1),
 } as const;
@@ -33,6 +34,7 @@ const Selectors: Foo = {
   "member/list/new": 'a[href="#/members/new/"]',
   "member/list/name": "//h3[contains(., '{}')]",
   "member/list/email": "//p[contains(., '{}')]",
+  "member/list/fill/search": "input[placeholder='Search members...']",
   // Edit fill
   "member/edit/fill/name": 'input[id="member-name"]',
   "member/edit/fill/email": 'input[id="member-email"]',
@@ -49,7 +51,7 @@ const Selectors: Foo = {
 function GetSelector(selector: string): string {
   let res = Selectors[selector];
   if (!res) {
-    throw new Error(`Selector ${selector} not found`);
+    throw new Error(`Couldn't find selector for key ${selector}`)
   }
   return res;
 }
@@ -183,13 +185,13 @@ When(/I navigate to the "(.*?)" functionality(?:$|.*?"(.*?)")/, async function(t
 });
 
 When(/I (fill|set) the ("(.*)?") ("(.*)?") to ("(.*)?")/, async function(this: KrakenWorld, verb: string, scope: string, selectorName: string, value: string) {
-  if (scope === undefined) throw new Error("No scope provided");
-  if (selectorName === undefined) throw new Error("No selector name provided");
-  if (value === undefined) throw new Error("No value provided");
-  let key = scope + '/edit/fill/' + selectorName;
+  let key = scope.replace(' ', '/') + '/fill/' + selectorName;
   let selector = GetSelector(key)
-  if (selector === undefined) throw new Error(`Couldn't find selector for key ${key}`);
-  await FillElement(this.page, true, selector, value, verb === 'set');
+  let p = FillElement(this.page, true, selector, value, verb === 'set');
+  if (selectorName === 'search') {
+    await this.page.waitForNavigation({ waitUntil: 'networkidle0' });
+  }
+  await p;
 });
 
 When('I {string} the {string}', async function(this: KrakenWorld, action: string, scope: string) {
@@ -221,7 +223,6 @@ Then('I should see the {string} {string} {string} in the {string}', async functi
 
   // TODO: Get element error by default, always return an element
   let element = await getElement(this.page, true, selector, value);
-  if (element === undefined) throw new Error(`Couldn't find element with selector ${selector}`);
   value = ValueTransform(value);
 
   // Get the element text and compare with value
