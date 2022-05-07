@@ -1,7 +1,7 @@
 Feature: Login, Create Member, Filter Member
 
 @user1 @web
-Scenario: Login and fail at creating member with a duplicate email adddress
+Scenario: Login create members with distinct names, and then filter and get the expected results
   Given I login
   And I navigate to the "member" functionality
 
@@ -22,5 +22,5 @@ Scenario: Login and fail at creating member with a duplicate email adddress
   # Use the search filter
   And I fill the "member list" "search" to "ZZZ"
 
-  Then I should see the "member" "name" "El ZZZZorro" in the "list"
-  # And  I should not see the "member" "name" "Danilo Montes" in the "list"
+  Then I should "see" the "member" "name" "El ZZZZorro" in the "list"
+  And  I should "not see" the "member" "name" "Danilo Montes" in the "list"

@@ -15,4 +15,4 @@ Scenario: Login and create a member, then edit it with an invalid email, see tha
   And I "retry save" the "member"
   And I go back
 
-  Then I should see the "member" "email" "|FAKE_EMAIL|2" in the "list"
+  Then I should "see" the "member" "email" "|FAKE_EMAIL|2" in the "list"

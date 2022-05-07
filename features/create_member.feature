@@ -12,5 +12,5 @@ Scenario: Login create a member and check that the member email is in the list
   And I "save" the "member"
   And I go back
 
-  Then I should see the "member" "email" "|FAKE_EMAIL|1" in the "list"
-  And I should see the "member" "name" "|FAKE_NAME|1" in the "list"
+  Then I should "see" the "member" "email" "|FAKE_EMAIL|1" in the "list"
+  And I should "see" the "member" "name" "|FAKE_NAME|1" in the "list"

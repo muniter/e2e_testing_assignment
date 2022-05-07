@@ -215,15 +215,24 @@ When('I delete the {string}', async function(this: KrakenWorld, scope: string) {
 });
 
 
-Then('I should see the {string} {string} {string} in the {string}', async function(this: KrakenWorld, scope: string, selector_key: string, value: string, view: string) {
+Then('I should {string} the {string} {string} {string} in the {string}', async function(this: KrakenWorld, verb: string, scope: string, selector_key: string, value: string, view: string) {
+  let not_see = verb === 'not see';
   // Find the actual selector
   let key = scope + '/' + view + '/' + selector_key;
   let selector = GetSelector(key);
-  if (selector === undefined) throw new Error(`Couldn't find selector for key ${key}`);
+  let element: ElementHandle
 
-  // TODO: Get element error by default, always return an element
-  let element = await getElement(this.page, true, selector, value);
-  value = ValueTransform(value);
+  // Find the element, if using "not see" then return on error from getElement this is good because
+  // we are already waiting
+  try {
+    element = await getElement(this.page, true, selector, value);
+    value = ValueTransform(value);
+  } catch (e) {
+    if (not_see) {
+      return;
+    }
+    throw e;
+  }
 
   // Get the element text and compare with value
   if (element) {
