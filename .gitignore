@@ -112,3 +112,4 @@ reports/
 
 features/**/**.js
 *.js.map
+.kraken/
