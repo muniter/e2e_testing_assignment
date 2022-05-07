@@ -1,4 +1,4 @@
-Feature: Login create a member and check that the member email is in the list
+Feature: Login, Create Member, List Member.
 
 @user1 @web
 Scenario: Login create a member and check that the member email is in the list
