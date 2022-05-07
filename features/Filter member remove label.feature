@@ -1,4 +1,5 @@
-Feature: Login, Create Member, Filter Member, Batch Remove Label Member
+# This is the test scenario name found on the README.md
+Feature: Filter member remove label
 
 @user1 @web
 Scenario: Login, create two members applying labels, filter them and batch remve the applied label, and check individually that it has been remove.

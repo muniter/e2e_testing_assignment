@@ -1,4 +1,5 @@
-Feature: 2. Delete member
+# This is the test scenario name found on the README.md
+Feature: Delete member
 
 @user1 @web
 Scenario: Login create a member and check that the member email is in the list then enter the edit menu and delete the member, and make sure it's not in the list

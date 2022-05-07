@@ -1,4 +1,5 @@
-Feature: 3. Filter member
+# This is the test scenario name found on the README.md
+Feature: Filter member
 
 @user1 @web
 Scenario: Login create members with distinct names, and then filter and get the expected results

@@ -1,4 +1,5 @@
-Feature: 1.Create member
+# This is the test scenario name found on the README.md
+Feature: Create member
 
 @user1 @web
 Scenario: Login create a member and check that the member email is in the list

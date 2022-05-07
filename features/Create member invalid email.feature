@@ -1,4 +1,5 @@
-Feature: Login and create a member validation
+# This is the test scenario name found on the README.md
+Feature: Create member invalid email
 
 @user1 @web
 Scenario: Login and attempt to create a member with an invalid email

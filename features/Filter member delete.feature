@@ -1,4 +1,5 @@
-Feature: Login, Create Member, Filter Member, Batch Delete Member
+# This is the test scenario name found on the README.md
+Feature: Filter member delete
 
 @user1 @web
 Scenario: Login, create two members, filter them and batch delete them, confirm they are deleted

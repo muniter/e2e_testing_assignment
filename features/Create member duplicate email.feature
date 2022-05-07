@@ -1,4 +1,5 @@
-Feature: Login, Member creation validation.
+# This is the test scenario name found on the README.md
+Feature: Create member duplicate email
 
 @user1 @web
 Scenario: Login and fail at creating member with a duplicate email adddress

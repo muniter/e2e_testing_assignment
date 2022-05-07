@@ -1,4 +1,5 @@
-Feature: Login, Create Member retry
+# This is the test scenario name found on the README.md
+Feature: Create member retry
 
 @user1 @web
 Scenario: Login and attempt to create a member with an invalid email, see that it fails and try again with a valid email, see it susceeds.
