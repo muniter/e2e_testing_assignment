@@ -109,3 +109,6 @@ playwright-report/
 test-results/
 
 reports/
+
+features/**/**.js
+*.js.map

@@ -3,6 +3,7 @@ import { faker } from '@faker-js/faker';
 import { Login } from './login';
 import type { Page } from 'puppeteer-core/lib/cjs/puppeteer/common/Page';
 import { KrakenWorld } from '../support/support';
+import { ElementHandle } from 'puppeteer-core/lib/cjs/puppeteer/common/JSHandle';
 const Urls = require('./urls').Urls;
 
 const buttons: Record<string, string> = {
@@ -11,11 +12,15 @@ const buttons: Record<string, string> = {
   "save-member": "//button/span[contains(., 'Save')]",
 }
 
-const ValueGenerators: Record<string, Function> = {
+type ValueGeneratorCollection = {
+  [key: string]: () => string
+}
+
+const ValueGenerators: ValueGeneratorCollection = {
   "|FAKE_NAME|": faker.name.findName,
   "|FAKE_EMAIL|": faker.internet.email,
   "|FAKE_PARAGRAPH|": () => faker.lorem.paragraph(1),
-}
+} as const;
 const SavedGeneratedValues: Record<string, string> = {};
 
 type Foo = { [key: string]: string };
@@ -34,13 +39,14 @@ const Selectors: Foo = {
   "member/edit/fill/notes": 'textarea[id="member-note"]',
   // Actions
   "member/action/save": "//button/span[contains(., 'Save')]",
+  "member/action/retry save": "//span[normalize-space()='Retry']",
   "member/action/actions": "//button[./span/span[contains(., 'Actions')]]",
   "member/action/actions/delete": "//button/span[contains(., 'Delete member')]",
   // See
   "member/see/save-retry": "//button[contains(., 'Retry')]",
-}
+} as const
 
-function GetSelector (selector: string): string {
+function GetSelector(selector: string): string {
   let res = Selectors[selector];
   if (!res) {
     throw new Error(`Selector ${selector} not found`);
@@ -48,7 +54,7 @@ function GetSelector (selector: string): string {
   return res;
 }
 
-const getElement = async (page: Page, wait: boolean, selector: string, value?: string) => {
+async function getElement(page: Page, wait: boolean, selector: string, value?: string): Promise<ElementHandle> {
   let isxpath = selector.startsWith("/");
   let result;
   if (value) {
@@ -75,42 +81,45 @@ const getElement = async (page: Page, wait: boolean, selector: string, value?: s
     // CSS
     result = await page.$(selector);
   }
+  if (result == null) {
+    throw new Error(`Element ${selector} not found`);
+  } else {
+    console.log('=========================================')
+    console.log(`Selector: ${selector}`)
+    console.log(`Value: ${value}`)
+    console.log(`Page: ${page}`)
+  }
+  console.log(`Found: ${result}`)
   return result;
 }
 
-async function FillElement(page: Page, wait: boolean, selector: string, value?: string, clear?: boolean) {
-  if (page === undefined) throw new Error("No page provided");
-  if (selector === undefined) throw new Error("No selector provided");
-  if (value === undefined || value === null) throw new Error("No value provided");
+async function FillElement(page: Page, wait: boolean, selector: string, value: string, clear?: boolean) {
   let element = await getElement(page, wait, selector, value);
   value = ValueTransform(value)
-  if (element) {
-    if (clear) {
-      // @ts-ignore
-      await element.evaluate((el) => { el.value = '' })
-    }
-    await element.type(value);
-  } else {
-    throw new Error(`Element not found: ${selector}`);
+  if (clear) {
+    // @ts-ignore
+    await element.evaluate((el) => { el.value = '' })
   }
+  return element.type(value);
+}
+
+async function ClickElement(page: Page, wait: boolean, selector: string, value?: string): Promise<void> {
+  let element = await getElement(page, wait, selector, value);
+  return element.click();
 }
 
 function ValueTransform(value: string): string {
-  // Return if the value is not a string
-  if (typeof value !== 'string') return value;
-  // Check if value is a string
   if (value.startsWith('|')) {
-    let generated_value: string|undefined = SavedGeneratedValues[value];
-    if (!generated_value) {
+    let generated_value = SavedGeneratedValues[value];
+    if (generated_value) {
+      value = generated_value;
+    } else {
       let generator = ValueGenerators[value.replace(/\d+$/, "")]
       if (!generator) {
         throw new Error(`No value generator for ${value}`);
       }
       generated_value = generator();
-      if (generated_value) {
-        SavedGeneratedValues[value] = generated_value;
-        value = generated_value;
-      }
+      SavedGeneratedValues[value] = generated_value;
     }
   }
   return value
@@ -118,29 +127,25 @@ function ValueTransform(value: string): string {
 
 const Navigators: Record<string, Function> = {
   member: async (page: Page) => {
-    await NavigateTo(page, "dashboard");
-    await page.waitForTimeout(1000);
-    let element = await getElement(page, true, GetSelector("dashborad/menu/member"));
-    if (element) {
-      await element.click();
+    if (!page.url().includes(Urls["members/list"])) {
+      let p = page.waitForNavigation({ waitUntil: 'networkidle0' });
+      NavigateTo(page, "dashboard");
+      await p;  // Wait to move tho the dashboard
+      p = page.waitForNavigation({ waitUntil: 'networkidle0' });
+      ClickElement(page, true, GetSelector("dashborad/menu/member"));
+      await p;
     }
   },
   "create member": async (page: Page) => {
     if (page.url().includes(Urls["members/list"])) {
-      let element = await getElement(page, true, GetSelector("member/list/new"));
-      if (element) {
-        await element.click();
-      }
+      await ClickElement(page, true, GetSelector("member/list/new"));
     } else {
       throw new Error("Not on members list page");
     }
   },
   "edit member": async (page: Page, email: string) => {
     if (page.url().includes(Urls["members/list"])) {
-      let element = await getElement(page, true, GetSelector("member/list/email"), email);
-      if (element) {
-        return element.click();
-      }
+      await ClickElement(page, true, GetSelector("member/list/email"), email);
     } else {
       throw new Error("Not on members list page");
     }
@@ -172,26 +177,6 @@ When('I go back', async function(this: KrakenWorld,) {
   return this.driver.back();
 })
 
-When('I click {string}', async function(this: KrakenWorld, selectorName: string) {
-  let selector = buttons[selectorName];
-  if (!selector) {
-    throw new Error(`Unknown selectorName key: ${selectorName}`);
-  }
-  let element;
-  if (selectorName.startsWith('/')) {
-    let elements = await this.page.$x(selector);
-    if (elements.length > 0) {
-      element = elements[0];
-    }
-  } else {
-    element = await this.page.$(selector);
-  }
-  if (!element) {
-    throw new Error(`Element not found: ${selector}`);
-  }
-  return element.click();
-});
-
 When(/I navigate to the "(.*?)" functionality(?:$|.*?"(.*?)")/, async function(this: KrakenWorld, name: string, additional?: string) {
   console.log(`Navigate to the ${name} functionality ${additional}`)
   await NavigateTo(this.page, name, additional);
@@ -208,35 +193,21 @@ When(/I (fill|set) the ("(.*)?") ("(.*)?") to ("(.*)?")/, async function(this: K
 });
 
 When('I {string} the {string}', async function(this: KrakenWorld, action: string, scope: string) {
-  if (action === undefined) throw new Error("No scope provided");
-  if (action === undefined) throw new Error("No action provided");
   let key = scope + '/action/' + action
-  let selector = GetSelector(key)
-  if (selector === undefined) throw new Error(`Couldn't find selector for key ${key}`);
-  let element = await getElement(this.page, true, selector);
-  if (element === undefined) throw new Error(`Couldn't find element with selector ${selector}`);
-  if (element) {
-    return await element.click();
-  }
+  await ClickElement(this.page, true, GetSelector(key));
 });
 
 
 When('I delete the {string}', async function(this: KrakenWorld, scope: string) {
   if (scope === 'member') {
     // Press the action button first
-    let selector = GetSelector("member/action/actions")
-    let element = await getElement(this.page, true, selector);
-    if (element) {
-      await element.click();
-    }
+    await ClickElement(this.page, true, GetSelector("member/action/actions"));
     // Press the delete button now
-    selector = GetSelector("member/action/actions/delete")
-    element = await getElement(this.page, true, selector);
-    if (element) {
-      await element.click();
-    }
+    await ClickElement(this.page, true, GetSelector("member/action/actions/delete"));
     // Press enter to confirm the dialog
-    return await this.page.keyboard.press('Enter');
+    let p = this.page.waitForNavigation({ waitUntil: 'networkidle0' });
+    this.page.keyboard.press('Enter');
+    return p;
   }
   throw new Error("Only member scope is supported");
 });
@@ -248,9 +219,10 @@ Then('I should see the {string} {string} {string} in the {string}', async functi
   let selector = GetSelector(key);
   if (selector === undefined) throw new Error(`Couldn't find selector for key ${key}`);
 
-  // Find the element
+  // TODO: Get element error by default, always return an element
   let element = await getElement(this.page, true, selector, value);
   if (element === undefined) throw new Error(`Couldn't find element with selector ${selector}`);
+  value = ValueTransform(value);
 
   // Get the element text and compare with value
   if (element) {

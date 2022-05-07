@@ -13,11 +13,22 @@ local FeaturesDir = './features/'
 
 M.get_features = function()
   local features = {}
-  for _, filename in ipairs(vim.fn.readdir('./features')) do
+  local loaded = {}
+  local bufs = vim.api.nvim_list_bufs()
+  vim.tbl_map(function(b)
+    local name = vim.api.nvim_buf_get_name(b)
+    if name:find('%.feature$') or name:find('%.feature.commented$') then
+      loaded[name] = b
+    end
+  end
+  ,bufs)
+  for _, filename in ipairs(vim.fn.readdir(vim.fn.expand('$PWD/features'))) do
     if filename:match('%.feature(.*)$') then
       table.insert(features, {
         name = filename:match('(.+)%.feature'),
-        filename = string.format('%s%s', FeaturesDir, filename)
+        filename = string.format('%s%s', FeaturesDir, filename),
+        loaded = loaded[filename] or false,
+        buffer = loaded[filename]
       })
     end
   end
@@ -28,6 +39,9 @@ M.comment_features = function(features)
   local count = 0
   for _, feature in ipairs(features) do
     if not feature.filename:find('%.commented$') then
+      if feature.loaded then
+        vim.api.nvim_buf_delete(feature.buffer, true)
+      end
       count = count + 1
       vim.fn.rename(feature.filename, feature.filename .. '.commented')
     end
@@ -81,6 +95,7 @@ end
 
 M.complete = function()
   local features = M.get_features()
+  dump('The feature', features)
   local completions = {}
   for _, feature in ipairs(features) do
     table.insert(completions, feature.name)
