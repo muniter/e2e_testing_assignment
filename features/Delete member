@@ -1,7 +1,7 @@
-Feature: Login create a member and check that the member email is in the list then enter the edit menu and delete the member, and make see it's not in the list
+Feature: 2. Delete member
 
 @user1 @web
-Scenario: Login create a member and check that the member email is in the list then enter the edit menu and delete the member, and make see it's not in the list
+Scenario: Login create a member and check that the member email is in the list then enter the edit menu and delete the member, and make sure it's not in the list
   Given I login
   And I navigate to the "member" functionality
 

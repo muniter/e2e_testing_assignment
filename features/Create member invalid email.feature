@@ -1,7 +1,7 @@
-Feature: Login and create a member
+Feature: Login and create a member validation
 
 @user1 @web
-Scenario: Login create a member and check that the member email is in the list
+Scenario: Login and attempt to create a member with an invalid email
   Given I login
   And I navigate to the "member" functionality
 

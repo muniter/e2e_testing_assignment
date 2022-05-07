@@ -1,7 +1,7 @@
-Feature: Login, Create Member, Edit Member.
+Feature: Login, Create Member retry
 
 @user1 @web
-Scenario: Login and create a member, then edit it with an invalid email, see that it fails, try again providing a valid email, see that it succeeds.
+Scenario: Login and attempt to create a member with an invalid email, see that it fails and try again with a valid email, see it susceeds.
   Given I login
   And I navigate to the "member" functionality
 
