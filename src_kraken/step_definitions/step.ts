@@ -6,12 +6,6 @@ import { KrakenWorld } from '../support/support';
 import { ElementHandle } from 'puppeteer-core/lib/cjs/puppeteer/common/JSHandle';
 const Urls = require('./urls').Urls;
 
-const buttons: Record<string, string> = {
-  "members-menu-item": 'a[href="#/members/"]',
-  "members-menu-new": 'a[href="#/members/new/"]',
-  "save-member": "//button/span[contains(., 'Save')]",
-}
-
 type ValueGeneratorCollection = {
   [key: string]: () => string
 }
@@ -44,6 +38,10 @@ const Selectors: Foo = {
   "member/action/retry save": "//span[normalize-space()='Retry']",
   "member/action/actions": "//button[./span/span[contains(., 'Actions')]]",
   "member/action/actions/delete": "//button/span[contains(., 'Delete member')]",
+  "member/action/list actions": "button[role='button']",
+  "member/action/list actions/delete": "//button/span[contains(., 'Delete selected members')]",
+  "member/action/list actions/delete confirm": "//span[normalize-space()='Download backup & delete members']",
+  "member/action/list actions/delete confirm close": "button[class='gh-btn gh-btn-black'] span",
   // See
   "member/see/save-retry": "//button[contains(., 'Retry')]",
 } as const
@@ -56,7 +54,7 @@ function GetSelector(selector: string): string {
   return res;
 }
 
-async function getElement(page: Page, wait: boolean, selector: string, value?: string): Promise<ElementHandle> {
+async function getElement(page: Page, wait: boolean, selector: string, value?: string, hidden: boolean = false): Promise<ElementHandle> {
   let isxpath = selector.startsWith("/");
   let result;
   if (value) {
@@ -70,9 +68,9 @@ async function getElement(page: Page, wait: boolean, selector: string, value?: s
   console.log(`Page: ${page}`)
   if (wait) {
     if (isxpath) {
-      await page.waitForXPath(selector, { timeout: 5000 })
+      await page.waitForXPath(selector, { timeout: 5000, hidden: hidden });
     } else {
-      await page.waitForSelector(selector, { timeout: 5000 })
+      await page.waitForSelector(selector, { timeout: 5000, hidden: hidden });
     }
   }
   if (isxpath) {
@@ -157,7 +155,7 @@ const Navigators: Record<string, Function> = {
     if (url.includes(Urls.dashboard)) {
       return;
     } else {
-      return page.goto(Urls.dashboard);
+      await page.goto(Urls.dashboard, { waitUntil: 'networkidle0' });
     }
   }
 }
@@ -209,14 +207,23 @@ When('I delete the {string}', async function(this: KrakenWorld, scope: string) {
     // Press enter to confirm the dialog
     let p = this.page.waitForNavigation({ waitUntil: 'networkidle0' });
     this.page.keyboard.press('Enter');
-    return p;
+    await p;
+  } else if (scope === 'multiple members') {
+    let p = this.page.waitForNavigation({ waitUntil: 'networkidle0' });
+    await ClickElement(this.page, true, GetSelector("member/action/list actions"));
+    await ClickElement(this.page, true, GetSelector("member/action/list actions/delete"));
+    await ClickElement(this.page, true, GetSelector("member/action/list actions/delete confirm"));
+    await ClickElement(this.page, true, GetSelector("member/action/list actions/delete confirm close"));
+    await p;
+  } else {
+    throw new Error("Only member scope is supported");
   }
-  throw new Error("Only member scope is supported");
 });
 
 
+// Then I should "see" the "member" "email" "|FAKE_EMAIL|1" in the "list"
 Then('I should {string} the {string} {string} {string} in the {string}', async function(this: KrakenWorld, verb: string, scope: string, selector_key: string, value: string, view: string) {
-  let not_see = verb === 'not see';
+  let hidden = verb === 'not see';
   // Find the actual selector
   let key = scope + '/' + view + '/' + selector_key;
   let selector = GetSelector(key);
@@ -225,10 +232,10 @@ Then('I should {string} the {string} {string} {string} in the {string}', async f
   // Find the element, if using "not see" then return on error from getElement this is good because
   // we are already waiting
   try {
-    element = await getElement(this.page, true, selector, value);
+    element = await getElement(this.page, true, selector, value, hidden);
     value = ValueTransform(value);
   } catch (e) {
-    if (not_see) {
+    if (hidden) {
       return;
     }
     throw e;
@@ -249,12 +256,4 @@ Then('I should see member saving failed', async function(this: KrakenWorld,) {
   let selector = GetSelector("member/see/save-retry");
   let element = await getElement(this.page, true, selector);
   if (element === null) throw new Error(`Couldn't find element with selector ${selector}`);
-})
-
-Then('I should not see the member with email {string} in the list', async function(this: KrakenWorld, email: string) {
-  // NOTE: Page should be fully loaded before this step
-  let selector = GetSelector("member/list/email");
-  selector = selector.replace(/\{\}/g, email);
-  // Wait for the element to be removed/hidden, it throws an exception if it's not
-  await this.page.waitForXPath(selector, { hidden: true, timeout: 2000 });
 })

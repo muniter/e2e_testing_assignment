@@ -17,11 +17,10 @@ async function firstLogin(page: Page) {
   element = await page.$('input[id="password"]')
   await element!.type(UserPassword);
   element = await page.$('button[type="submit"]')
-  await Promise.all([
-    element!.click(),
-    page.waitForNavigation(),
-  ]);
+  element!.click()
+  let p = page.waitForNavigation({ waitUntil: 'networkidle0' });
   console.log('Ghost site setup complete');
+  await p;
   page.goto(Urls.dashboard);
 }
 

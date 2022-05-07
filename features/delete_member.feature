@@ -16,4 +16,4 @@ Scenario: Login create a member and check that the member email is in the list t
   And I navigate to the "edit member" functionality with email "|FAKE_EMAIL|1"
   And I delete the "member"
 
-  Then I should not see the member with email "|FAKE_EMAIL|1" in the list
+  Then I should "not see" the "member" "email" "|FAKE_EMAIL|1" in the "list"
