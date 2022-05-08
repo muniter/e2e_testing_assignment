@@ -1,28 +1,41 @@
-import { Page } from '@playwright/test';
-
-const selectors = {
-    newPost: 'a:has-text("New Post")',
-    posts: 'li:has(a[href="#/posts/"])',
-    title: 'textarea[placeholder="Post title"]',
-    settingsButton: 'main .settings-menu-toggle',
-    content: 'div[data-placeholder="Begin writing your post..."]',
-    publishDrowndown: 'span:has-text("Publish") >> nth=0',
-    publishButton: 'button:has-text("Publish") >> nth=0',
-    publishConfirm: 'button:has-text("Publish") >> nth=0',
-    publishedMessage: 'span:has-text("Published")',
-    updateDrowndown: 'span:has-text("Update")',
-    updateButton: 'button:has-text("Update")',
-    deleteButton: 'form .settings-menu-delete-button',
-    deleteConfirm: 'div .modal-content button:has-text("Delete")',
-}
+import { Locator, Page } from '@playwright/test';
 
 const postsUrl = 'http://localhost:9333/ghost/#/posts';
-
 export class PostsPage {
     readonly page: Page;
+    readonly newPost: Locator;
+    readonly posts: Locator;
+    readonly title: Locator;
+    readonly settingsButton: Locator;
+    readonly content: Locator;
+    readonly publishDrowndown: Locator;
+    readonly publishButton: Locator;
+    readonly publishConfirm: Locator;
+    readonly publishedMessage: Locator;
+    readonly updateDrowndown: Locator;
+    readonly updateButton: Locator;
+    readonly deleteButton: Locator;
+    readonly deleteConfirm: Locator;
 
     constructor(page: Page) {
         this.page = page;
+        this.newPost = page.locator('a:has-text("New Post")');
+        this.posts = page.locator('li:has(a[href="#/posts/"])');
+        this.title = page.locator('textarea[placeholder="Post title"]');
+        this.settingsButton = page.locator( 'main .settings-menu-toggle');
+        this.content = page.locator('div[data-placeholder="Begin writing your post..."]');
+        this.publishDrowndown = page.locator('span:has-text("Publish") >> nth=0');
+        this.publishButton = page.locator('button:has-text("Publish") >> nth=0');
+        this.publishConfirm = page.locator('button:has-text("Publish") >> nth=0');
+        this.publishedMessage = page.locator('span:has-text("Published")');
+        this.updateDrowndown = page.locator('span:has-text("Update")');
+        this.updateButton = page.locator( 'button:has-text("Update")');
+        this.deleteButton = page.locator( 'form .settings-menu-delete-button');
+        this.deleteConfirm = page.locator('div .modal-content button:has-text("Delete")'); 
+    }
+
+    containsTitle(title: string): Locator {
+        return this.page.locator('h3', { hasText: title });
     }
 
     async open() {
@@ -34,26 +47,26 @@ export class PostsPage {
 
         await this.page.locator('.gh-nav').locator('li:has(a[href="#/posts/"])').click({ timeout: 5000 });
 
-        await this.page.locator(selectors.newPost).click();
-        await this.page.locator(selectors.title).type(title);
+        await this.newPost.click();
+        await this.title.type(title);
         if (content !== null) {
-            await this.page.locator(selectors.content).type(content);
+            await this.content.type(content);
             // Select publish
         } else {
             await this.page.keyboard.press('Enter');
         }
 
-        await this.page.locator(selectors.publishDrowndown).click();
-        await this.page.locator(selectors.publishButton).click();
+        await this.publishDrowndown.click();
+        await this.publishButton.click();
         await this.page.waitForLoadState('networkidle');
-        await this.page.locator(selectors.publishConfirm).click();
+        await this.publishConfirm.click();
         await this.page.waitForLoadState('networkidle');
         
     }
 
     async isPublished(): Promise<boolean> {
-        await this.page.waitForSelector(selectors.publishedMessage);
-        return await this.page.isVisible(selectors.publishedMessage);
+        await this.page.waitForSelector('span:has-text("Published")');
+        return await this.page.isVisible('span:has-text("Published")');
     }
 
     async editPost(oldTitle: string, newTitle: string) {
@@ -61,10 +74,10 @@ export class PostsPage {
         await this.page.waitForLoadState('networkidle');
         await this.page.locator('li', { hasText: oldTitle }).click();
     
-        await this.page.locator(selectors.title).fill(newTitle);
+        await this.title.fill(newTitle);
         await this.page.waitForTimeout(1000);
-        await this.page.locator(selectors.updateDrowndown).click();
-        await this.page.locator(selectors.updateButton).click({ timeout: 3000 });
+        await this.updateDrowndown.click();
+        await this.updateButton.click({ timeout: 3000 });
         await this.page.goto(postsUrl);
         await this.page.waitForLoadState('networkidle');
         
@@ -74,9 +87,9 @@ export class PostsPage {
         await this.page.goto(postsUrl);
         await this.page.waitForLoadState('networkidle');
         await this.page.locator('li', { hasText: title }).click({ timeout: 3000 });
-        await this.page.locator(selectors.settingsButton).click();
-        await this.page.locator(selectors.deleteButton).click({ timeout: 3000 });
-        await this.page.locator(selectors.deleteConfirm).click();
+        await this.settingsButton.click();
+        await this.deleteButton.click({ timeout: 3000 });
+        await this.deleteConfirm.click();
         await this.page.goto(postsUrl);
         await this.page.waitForLoadState('networkidle');
     }

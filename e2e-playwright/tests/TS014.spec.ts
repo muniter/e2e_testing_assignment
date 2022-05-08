@@ -49,12 +49,12 @@ test('Create post and edit it', async ({ page }) => {
     //ValidatedPost
     await postsPage.open();
     await page.waitForLoadState('networkidle');
-    await expect(page.locator('h3', { hasText: fakeValues.title })).toHaveCount(1, { timeout: 5000 });
+    await expect(postsPage.containsTitle(fakeValues.title)).toHaveCount(1);
 
     // Edit post
     await postsPage.editPost(fakeValues.title, fakeValues.newTitle);
     // Check if the new member is in the list
-    await expect(page.locator('h3', { hasText: fakeValues.newTitle })).toHaveCount(1, { timeout: 5000 });
+    await expect(postsPage.containsTitle(fakeValues.newTitle)).toHaveCount(1, { timeout: 5000 });
 
 });
 

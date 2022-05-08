@@ -45,5 +45,5 @@ test('Create post', async ({ page }) => {
     //ValidatedPost
     await postsPage.open();
     await page.waitForLoadState('networkidle');
-    await expect(page.locator('h3', { hasText: fakeValues.title })).toHaveCount(1, { timeout: 5000 });
+    await expect(postsPage.containsTitle(fakeValues.title)).toHaveCount(1);
 });

@@ -47,12 +47,13 @@ test('Create post and delete it', async ({ page }) => {
     //ValidatedPost
     await postsPage.open();
     await page.waitForLoadState('networkidle');
-    await expect(page.locator('h3', { hasText: fakeValues.title })).toHaveCount(1, { timeout: 5000 });
+    await expect(postsPage.containsTitle(fakeValues.title)).toHaveCount(1);
+
 
     // Delete post
     await postsPage.deletePost(fakeValues.title);
     // Check that the new member is not in the list
-    await expect(page.locator('h3', { hasText: fakeValues.title })).toHaveCount(0);
+    await expect(postsPage.containsTitle(fakeValues.title)).toHaveCount(0);
 
 });
 

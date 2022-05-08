@@ -50,7 +50,7 @@ test('Create multiple post with the same title', async ({ page }) => {
     //ValidatedPost
     await postsPage.open();
     await page.waitForLoadState('networkidle');
-    await expect(page.locator('h3', { hasText: fakeValues.title })).toHaveCount(1, { timeout: 5000 });
+    await expect(postsPage.containsTitle(fakeValues.title)).toHaveCount(1);
 
     // Create post
     await postsPage2.createPost(fakeValues.title, fakeValues.content);
@@ -58,7 +58,7 @@ test('Create multiple post with the same title', async ({ page }) => {
     //ValidatedPost
     await postsPage2.open();
     await page.waitForLoadState('networkidle');
-    await expect(page.locator('h3', { hasText: fakeValues.title })).toHaveCount(2, { timeout: 5000 });
+    await expect(postsPage.containsTitle(fakeValues.title)).toHaveCount(2);
 });
 
 
