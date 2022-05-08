@@ -51,18 +51,15 @@ test('Filter memberX', async ({ page }) => {
 
     //Validate search member A
     await page.waitForLoadState('networkidle');
-<<<<<<< Updated upstream
-    await page.locator('input[placeholder="Search members..."]').fill(fakeValues.namea);
-    await page.locator('button:has-text("Actions")').click();
+    await membersPage.search.fill(fakeValues.namea);
+    //await page.locator('button:has-text("Actions")').click();
+    await membersPage.actions.click();
     await page.locator('button:has-text("Delete selected members (2)")').click();
     await page.locator('button:has-text(""Download backup & delete members"")').click();
     //await expect(page.locator('h3', { hasText: fakeValues.namea }).isVisible()).toBeTruthy
     expect(page.locator('h3', { hasText: fakeValues.nameb }).isHidden());
     expect(page.locator('h3', { hasText: fakeValues.namea }).isHidden());
+
+    //await expect(page.locator('h3', { hasText: fakeValues.namea })).toBeVisible();
+    //await expect(page.locator('h3', { hasText: fakeValues.nameb })).not.toBeVisible();
 });
-=======
-    await membersPage.search.fill(fakeValues.namea);
-    await expect(page.locator('h3', { hasText: fakeValues.namea })).toBeVisible();
-    await expect(page.locator('h3', { hasText: fakeValues.nameb })).not.toBeVisible();
-});
->>>>>>> Stashed changes

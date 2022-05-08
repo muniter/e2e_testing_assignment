@@ -48,7 +48,7 @@ test('Create memberX', async ({ page }) => {
     await page.waitForLoadState('networkidle');
     await expect(page.locator('h3', { hasText: fakeValues.name })).toHaveCount(1, { timeout: 5000 });
     //await expect(membersPage.containsName(fakeValues.name));
-    await expect(membersPage.containsName("")).toBeTruthy();
+    //await expect(membersPage.containsName("")).toBeTruthy();
 }
 );
 

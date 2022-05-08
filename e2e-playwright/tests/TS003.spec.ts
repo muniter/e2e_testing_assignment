@@ -41,14 +41,8 @@ test('Create member invalid email', async ({ page }) => {
     await membersPage.createMember(fakeValues.name, fakeValues.email.replace(/@.*$/, ''), fakeValues.notes);
 
     //Validated Creation
-<<<<<<< Updated upstream
-    await expect(page.locator('button', { hasText: 'Retry' })).toHaveCount(1);
-    await expect(page.locator('p[class="response"] >> text="Invalid Email."')).toHaveCount(1);
-});
-=======
     //await expect(page.locator('button', { hasText: 'Retry' })).toHaveCount(1);
     await expect(membersPage.retry).toHaveCount(1);
     //await expect(page.locator('p[class="response"] >> text="Invalid Email."')).toHaveCount(1);
     await expect(membersPage.invalidEmail).toHaveCount(1);
 });
->>>>>>> Stashed changes
