@@ -10,7 +10,6 @@ const selectors = {
     publishButton: 'button:has-text("Publish") >> nth=0',
     publishConfirm: 'button:has-text("Publish") >> nth=0',
     publishedMessage: 'span:has-text("Published")',
-/*     publishedMessage: 'div[role="button"]:has-text("Publish")', */
     updateDrowndown: 'span:has-text("Update")',
     updateButton: 'button:has-text("Update")',
     deleteButton: 'form .settings-menu-delete-button',
@@ -31,7 +30,7 @@ export class PostsPage {
         await this.page.waitForLoadState('networkidle');
     }
 
-    async createPost(title: string, content:any) {
+    async createPost(title: string, content: any) {
 
         await this.page.locator('.gh-nav').locator('li:has(a[href="#/posts/"])').click({ timeout: 5000 });
 
@@ -57,6 +56,29 @@ export class PostsPage {
         return await this.page.isVisible(selectors.publishedMessage);
     }
 
-}
+    async editPost(oldTitle: string, newTitle: string) {
+        await this.page.goto(postsUrl);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.locator('li', { hasText: oldTitle }).click();
+    
+        await this.page.locator(selectors.title).fill(newTitle);
+        await this.page.waitForTimeout(1000);
+        await this.page.locator(selectors.updateDrowndown).click();
+        await this.page.locator(selectors.updateButton).click({ timeout: 3000 });
+        await this.page.goto(postsUrl);
+        await this.page.waitForLoadState('networkidle');
+        
+    }
 
+    async deletePost(title: string) {
+        await this.page.goto(postsUrl);
+        await this.page.waitForLoadState('networkidle');
+        await this.page.locator('li', { hasText: title }).click({ timeout: 3000 });
+        await this.page.locator(selectors.settingsButton).click();
+        await this.page.locator(selectors.deleteButton).click({ timeout: 3000 });
+        await this.page.locator(selectors.deleteConfirm).click();
+        await this.page.goto(postsUrl);
+        await this.page.waitForLoadState('networkidle');
+    }
+}
 

@@ -34,7 +34,9 @@ test('Create post and edit it', async ({ page }) => {
     const fakeValues = {
         title: faker.lorem.sentence(),
         content: faker.lorem.paragraph(),
+        newTitle:     faker.lorem.sentence()
     }
+
     // Login
     await loginPage.open();
     await loginPage.login(user.email, user.password);
@@ -50,19 +52,9 @@ test('Create post and edit it', async ({ page }) => {
     await expect(page.locator('h3', { hasText: fakeValues.title })).toHaveCount(1, { timeout: 5000 });
 
     // Edit post
-    await page.goto('http://localhost:9333/ghost/#/posts');
-    await page.waitForLoadState('networkidle');
-    await page.locator('li', { hasText: fakeValues.title }).click();
-
-    let newTitle = faker.lorem.sentence();
-    await page.locator('textarea[placeholder="Post title"]').fill(newTitle);
-    await page.waitForTimeout(1000);
-    await page.locator('span:has-text("Update")').click();
-    await page.locator('button:has-text("Update")').click({ timeout: 3000});
-    await page.goto('http://localhost:9333/ghost/#/posts');
-    await page.waitForLoadState('networkidle');
+    await postsPage.editPost(fakeValues.title, fakeValues.newTitle);
     // Check if the new member is in the list
-    await expect(page.locator('h3', { hasText: newTitle })).toHaveCount(1, { timeout: 5000 });
+    await expect(page.locator('h3', { hasText: fakeValues.newTitle })).toHaveCount(1, { timeout: 5000 });
 
 });
 

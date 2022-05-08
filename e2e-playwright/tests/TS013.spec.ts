@@ -28,7 +28,7 @@ test.beforeAll(async ({ browser }) => {
     await page.close();
 })
 
-test('Create multiple with the same title', async ({ page }) => {
+test('Create multiple post with the same title', async ({ page }) => {
     
     // Intances and fakerValues
     const loginPage = new LoginPage(page);
