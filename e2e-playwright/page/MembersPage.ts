@@ -5,8 +5,10 @@ const selectors = {
     name: 'input[id="member-name"]',
     email: 'input[id="member-email"]',
     notes: 'textarea[id="member-note"]',
+    label: 'input[id="member-email"]',
     save: 'button:has-text("Save")',
-  }
+    retry: 'button:has-text("Retry")',
+}
 
 const membersUrl = 'http://localhost:9333/ghost/#/members';
 
@@ -21,25 +23,22 @@ export class MembersPage {
         await this.page.goto(membersUrl, { waitUntil: 'networkidle' });
     }
 
-    async createMember(name: string, email: string, notes: string) {
+    async createMember(name: string, email: string, notes: string, back: boolean = true, label?: string) {
         await this.page.locator(selectors.newMember).click();
         await this.page.locator(selectors.name).type(name);
         await this.page.locator(selectors.email).type(email);
         await this.page.locator(selectors.notes).type(notes);
+        await this.page.locator(selectors.label).type(label);
         await this.page.locator(selectors.save).click();
 
 
         // Wait to be saved
         await this.page.waitForLoadState('networkidle');
         // Go back
-        await this.page.goBack();
-
-
+        if (back) {
+            await this.page.goBack();
+        }
     }
-    
-
-
-
 }
 
 
