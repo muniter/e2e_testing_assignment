@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 
 const selectors = {
     newPost: 'a:has-text("New Post")',
@@ -10,6 +10,7 @@ const selectors = {
     publishButton: 'button:has-text("Publish")',
     publishConfirm: 'button:has-text("Publish")',
     publishedMessage: 'span:has-text("Published")',
+/*     publishedMessage: 'div[role="button"]:has-text("Publish")', */
     updateDrowndown: 'span:has-text("Update")',
     updateButton: 'button:has-text("Update")',
     deleteButton: 'form .settings-menu-delete-button',
@@ -25,25 +26,35 @@ export class PostsPage {
         this.page = page;
     }
 
-    async createPost(title: string, content: string,) {
+    async open() {
+        await this.page.goto(postsUrl);
+        await this.page.waitForLoadState('networkidle');
+    }
+
+    async createPost(title: string, content:any) {
 
         await this.page.locator('.gh-nav').locator('li:has(a[href="#/posts/"])').click({ timeout: 5000 });
 
         await this.page.locator(selectors.newPost).click();
         await this.page.locator(selectors.title).type(title);
-        await this.page.locator(selectors.content).type(content);
+        if (content !== null) {
+            await this.page.locator(selectors.content).type(content);
+            // Select publish
+        } else {
+            await this.page.keyboard.press('Enter');
+        }
 
-        // Select publish
         await this.page.locator(selectors.publishDrowndown).click();
-        await this.page.locator(selectors.publishButton).click({ timeout: 3000 });
-        await this.page.locator(selectors.publishConfirm).click();
-        // Wait for the publish to be confirmed
+        await this.page.locator(selectors.publishButton).click();
         await this.page.waitForLoadState('networkidle');
+        await this.page.locator(selectors.publishConfirm).click();
+        await this.page.waitForLoadState('networkidle');
+        
     }
 
-    async isPublished(title: string): Promise<boolean> {
-        await this.page.goto(postsUrl, { waitUntil: 'networkidle' });
-        return true
+    async isPublished(): Promise<boolean> {
+        await this.page.waitForSelector(selectors.publishedMessage);
+        return await this.page.isVisible(selectors.publishedMessage);
     }
 
 }

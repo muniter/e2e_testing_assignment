@@ -10,9 +10,11 @@ export class LoginPage {
       this.page = page;
     }
 
-  async login(email: string, password: string) {
-
+  async open() {
     await this.page.goto(site.url + '/ghost/#/signin', { waitUntil: 'networkidle' });
+  }
+
+  async login(email: string, password: string) {
     let curr_url = this.page.url();
   if (curr_url.includes('signin')) {
     // Just log in

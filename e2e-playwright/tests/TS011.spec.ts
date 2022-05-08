@@ -1,8 +1,8 @@
 /* 
 - Escenario de prueba 11:
-11.1 Login
-11.2 Crear Post
-11.3 Validar creación del Post
+Login
+Crear Post
+Validar creación del Post
 */
 
 import { test, expect } from '@playwright/test';
@@ -24,7 +24,7 @@ test.beforeAll(async ({ browser }) => {
     await page.close();
 })
 
-test('User can login and post once', async ({ page }) => {
+test('Create post', async ({ page }) => {
     
     // Intances and fakerValues
     const loginPage = new LoginPage(page);
@@ -33,12 +33,19 @@ test('User can login and post once', async ({ page }) => {
         title: faker.lorem.sentence(),
         content: faker.lorem.paragraph(),
     }
-    
+    // Login
+    await loginPage.open();
     await loginPage.login(user.email, user.password);
     expect(await loginPage.userIsLoggedIn()).toBeTruthy();
 
+    // Create post
     await postsPage.createPost(fakeValues.title, fakeValues.content);
-    expect(await postsPage.isPublished(fakeValues.title)).toBeTruthy();
+    expect(await postsPage.isPublished()).toBeTruthy();
+
+    //ValidatedPost
+    await postsPage.open();
+    await page.waitForLoadState('networkidle');
+    await expect(page.locator('h3', { hasText: fakeValues.title })).toHaveCount(1, { timeout: 5000 });
 });
 
 
