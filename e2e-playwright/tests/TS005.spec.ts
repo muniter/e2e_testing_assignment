@@ -28,7 +28,6 @@ test('Create member duplicate email', async ({ page }) => {
     // Intances and fakerValues
     const loginPage = new LoginPage(page);
     const membersPage = new MembersPage(page);
-    const membersPage2 = new MembersPage(page);
     const fakeValues = {
         namex: faker.name.findName(),
         namey: faker.name.findName(),

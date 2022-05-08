@@ -8,15 +8,15 @@ const setup = async (page: Page) => {
       // Check if we need to create a new user
       await page.waitForSelector('input[id="blog-title"]');
       const input = await page.$('input[id="blog-title"]')
-      await input.type(site.blogTitle);
+      await input?.type(site.blogTitle);
       const name = await page.$('input[id="name"]')
-      await name.type(site.ghostTitle);
+      await name?.type(site.ghostTitle);
       const emailInput = await page.$('input[id="email"]')
-      await emailInput.type(user.email);
+      await emailInput?.type(user.email);
       const passwordInput = await page.$('input[id="password"]')
-      await passwordInput.type(user.password);
+      await passwordInput?.type(user.password);
       const submit = await page.$('button[type="submit"]')
-      await submit.click();
+      await submit?.click();
     } else if (curr_url.includes('signin') || curr_url.includes('dashboard')) {
       return;
     } else {

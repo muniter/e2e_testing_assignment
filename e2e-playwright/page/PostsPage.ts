@@ -6,9 +6,9 @@ const selectors = {
     title: 'textarea[placeholder="Post title"]',
     settingsButton: 'main .settings-menu-toggle',
     content: 'div[data-placeholder="Begin writing your post..."]',
-    publishDrowndown: 'span:has-text("Publish")',
-    publishButton: 'button:has-text("Publish")',
-    publishConfirm: 'button:has-text("Publish")',
+    publishDrowndown: 'span:has-text("Publish") >> nth=0',
+    publishButton: 'button:has-text("Publish") >> nth=0',
+    publishConfirm: 'button:has-text("Publish") >> nth=0',
     publishedMessage: 'span:has-text("Published")',
 /*     publishedMessage: 'div[role="button"]:has-text("Publish")', */
     updateDrowndown: 'span:has-text("Update")',

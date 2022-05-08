@@ -24,7 +24,7 @@ test('Create member without name', async ({ page }) => {
     // Intances and fakerValues
     const loginPage = new LoginPage(page);
     const membersPage = new MembersPage(page);
-    const membersPage2 = new MembersPage(page);
+
     const fakeValues = {
         email: faker.internet.email(),
         notes: faker.lorem.sentence(),

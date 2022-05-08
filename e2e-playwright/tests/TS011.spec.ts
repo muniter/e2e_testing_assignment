@@ -6,7 +6,7 @@ Validar creación del Post
 */
 
 import { test, expect } from '@playwright/test';
-import { user } from '../data/testdata';
+import { user } from '../data/testData';
 import { LoginPage } from '../page/LoginPage';
 import { PostsPage } from '../page/PostsPage';
 import faker from '@faker-js/faker';

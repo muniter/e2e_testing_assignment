@@ -26,7 +26,6 @@ test('Delete member', async ({ page }) => {
     // Intances and fakerValues
     const loginPage = new LoginPage(page);
     const membersPage = new MembersPage(page);
-    const membersPage2 = new MembersPage(page);
     const fakeValues = {
         name: faker.name.findName(),
         email: faker.internet.email(),

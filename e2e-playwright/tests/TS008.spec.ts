@@ -26,7 +26,6 @@ test('Filter member', async ({ page }) => {
     // Intances and fakerValues
     const loginPage = new LoginPage(page);
     const membersPage = new MembersPage(page);
-    const membersPage2 = new MembersPage(page);
     const fakeValues = {
         namea: faker.name.findName(),
         nameb: faker.name.findName(),
@@ -57,6 +56,6 @@ test('Filter member', async ({ page }) => {
     await page.locator('button:has-text("Delete selected members (2)")').click();
     await page.locator('button:has-text(""Download backup & delete members"")').click();
     //await expect(page.locator('h3', { hasText: fakeValues.namea }).isVisible()).toBeTruthy
-    await expect(page.locator('h3', { hasText: fakeValues.nameb }).isHidden());
-    await expect(page.locator('h3', { hasText: fakeValues.namea }).isHidden());
+    expect(page.locator('h3', { hasText: fakeValues.nameb }).isHidden());
+    expect(page.locator('h3', { hasText: fakeValues.namea }).isHidden());
 });

@@ -25,7 +25,6 @@ test('Create Member with same name', async ({ page }) => {
     // Intances and fakerValues
     const loginPage = new LoginPage(page);
     const membersPage = new MembersPage(page);
-    const membersPage2 = new MembersPage(page);
     const fakeValues = {
         namea: faker.name.findName(),
         emailx: faker.internet.email(),

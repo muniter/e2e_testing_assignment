@@ -5,7 +5,7 @@ Revisar que el miembro fue creado
 */
 
 import { test, expect } from '@playwright/test';
-import { user } from '../data/testdata';
+import { user } from '../data/testData';
 import { LoginPage } from '../page/LoginPage';
 import { MembersPage } from '../page/MembersPage';
 import faker from '@faker-js/faker';
