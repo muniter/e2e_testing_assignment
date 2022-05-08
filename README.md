@@ -5,8 +5,8 @@
 
 Las siguientes son las funcionalidades elegidas para realizar las pruebas.
 
-| No | Nombre | Descripción                                                                                                                                                                                |
-| -- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| No | Nombre | Descripción |
+| -- | ------ | ------------|
 | 1  | **Login** | Se puede hacer signin de un usuario registrado previamente.   |
 | 2  | **Crear una publicación** | Se puede crear una publicación, esta es la unidad mínima de contenido de Ghost.  |
 | 3  | **Editar una publicación**| Se puede editar todos los detalles de una publicación ya creada.                                                                                               |
