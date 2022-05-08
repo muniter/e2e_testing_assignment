@@ -6,6 +6,15 @@ import type { Page } from 'puppeteer-core/lib/cjs/puppeteer/common/Page';
 // Source maps
 require('source-map-support').install();
 
+export interface Cookie {
+    posts: {
+      last: {
+        title: string,
+        url: string,
+      }
+    }
+  }
+
 export class KrakenWorld {
   deviceClient!: WebClient;
   driver!: Browser<'async'>;
@@ -16,6 +25,14 @@ export class KrakenWorld {
   device: any;
   testScenarioId: any;
   attach: any;
+  cookie = {
+    posts: {
+      last: {
+        title: '',
+        url: '',
+      }
+    }
+  } as Cookie;
   constructor(input: any) {
     let params = input.parameters;
     this.userId = params.id;

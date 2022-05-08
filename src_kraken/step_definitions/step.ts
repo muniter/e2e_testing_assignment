@@ -2,7 +2,7 @@ import { Given, When, Then } from '@cucumber/cucumber';
 import { faker } from '@faker-js/faker';
 import { Login } from './login';
 import type { Page } from 'puppeteer-core/lib/cjs/puppeteer/common/Page';
-import { KrakenWorld } from '../support/support';
+import { Cookie, KrakenWorld } from '../support/support';
 import { ElementHandle } from 'puppeteer-core/lib/cjs/puppeteer/common/JSHandle';
 const Urls = require('./urls').Urls;
 
@@ -12,19 +12,48 @@ type ValueGeneratorCollection = {
 
 const ValueGenerators: ValueGeneratorCollection = {
   "|FAKE_NAME|": faker.name.findName,
-  "|OBSCURED_NAME|": faker.name.firstName,
   "|FAKE_EMAIL|": faker.internet.email,
   "|FAKE_PARAGRAPH|": () => faker.lorem.paragraph(1),
   "|FAKE_LABEL|": faker.word.verb,
+  "|FAKE_TITLE|": faker.commerce.productName,
+  "|FAKE_CONTENT|": faker.commerce.productDescription,
 } as const;
+
 const SavedGeneratedValues: Record<string, string> = {};
 
-type Foo = { [key: string]: string };
+type SelectorsCollection = { [key: string]: string };
 
-const Selectors: Foo = {
+const Selectors: SelectorsCollection = {
   // Dashboard menu
   "dashborad/menu/member": 'a[href="#/members/"]',
+  "dashborad/menu/post": 'a[href="#/posts/"]',
 
+  ///////////////////////////////////
+  // Post Fucntionallity
+
+  "post/action/update": "//span[contains(., 'Update')]",
+  "post/action/update button": "//button[contains(., 'Update')]",
+  "post/action/publish": "//span[contains(., 'Publish')]",
+  "post/action/publish button": "//button[contains(., 'Publish')]",
+  "post/action/publish confirm": "//button[contains(., 'Publish')]",
+  "post/action/open settings": ".settings-menu-toggle",
+  // List Fucntionality
+  "post/list/new": "//a[@title='New post']",
+  "post/list/title": "//h3[contains(., '{}')]",
+
+  // Post Frontend
+  "post/frontend/title": ".article-title",
+  "post/frontend/404": "//h1[normalize-space()='404']",
+
+  // Edit fill
+  "post/edit/fill/title": 'textarea:first-of-type',
+  "post/edit/fill/content": '//div[@spellcheck="true"]',
+
+  // Edit settings url
+  "post/settings/url": "//p[contains(., 'localhost')]",
+  "post/settings/delete": ".settings-menu-delete-button",
+
+  ///////////////////////////////////
   // Member functionality
   "member/list/new": 'a[href="#/members/new/"]',
   "member/list/name": "//h3[contains(., '{}')]",
@@ -38,7 +67,7 @@ const Selectors: Foo = {
   // Edit list
   // For searching a label
   "member/edit/label": "//li[normalize-space()='{}']",
-  // Actions
+  // Member Actions
   "member/action/save": "//button/span[contains(., 'Save')]",
   "member/action/retry save": "//span[normalize-space()='Retry']",
   "member/action/actions": "//button[./span/span[contains(., 'Actions')]]",
@@ -63,7 +92,7 @@ function GetSelector(selector: string): string {
   return res;
 }
 
-async function getElement(page: Page, wait: boolean, selector: string, value?: string, hidden: boolean = false, visible: boolean = false): Promise<ElementHandle> {
+async function getElement(page: Page, selector: string, value?: string, hidden: boolean = false, visible: boolean = false): Promise<ElementHandle> {
   let isxpath = selector.startsWith("/");
   let result;
   if (value) {
@@ -73,8 +102,7 @@ async function getElement(page: Page, wait: boolean, selector: string, value?: s
   console.log('=========================================')
   console.log(`Selector: ${selector}`)
   console.log(`Value: ${value}`)
-  console.log(`Page: ${page}`)
-  if (wait) {
+  if (true) {
     let props: Record<string, any> = {};
     if (hidden) {
       props.hidden = true;
@@ -83,19 +111,12 @@ async function getElement(page: Page, wait: boolean, selector: string, value?: s
       props.visible = true;
     }
     props.timeout = 5000;
+    console.log(`Waiting for selector: ${selector} with props ${JSON.stringify(props)}`)
     if (isxpath) {
-      await page.waitForXPath(selector, props);
+      result = await page.waitForXPath(selector, props);
     } else {
-      await page.waitForSelector(selector, props);
+      result = await page.waitForSelector(selector, props);
     }
-  }
-  if (isxpath) {
-    // Xpath
-    result = await page.$x(selector);
-    result = result.length > 0 ? result[0] : null;
-  } else {
-    // CSS
-    result = await page.$(selector);
   }
   if (result == null) {
     throw new Error(`Element ${selector} not found`);
@@ -109,8 +130,16 @@ async function getElement(page: Page, wait: boolean, selector: string, value?: s
   return result;
 }
 
-async function FillElement(page: Page, wait: boolean, selector: string, value: string, clear?: boolean, focus?: boolean): Promise<void> {
-  let element = await getElement(page, wait, selector, value);
+async function TextContens(element: ElementHandle): Promise<string | null> {
+  let result = await element.evaluate((element) => {
+    return element.textContent;
+  }
+    , element);
+  return result;
+}
+
+async function FillElement(page: Page, selector: string, value: string, clear?: boolean, focus?: boolean): Promise<void> {
+  let element = await getElement(page, selector, value);
   value = ValueTransform(value)
   if (focus) {
     await element.focus();
@@ -122,8 +151,8 @@ async function FillElement(page: Page, wait: boolean, selector: string, value: s
   return element.type(value);
 }
 
-async function ClickElement(page: Page, wait: boolean, selector: string, value?: string): Promise<void> {
-  let element = await getElement(page, wait, selector, value, false, true);
+async function ClickElement(page: Page, selector: string, value?: string): Promise<void> {
+  let element = await getElement(page, selector, value, false, true);
   return element.click();
 }
 
@@ -145,24 +174,47 @@ function ValueTransform(value: string): string {
 }
 
 const Navigators: Record<string, Function> = {
-  member: async (page: Page) => {
-    if (!page.url().includes(Urls["members/list"])) {
+  // TODO: Refactor this two (member and post) into one function
+  post: async (page: Page) => {
+    if (!page.url().includes(Urls["post/list"])) {
       await NavigateTo(page, "dashboard");
       let p = page.waitForNavigation({ waitUntil: 'networkidle0' });
-      ClickElement(page, true, GetSelector("dashborad/menu/member"));
+      ClickElement(page, GetSelector("dashborad/menu/post"));
+      await p;
+    }
+  },
+  "create post": async (page: Page) => {
+    if (page.url().includes(Urls["post/list"])) {
+      await ClickElement(page, GetSelector("post/list/new"));
+    } else {
+      throw new Error("Not on posts list page");
+    }
+  },
+  "edit post": async (page: Page, title: string) => {
+    if (page.url().includes(Urls["post/list"])) {
+      await ClickElement(page, GetSelector("post/list/title"), title);
+    } else {
+      throw new Error("Not on posts list page");
+    }
+  },
+  member: async (page: Page) => {
+    if (!page.url().includes(Urls["member/list"])) {
+      await NavigateTo(page, "dashboard");
+      let p = page.waitForNavigation({ waitUntil: 'networkidle0' });
+      ClickElement(page, GetSelector("dashborad/menu/member"));
       await p;
     }
   },
   "create member": async (page: Page) => {
-    if (page.url().includes(Urls["members/list"])) {
-      await ClickElement(page, true, GetSelector("member/list/new"));
+    if (page.url().includes(Urls["member/list"])) {
+      await ClickElement(page, GetSelector("member/list/new"));
     } else {
       throw new Error("Not on members list page");
     }
   },
   "edit member": async (page: Page, email: string) => {
-    if (page.url().includes(Urls["members/list"])) {
-      await ClickElement(page, true, GetSelector("member/list/email"), email);
+    if (page.url().includes(Urls["member/list"])) {
+      await ClickElement(page, GetSelector("member/list/email"), email);
     } else {
       throw new Error("Not on members list page");
     }
@@ -175,7 +227,7 @@ const Navigators: Record<string, Function> = {
       await page.goto(Urls.dashboard, { waitUntil: 'networkidle0' });
     }
   }
-}
+} as const
 
 async function NavigateTo(page: Page, name: string, additional?: string) {
   let target = Navigators[name];
@@ -205,28 +257,34 @@ When(/I (fill|set) the ("(.*)?") ("(.*)?") to ("(.*)?")/, async function(this: K
   let selector = GetSelector(key)
   let focus = special.includes(selectorName);
   // Wait for the query to be in the url
-  let p = FillElement(this.page, true, selector, value, verb === 'set', focus);
+  let p = FillElement(this.page, selector, value, verb === 'set', focus);
   if (focus) {
     // Wait for the typing to be done, and then press enter
     await p;
     await this.page.keyboard.press('Enter');
-    await this.page.waitForNetworkIdle();
+  }
+  if (scope === 'post' || selectorName === 'title') {
+    // Last post title
+    this.cookie.posts.last.title = ValueTransform(value);
   }
   await p;
 });
 
 When('I {string} the {string}', async function(this: KrakenWorld, action: string, scope: string) {
-  let key = scope + '/action/' + action
-  await ClickElement(this.page, true, GetSelector(key));
+  let selector = GetSelector(scope + '/action/' + action)
+  if (typeof selector === 'string') {
+    await ClickElement(this.page, selector);
+  } else if (typeof selector === 'function') {
+  }
 });
 
 
 When('I delete the {string}', async function(this: KrakenWorld, scope: string) {
   if (scope === 'member') {
     // Press the action button first
-    await ClickElement(this.page, true, GetSelector("member/action/actions"));
+    await ClickElement(this.page, GetSelector("member/action/actions"));
     // Press the delete button now
-    await ClickElement(this.page, true, GetSelector("member/action/actions/delete"));
+    await ClickElement(this.page, GetSelector("member/action/actions/delete"));
     // Press enter to confirm the dialog
     let p = this.page.waitForNavigation({ waitUntil: 'networkidle0' });
     this.page.keyboard.press('Enter');
@@ -235,13 +293,19 @@ When('I delete the {string}', async function(this: KrakenWorld, scope: string) {
     let p = this.page.waitForNavigation({ waitUntil: 'networkidle0' });
     // TODO: Fix this timeout
     await this.page.waitForTimeout(1000);
-    await ClickElement(this.page, true, GetSelector("member/action/list actions"));
-    await ClickElement(this.page, true, GetSelector("member/action/list actions/delete"));
-    await ClickElement(this.page, true, GetSelector("member/action/list actions/delete confirm"));
-    await ClickElement(this.page, true, GetSelector("member/action/list actions/delete confirm close"));
+    await ClickElement(this.page, GetSelector("member/action/list actions"));
+    await ClickElement(this.page, GetSelector("member/action/list actions/delete"));
+    await ClickElement(this.page, GetSelector("member/action/list actions/delete confirm"));
+    await ClickElement(this.page, GetSelector("member/action/list actions/delete confirm close"));
     await p;
+  } else if (scope === 'post') {
+    await saveLastPostUrl(this.page, this.cookie);
+    await ClickElement(this.page, GetSelector("post/action/open settings"));
+    await ClickElement(this.page, GetSelector("post/settings/delete"));
+    await this.page.waitForTimeout(100);
+    await this.page.keyboard.press('Enter');
   } else {
-    throw new Error("Only member scope is supported");
+    throw new Error(`The given scope: ${scope} is not supported`);
   }
 });
 
@@ -257,7 +321,7 @@ Then('I should {string} the {string} {string} {string} in the {string}', async f
   // Find the element, if using "not see" then return on error from getElement this is good because
   // we are already waiting
   try {
-    element = await getElement(this.page, true, selector, value, hidden);
+    element = await getElement(this.page, selector, value, hidden);
     value = ValueTransform(value);
   } catch (e) {
     if (hidden) {
@@ -278,24 +342,80 @@ Then('I should {string} the {string} {string} {string} in the {string}', async f
 
 Then('I should see member saving failed', async function(this: KrakenWorld,) {
   let selector = GetSelector("member/see/save-retry");
-  let element = await getElement(this.page, true, selector);
+  let element = await getElement(this.page, selector);
   if (element === null) throw new Error(`Couldn't find element with selector ${selector}`);
 })
 
 When('I remove the label {string} from all the filtered members', async function(this: KrakenWorld, label: string) {
   // TODO: Fix this timeout
   // await this.page.waitForTimeout(1000);
-  await ClickElement(this.page, true, GetSelector("member/action/list actions"));
-  await ClickElement(this.page, true, GetSelector("member/action/list actions/remove label"));
+  await ClickElement(this.page, GetSelector("member/action/list actions"));
+  await ClickElement(this.page, GetSelector("member/action/list actions/remove label"));
 
   // Get the select an option to use
-  let select = await getElement(this.page, true, GetSelector("member/action/list actions/remove label select"), label);
-  let option = await getElement(this.page, true, GetSelector("member/action/list actions/remove label select option"), label);
+  let select = await getElement(this.page, GetSelector("member/action/list actions/remove label select"), label);
+  let option = await getElement(this.page, GetSelector("member/action/list actions/remove label select option"), label);
   //@ts-ignore
   let value = await option.evaluate(el => el.value);
   await select.select(value);
 
-  await ClickElement(this.page, true, GetSelector("member/action/list actions/remove label confirm"));
+  await ClickElement(this.page, GetSelector("member/action/list actions/remove label confirm"));
   this.page.keyboard.press('Enter');
-  await ClickElement(this.page, true, GetSelector("member/action/list actions/remove label confirm close"));
+  await ClickElement(this.page, GetSelector("member/action/list actions/remove label confirm close"));
 });
+
+When('I save the post', async function(this: KrakenWorld,) {
+  let keys = ['Control', 's'];
+  keys.forEach(async key => {
+    //@ts-ignore
+    await this.page.keyboard.down(key);
+  })
+  await this.page.waitForTimeout(200);
+  keys.forEach(async key => {
+    //@ts-ignore
+    await this.page.keyboard.up(key);
+  })
+  await this.page.waitForNetworkIdle();
+})
+
+async function saveLastPostUrl(page: Page, cookie: Cookie) {
+  await ClickElement(page, GetSelector("post/action/open settings"));
+  let element = await getElement(page, GetSelector("post/settings/url"));
+  let url = await TextContens(element);
+  if (url) {
+    console.log(`Post url is ${url}`);
+    let post_slug = url.replace(/.*?localhost:\d+?\//, '').replace(/\n/, '').trim();
+    cookie.posts.last.url = Urls["main"] + "/" + post_slug;
+  }
+  await ClickElement(page, GetSelector("post/action/open settings"));
+}
+
+When(/I (publish|update) the post/, async function(this: KrakenWorld, verb: string) {
+  await saveLastPostUrl(this.page, this.cookie);
+  if (verb === 'publish') {
+    await ClickElement(this.page, GetSelector("post/action/publish"))
+    await ClickElement(this.page, GetSelector("post/action/publish button"))
+    await ClickElement(this.page, GetSelector("post/action/publish confirm"))
+  } else if (verb === 'update') {
+    await ClickElement(this.page, GetSelector("post/action/update"))
+    await ClickElement(this.page, GetSelector("post/action/update button"))
+  }
+})
+
+Then(/I confirm the post (is|is not) published.*$/, async function(this: KrakenWorld, published: string) {
+  await this.page.goto(this.cookie.posts.last.url);
+  if (published === 'is') {
+    let title = await getElement(this.page, GetSelector("post/frontend/title"));
+    let text = await TextContens(title);
+    // Default title
+    this.cookie.posts.last.title === '' ? '(Untitled)' : this.cookie.posts.last.title;
+    if (text === this.cookie.posts.last.title || text === '(Untitled)') {
+      await this.page.goBack({ waitUntil: 'networkidle0' });
+      return;
+    }
+    throw new Error(`Expected ${this.cookie.posts.last.title} but got ${text}`);
+  } else if (published === 'is not') {
+    // getEleemnt errors if not found so we can just check if it exists
+    await getElement(this.page, GetSelector("post/frontend/404"));
+  }
+})
