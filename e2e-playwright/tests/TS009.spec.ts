@@ -30,8 +30,9 @@ test('Filter member delete', async ({ page }) => {
     const membersPage = new MembersPage(page);
     const fakeValues = {
         namea: faker.name.findName(),
-        emaila: faker.internet.email(),
-        emailb: faker.internet.email(),
+        nameb: faker.name.findName(),
+        emailx: faker.internet.email(),
+        emaily: faker.internet.email(),
         notes: faker.lorem.sentence(),
       }
     // Login
@@ -41,28 +42,17 @@ test('Filter member delete', async ({ page }) => {
 
     // Go to members page
     await membersPage.open();
-
-    // Create member name A email B
-    await membersPage.createMember(fakeValues.namea, fakeValues.emaila, fakeValues.notes);
-    await membersPage.open();
-
-    // Create member name A email C
-    await membersPage.createMember(fakeValues.namea, fakeValues.emailb, fakeValues.notes);
-    await membersPage.open();
+    await membersPage.createMember('Im going to be deleted', fakeValues.emailx, fakeValues.notes);
+    await membersPage.createMember('Im going to be deleted', fakeValues.emaily, fakeValues.notes);
 
     //Validate search member A
-    await page.waitForLoadState('networkidle');
-    await membersPage.search.fill(fakeValues.namea);
-
-    //Delete members
+    await membersPage.search.fill('Im going to be deleted');
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(5000);
     await membersPage.actions.click();
-    await page.locator('button:has-text("Delete selected members (2)")').click();
-    //await page.locator('button')..click();
-    await page.locator('button:has-text(""Download backup & delete members"")').click();
+    await page.locator('button', { hasText: "Delete selected members" }).click();
+    await page.locator('button', { hasText: "Download backup" }).click();
 
-    //Validate delete
-    await membersPage.open();
-    await page.waitForLoadState('networkidle');
-    await expect(page.locator('h3', { hasText: fakeValues.emaila })).toHaveCount(0);
-    await expect(page.locator('h3', { hasText: fakeValues.emaila })).toHaveCount(0);
+    await expect(membersPage.containsEmail(fakeValues.emailx)).toHaveCount(0);
+    await expect(membersPage.containsEmail(fakeValues.emaily)).toHaveCount(0);
 });

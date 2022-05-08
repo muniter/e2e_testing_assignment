@@ -40,9 +40,7 @@ test('Create member invalid email', async ({ page }) => {
     // Create member
     await membersPage.createMember(fakeValues.name, fakeValues.email.replace(/@.*$/, ''), fakeValues.notes);
 
-    //Validated Creation
-    //await expect(page.locator('button', { hasText: 'Retry' })).toHaveCount(1);
+    //Validated that the member was not created by checking for the retry buttton
     await expect(membersPage.retry).toHaveCount(1);
-    //await expect(page.locator('p[class="response"] >> text="Invalid Email."')).toHaveCount(1);
     await expect(membersPage.invalidEmail).toHaveCount(1);
 });

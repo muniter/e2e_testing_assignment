@@ -22,7 +22,7 @@ test.beforeAll(async ({ browser }) => {
     await setup(page);
     await page.close();
 })
-test('Filter memberX', async ({ page }) => {
+test('Filter member', async ({ page }) => {
     // Intances and fakerValues
     const loginPage = new LoginPage(page);
     const membersPage = new MembersPage(page);
@@ -42,7 +42,7 @@ test('Filter memberX', async ({ page }) => {
     await membersPage.open();
 
     // Create member A
-    await membersPage.createMember(fakeValues.namea, fakeValues.emailx, fakeValues.notes);
+    await membersPage.createMember('ZZZ' + fakeValues.namea, fakeValues.emailx, fakeValues.notes);
     await membersPage.open();
 
     // Create member B
@@ -50,16 +50,10 @@ test('Filter memberX', async ({ page }) => {
     await membersPage.open();
 
     //Validate search member A
-    await page.waitForLoadState('networkidle');
-    await membersPage.search.fill(fakeValues.namea);
-    //await page.locator('button:has-text("Actions")').click();
+    await membersPage.search.fill('ZZZ');
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(5000);
     await membersPage.actions.click();
-    await page.locator('button:has-text("Delete selected members (2)")').click();
-    await page.locator('button:has-text(""Download backup & delete members"")').click();
-    //await expect(page.locator('h3', { hasText: fakeValues.namea }).isVisible()).toBeTruthy
-    expect(page.locator('h3', { hasText: fakeValues.nameb }).isHidden());
-    expect(page.locator('h3', { hasText: fakeValues.namea }).isHidden());
-
-    //await expect(page.locator('h3', { hasText: fakeValues.namea })).toBeVisible();
-    //await expect(page.locator('h3', { hasText: fakeValues.nameb })).not.toBeVisible();
+    await expect(membersPage.containsEmail(fakeValues.emailx)).toHaveCount(1);
+    await expect(membersPage.containsEmail(fakeValues.emaily)).toHaveCount(0);
 });

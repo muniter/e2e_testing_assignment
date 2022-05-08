@@ -32,7 +32,7 @@ test('Filter member remove label', async ({ page }) => {
         emaila: faker.internet.email(),
         emailb: faker.internet.email(),
         notes: faker.lorem.sentence(),
-        label: faker.lorem.word(),
+        label: faker.lorem.word(7),
       }
     // Login
     await loginPage.open();
@@ -41,33 +41,16 @@ test('Filter member remove label', async ({ page }) => {
 
     // Go to members page
     await membersPage.open();
-
-    // Create member name A email B
     await membersPage.createMember(fakeValues.namea, fakeValues.emaila, fakeValues.notes, true, fakeValues.label);
-    await membersPage.open();
-
-    // Create member name A email C
     await membersPage.createMember(fakeValues.namea, fakeValues.emailb, fakeValues.notes, true, fakeValues.label);
-    await membersPage.open();
 
-    //Validate search member A
-    await page.waitForLoadState('networkidle');
-    await page.locator('input[placeholder="Search members..."]').fill(fakeValues.namea);
+    // Filter members and remove the label
+    await membersPage.filterMembers(fakeValues.namea);
+    await membersPage.removeLabelMultiple(fakeValues.label);
 
-    //Delete members
-    await page.locator('button:has-text("Filter")').click();
-    await page.locator('option[value="Label"]').click();
-    await page.locator('li', { hasText: fakeValues.label }).click({ timeout: 3000});
-    await page.locator('button:has-text("Apply filters")').click();
-
-    //Remove Label
-    await page.locator('button:has-text("Actions")').click();
-    await page.locator('button:has-text("Remove label from selected members")').click();
-    await page.locator('button:has-text("Remove Label")').click();
-
-    //Validate delete
-    await membersPage.open();
-    await page.waitForLoadState('networkidle');
-    await expect(page.locator('h3', { hasText: fakeValues.emaila })).toHaveCount(0);
-    await expect(page.locator('h3', { hasText: fakeValues.emaila })).toHaveCount(0);
+    // Check that the members don't have the label
+    await membersPage.openMember({ email: fakeValues.emaila });
+    await expect(membersPage.containsLabel(fakeValues.label)).toHaveCount(0);
+    await membersPage.openMember({ email: fakeValues.emailb });
+    await expect(membersPage.containsLabel(fakeValues.label)).toHaveCount(0);
 });

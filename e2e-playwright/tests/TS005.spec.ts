@@ -45,29 +45,16 @@ test('Create member duplicate email', async ({ page }) => {
 
     // Create member X
     await membersPage.createMember(fakeValues.namex, fakeValues.emailx, fakeValues.notes);
-
     //Validated Creation X
-    await membersPage.open();
-    await page.waitForLoadState('networkidle');
-    await expect(page.locator('h3', { hasText: fakeValues.namex })).toHaveCount(1);
-    await expect(page.locator('p', { hasText: fakeValues.emailx })).toHaveCount(1);
+    await expect(membersPage.containsName(fakeValues.namex)).toHaveCount(1);
+    await expect(membersPage.containsEmail(fakeValues.emailx)).toHaveCount(1);
 
     // Create member Y
     await membersPage.createMember(fakeValues.namey, fakeValues.emaily, fakeValues.notes);
-    
     //Validated Creation Y
-    await membersPage.open();
-    await page.waitForLoadState('networkidle');
-    await expect(page.locator('h3', { hasText: fakeValues.namey })).toHaveCount(1);
-    await expect(page.locator('p', { hasText: fakeValues.emaily })).toHaveCount(1);
+    await expect(membersPage.containsName(fakeValues.namey)).toHaveCount(1);
+    await expect(membersPage.containsEmail(fakeValues.emaily)).toHaveCount(1);
 
-    //Edit member Y put email X
-    await page.locator('h3', { hasText: fakeValues.namey }).click();
-    await membersPage.email.fill(fakeValues.emailx);
-    await membersPage.save.click();
-
-    //Validated error
-    await expect(membersPage.retry).toHaveCount(1);
-    //await expect(page.locator('div[class="gh-alert-content"] >> text="Validation error, cannot edit member. Member already exists. Attempting to edit member with existing"')).toHaveCount(1);
-
+    //Edit member Y put email X, edit member returns false if it failed saving
+    expect(await membersPage.editMember({ currEmail: fakeValues.emaily }, { email: fakeValues.emailx })).toBeFalsy()
 });
