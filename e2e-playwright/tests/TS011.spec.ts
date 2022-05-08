@@ -40,19 +40,10 @@ test('Create post', async ({ page }) => {
 
     // Create post
     await postsPage.createPost(fakeValues.title, fakeValues.content);
-    expect(await postsPage.isPublished()).toBeTruthy();
+    expect(postsPage.isPublished()).toBeTruthy();
 
     //ValidatedPost
     await postsPage.open();
     await page.waitForLoadState('networkidle');
     await expect(page.locator('h3', { hasText: fakeValues.title })).toHaveCount(1, { timeout: 5000 });
 });
-
-
-
-      
-    
-
-
-  
-

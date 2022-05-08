@@ -34,14 +34,10 @@ test('Create member without name', async ({ page }) => {
     await loginPage.login(user.email, user.password);
     expect(await loginPage.userIsLoggedIn()).toBeTruthy();
 
-    // Go to members page
-    await membersPage.open();
-
     // Create member
     await membersPage.createMember("", fakeValues.email, fakeValues.notes);
 
-    //Validated Creation
-    await membersPage.open();
-    await page.waitForLoadState('networkidle');
-    await expect(page.locator('h3', { hasText: fakeValues.email })).toHaveCount(1);
+    // In the list view when there's no name, the email is set as the name
+    // therefore we check for name
+    await expect(membersPage.containsName(fakeValues.email)).toHaveCount(1);
 });

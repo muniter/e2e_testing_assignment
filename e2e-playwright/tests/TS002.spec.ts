@@ -26,9 +26,9 @@ test('Create Member with same name', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const membersPage = new MembersPage(page);
     const fakeValues = {
-        namea: faker.name.findName(),
-        emailx: faker.internet.email(),
-        emaily: faker.internet.email(),
+        name: faker.name.findName(),
+        email_1: faker.internet.email(),
+        email_2: faker.internet.email(),
         notes: faker.lorem.sentence(),
       }
     // Login
@@ -40,19 +40,18 @@ test('Create Member with same name', async ({ page }) => {
     await membersPage.open();
 
     // Create member
-    await membersPage.createMember(fakeValues.namea, fakeValues.emailx, fakeValues.notes);
+    await membersPage.createMember(fakeValues.name, fakeValues.email_1, fakeValues.notes);
 
     //Validated Creation
     await membersPage.open();
-    await page.waitForLoadState('networkidle');
-    await expect(page.locator('h3', { hasText: fakeValues.namea })).toHaveCount(1);
+    await expect(membersPage.containsName(fakeValues.name)).toHaveCount(1);
 
     // Create member
-    await membersPage.createMember(fakeValues.namea, fakeValues.emaily, fakeValues.notes);
+    await membersPage.createMember(fakeValues.name, fakeValues.email_2, fakeValues.notes);
     
     //Validated Creation
     await membersPage.open();
-    await page.waitForLoadState('networkidle');
-    await expect(page.locator('h3', { hasText: fakeValues.namea })).toHaveCount(2);
-    await expect(page.locator('p', { hasText: fakeValues.emailx })).toHaveCount(1);
+    await expect(membersPage.containsName(fakeValues.name)).toHaveCount(2);
+    await expect(membersPage.containsEmail(fakeValues.email_1)).toHaveCount(1);
+    await expect(membersPage.containsEmail(fakeValues.email_2)).toHaveCount(1);
 });
