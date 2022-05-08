@@ -3,7 +3,7 @@
 
 local M = {}
 
-local FeaturesDir = './features/'
+local FeaturesDir = vim.fn.expand('./features')
 
 -- Example of a feature
 -- {
@@ -22,11 +22,11 @@ M.get_features = function()
     end
   end
   ,bufs)
-  for _, filename in ipairs(vim.fn.readdir(vim.fn.expand('$PWD/features'))) do
+  for _, filename in ipairs(vim.fn.readdir('./features')) do
     if filename:match('%.feature(.*)$') then
       table.insert(features, {
         name = filename:match('(.+)%.feature'),
-        filename = string.format('%s%s', FeaturesDir, filename),
+        filename = string.format('%s/%s', FeaturesDir, filename),
         loaded = loaded[filename] or false,
         buffer = loaded[filename]
       })
@@ -95,7 +95,6 @@ end
 
 M.complete = function()
   local features = M.get_features()
-  dump('The feature', features)
   local completions = {}
   for _, feature in ipairs(features) do
     table.insert(completions, feature.name)

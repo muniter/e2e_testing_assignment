@@ -1,5 +1,5 @@
 import { setWorldConstructor, setDefaultTimeout, World } from '@cucumber/cucumber';
-import { WebClient } from 'kraken-node';
+import { WebClient } from './WebClient'
 import { Browser } from 'webdriverio';
 import type { Browser as PuppeteerBrowser } from 'puppeteer-core/lib/cjs/puppeteer/common/Browser';
 import type { Page } from 'puppeteer-core/lib/cjs/puppeteer/common/Page';

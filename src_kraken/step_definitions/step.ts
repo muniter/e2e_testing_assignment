@@ -5,6 +5,8 @@ import type { Page } from 'puppeteer-core/lib/cjs/puppeteer/common/Page';
 import { Cookie, KrakenWorld } from '../support/support';
 import { ElementHandle } from 'puppeteer-core/lib/cjs/puppeteer/common/JSHandle';
 const Urls = require('./urls').Urls;
+const isCI = process.env.CI || false;
+const defaultTiemout = isCI ? 15000 : 5000;
 
 type ValueGeneratorCollection = {
   [key: string]: () => string
@@ -79,8 +81,8 @@ const Selectors: SelectorsCollection = {
   "member/action/list actions/remove label": "//button/span[contains(., 'Remove label')]",
   "member/action/list actions/remove label select": "//select[./option[contains(., '{}')]]",
   "member/action/list actions/remove label select option": "//option[contains(., '{}')]",
-  "member/action/list actions/remove label confirm": "//span[normalize-space()='Remove Label']",
-  "member/action/list actions/remove label confirm close": "button[class='gh-btn gh-btn-black'] span",
+  "member/action/list actions/remove label confirm": "//button/span[normalize-space()='Remove Label']",
+  "member/action/list actions/remove label confirm close": "button[class='gh-btn gh-btn-black']",
   "member/see/save-retry": "//button[contains(., 'Retry')]",
 } as const
 
@@ -99,9 +101,6 @@ async function getElement(page: Page, selector: string, value?: string, hidden: 
     value = ValueTransform(value);
     selector = selector.replace(/\{\}/g, value);
   }
-  console.log('=========================================')
-  console.log(`Selector: ${selector}`)
-  console.log(`Value: ${value}`)
   if (true) {
     let props: Record<string, any> = {};
     if (hidden) {
@@ -110,8 +109,7 @@ async function getElement(page: Page, selector: string, value?: string, hidden: 
     if (visible) {
       props.visible = true;
     }
-    props.timeout = 5000;
-    console.log(`Waiting for selector: ${selector} with props ${JSON.stringify(props)}`)
+    props.timeout = defaultTiemout;
     if (isxpath) {
       result = await page.waitForXPath(selector, props);
     } else {
@@ -119,14 +117,11 @@ async function getElement(page: Page, selector: string, value?: string, hidden: 
     }
   }
   if (result == null) {
-    throw new Error(`Element ${selector} not found`);
-  } else {
-    console.log('=========================================')
+    console.log('===============Selector not Found ==================')
     console.log(`Selector: ${selector}`)
     console.log(`Value: ${value}`)
-    console.log(`Page: ${page}`)
+    throw new Error(`Element ${selector} not found`);
   }
-  console.log(`Found: ${result}`)
   return result;
 }
 
@@ -152,6 +147,9 @@ async function FillElement(page: Page, selector: string, value: string, clear?: 
 }
 
 async function ClickElement(page: Page, selector: string, value?: string): Promise<void> {
+  if (isCI) {
+    await page.waitForTimeout(200);
+  }
   let element = await getElement(page, selector, value, false, true);
   return element.click();
 }
@@ -247,7 +245,6 @@ When('I go back', async function(this: KrakenWorld,) {
 })
 
 When(/I (?:navigate|go) to the "(.*?)" functionality(?:$|.*?"(.*?)")/, async function(this: KrakenWorld, name: string, additional?: string) {
-  console.log(`Navigate to the ${name} functionality ${additional}`)
   await NavigateTo(this.page, name, additional);
 });
 
@@ -360,7 +357,6 @@ When('I remove the label {string} from all the filtered members', async function
   await select.select(value);
 
   await ClickElement(this.page, GetSelector("member/action/list actions/remove label confirm"));
-  this.page.keyboard.press('Enter');
   await ClickElement(this.page, GetSelector("member/action/list actions/remove label confirm close"));
 });
 
@@ -383,7 +379,6 @@ async function saveLastPostUrl(page: Page, cookie: Cookie) {
   let element = await getElement(page, GetSelector("post/settings/url"));
   let url = await TextContens(element);
   if (url) {
-    console.log(`Post url is ${url}`);
     let post_slug = url.replace(/.*?localhost:\d+?\//, '').replace(/\n/, '').trim();
     cookie.posts.last.url = Urls["main"] + "/" + post_slug;
   }

@@ -1,0 +1,32 @@
+name: Kraken Tests
+on:
+  push:
+    branches: [ main, master, ci ]
+  pull_request:
+    branches: [ main, master, ci ]
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14.x'
+    - uses: nanasess/setup-chromedriver@v1
+    - name: Install system dependencies
+      run: sudo apt-get install -y android-tools-adb
+    - name: Install dependencies
+      run: npm ci
+    - name: Install and run Ghost
+      run: npx ghost install 4.41.1 --local --port 9333 --dir ./Ghost
+    - name: Compile Typescript
+      run: tsc
+    - name: Run kraken tests
+      run: npx kraken-node run
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: kraken-report
+        path: reports/
+        retention-days: 30
