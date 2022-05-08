@@ -28,13 +28,14 @@ export class WebClient extends Client {
   }
 
   private capabilities(): any {
-    return {
+    let capabilities = {
       browserName: this.browserName,
-      'goog:chromeOptions': {
-        args: ["--headless"]
-      },
       ...this.otherParams
     }
+    if (process.env.CI) {
+      capabilities['goog:chromeOptions'] = { args: ["--headless"] };
+    }
+    return capabilities;
   }
 
   async stop(): Promise<any> {
