@@ -22,7 +22,7 @@ test.beforeAll(async ({ browser }) => {
     await setup(page);
     await page.close();
 })
-test('Filter member', async ({ page }) => {
+test('Filter memberX', async ({ page }) => {
     // Intances and fakerValues
     const loginPage = new LoginPage(page);
     const membersPage = new MembersPage(page);
@@ -51,6 +51,7 @@ test('Filter member', async ({ page }) => {
 
     //Validate search member A
     await page.waitForLoadState('networkidle');
+<<<<<<< Updated upstream
     await page.locator('input[placeholder="Search members..."]').fill(fakeValues.namea);
     await page.locator('button:has-text("Actions")').click();
     await page.locator('button:has-text("Delete selected members (2)")').click();
@@ -59,3 +60,9 @@ test('Filter member', async ({ page }) => {
     expect(page.locator('h3', { hasText: fakeValues.nameb }).isHidden());
     expect(page.locator('h3', { hasText: fakeValues.namea }).isHidden());
 });
+=======
+    await membersPage.search.fill(fakeValues.namea);
+    await expect(page.locator('h3', { hasText: fakeValues.namea })).toBeVisible();
+    await expect(page.locator('h3', { hasText: fakeValues.nameb })).not.toBeVisible();
+});
+>>>>>>> Stashed changes

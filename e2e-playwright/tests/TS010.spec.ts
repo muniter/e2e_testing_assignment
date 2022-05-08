@@ -62,8 +62,8 @@ test('Filter member remove label', async ({ page }) => {
 
     //Remove Label
     await page.locator('button:has-text("Actions")').click();
-    await page.locator('button:has-text("Delete selected members (2)")').click();
-    await page.locator('button:has-text(""Download backup & delete members"")').click();
+    await page.locator('button:has-text("Remove label from selected members")').click();
+    await page.locator('button:has-text("Remove Label")').click();
 
     //Validate delete
     await membersPage.open();

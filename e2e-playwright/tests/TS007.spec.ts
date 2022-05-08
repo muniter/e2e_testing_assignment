@@ -50,8 +50,8 @@ test('Delete member', async ({ page }) => {
 
     //Delete member
     await page.locator('h3', { hasText: fakeValues.name }).click();
-    await page.locator('button:has-text("Actions")').click();
-    await page.locator('button:has-text("Delete member")').click();
+    await membersPage.actions.click();
+    await membersPage.deleteMember.click();
     await page.keyboard.press('Enter');
 
     //Validated error

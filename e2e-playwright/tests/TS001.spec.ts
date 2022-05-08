@@ -22,7 +22,7 @@ test.beforeAll(async ({ browser }) => {
     await page.close();
 })
 
-test('Create member', async ({ page }) => {
+test('Create memberX', async ({ page }) => {
     
     // Intances and fakerValues
     const loginPage = new LoginPage(page);
@@ -47,7 +47,8 @@ test('Create member', async ({ page }) => {
     await membersPage.open();
     await page.waitForLoadState('networkidle');
     await expect(page.locator('h3', { hasText: fakeValues.name })).toHaveCount(1, { timeout: 5000 });
-    
+    //await expect(membersPage.containsName(fakeValues.name));
+    await expect(membersPage.containsName("")).toBeTruthy();
 }
 );
 

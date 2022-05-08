@@ -44,13 +44,14 @@ test('Create member retry', async ({ page }) => {
     await membersPage.createMember(fakeValues.name, fakeValues.email.replace(/@.*$/, ''), fakeValues.notes, false);
 
     //Validated Creation
-    await expect(page.locator('button', { hasText: 'Retry' })).toHaveCount(1);
-    await expect(page.locator('p[class="response"] >> text="Invalid Email."')).toHaveCount(1);
+    await expect(membersPage.retry).toHaveCount(1);
+    await expect(membersPage.invalidEmail).toHaveCount(1);
 
     //Change email
     await page.waitForLoadState('networkidle');
-    await page.locator('input[id="member-email"]').fill(fakeValues.email);
-    await page.locator('button:has-text("Retry")').click();
+    //await page.locator('input[id="member-email"]').fill(fakeValues.email);
+    await membersPage.email.fill(fakeValues.email);
+    await membersPage.retry.click();
 
     //Validated Creation
     await membersPage.open();

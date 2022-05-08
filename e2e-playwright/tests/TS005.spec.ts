@@ -63,11 +63,11 @@ test('Create member duplicate email', async ({ page }) => {
 
     //Edit member Y put email X
     await page.locator('h3', { hasText: fakeValues.namey }).click();
-    await page.locator('input[id="member-email"]').fill(fakeValues.emailx);
-    await page.locator('button:has-text("Save")').click();
+    await membersPage.email.fill(fakeValues.emailx);
+    await membersPage.save.click();
 
     //Validated error
-    await expect(page.locator('button', { hasText: 'Retry' })).toHaveCount(1);
+    await expect(membersPage.retry).toHaveCount(1);
     //await expect(page.locator('div[class="gh-alert-content"] >> text="Validation error, cannot edit member. Member already exists. Attempting to edit member with existing"')).toHaveCount(1);
 
 });

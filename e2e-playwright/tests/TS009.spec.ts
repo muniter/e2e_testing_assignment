@@ -52,11 +52,12 @@ test('Filter member delete', async ({ page }) => {
 
     //Validate search member A
     await page.waitForLoadState('networkidle');
-    await page.locator('input[placeholder="Search members..."]').fill(fakeValues.namea);
+    await membersPage.search.fill(fakeValues.namea);
 
     //Delete members
-    await page.locator('button:has-text("Actions")').click();
+    await membersPage.actions.click();
     await page.locator('button:has-text("Delete selected members (2)")').click();
+    //await page.locator('button')..click();
     await page.locator('button:has-text(""Download backup & delete members"")').click();
 
     //Validate delete
