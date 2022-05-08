@@ -5,15 +5,15 @@
 
 Las siguientes son las funcionalidades elegidas para realizar las pruebas.
 
-| No | Descripción                                                                                                                                                                                |
+| No | Nombre | Descripción                                                                                                                                                                                |
 | -- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1  | **Hacer Sigin**: Se puede hacer signin de un usuario registrado previamente.   |
-| 2  | **Crear una publicación**: Se puede crear una publicación, esta es la unidad mínima de contenido de Ghost.  |
-| 3  | **Editar una publicación**: Se puede editar todos los detalles de una publicación ya creada.                                                                                               |
-| 4  | **Eliminar una publicación**: Se puede eliminar una publicación ya creada.                                                                                                                 |
-| 5  | **Crear un member**: Se crean los miembros de la página, aquellos que están suscritos a su contenido, se provee un nombre, correo y labels.                                                |
-| 6  | **Editar un member**: Se puede editar todos los datos de un member ya creado.                                                                                                              |
-| 7 | **Eliminar un member**: Se puede eliminar un member ya creado.                                                                                                                             |
+| 1  | **Login** | Se puede hacer signin de un usuario registrado previamente.   |
+| 2  | **Crear una publicación** | Se puede crear una publicación, esta es la unidad mínima de contenido de Ghost.  |
+| 3  | **Editar una publicación**| Se puede editar todos los detalles de una publicación ya creada.                                                                                               |
+| 4  | **Eliminar una publicación**| Se puede eliminar una publicación ya creada.                                                                                                                 |
+| 5  | **Crear un member**| Se crean los miembros de la página, aquellos que están suscritos a su contenido, se provee un nombre, correo y labels.                                                |
+| 6  | **Editar un member**| Se puede editar todos los datos de un member ya creado.                                                                                                              |
+| 7 | **Eliminar un member**| Se puede eliminar un member ya creado.                                                                                                                             |
 
 ## Escenarios de prueba
 
@@ -64,6 +64,16 @@ npx playwright test
 ```
 
 #### Tips
+
+Al momento de ejecutar ghost en el siguiente enlace:
+```bash
+http://localhost:9333/ghost/
+```
+Le va a pedir que se registre, si usted no crea un .env file para los datos de email y password puede registrarse con los siguientes datos:
+```bash
+email: tester@tester.com
+password: Very_Strong1!
+```
 
 Nueva instancia de Ghost y corre todas las pruebas de Playwright.
 
@@ -124,6 +134,11 @@ Nueva instancia de Ghost y corre todas las pruebas de Kraken.
 
 ```bash
 rm -rf Ghost/content/data/ghost-local.db && npx kraken-node run
+```
+
+Si usted no tiene instalado adb puede que se le presenten errores, por tanto puede usar el siguiente comando para instalarlo.
+```bash
+sudo apt install android-tools-adb android-tools-fastboot
 ```
 
 ## Autores
