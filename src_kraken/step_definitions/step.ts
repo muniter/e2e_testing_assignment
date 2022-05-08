@@ -99,9 +99,6 @@ async function getElement(page: Page, selector: string, value?: string, hidden: 
     value = ValueTransform(value);
     selector = selector.replace(/\{\}/g, value);
   }
-  console.log('=========================================')
-  console.log(`Selector: ${selector}`)
-  console.log(`Value: ${value}`)
   if (true) {
     let props: Record<string, any> = {};
     if (hidden) {
@@ -111,7 +108,6 @@ async function getElement(page: Page, selector: string, value?: string, hidden: 
       props.visible = true;
     }
     props.timeout = 5000;
-    console.log(`Waiting for selector: ${selector} with props ${JSON.stringify(props)}`)
     if (isxpath) {
       result = await page.waitForXPath(selector, props);
     } else {
@@ -119,14 +115,11 @@ async function getElement(page: Page, selector: string, value?: string, hidden: 
     }
   }
   if (result == null) {
-    throw new Error(`Element ${selector} not found`);
-  } else {
-    console.log('=========================================')
+    console.log('===============Selector not Found ==================')
     console.log(`Selector: ${selector}`)
     console.log(`Value: ${value}`)
-    console.log(`Page: ${page}`)
+    throw new Error(`Element ${selector} not found`);
   }
-  console.log(`Found: ${result}`)
   return result;
 }
 
@@ -247,7 +240,6 @@ When('I go back', async function(this: KrakenWorld,) {
 })
 
 When(/I (?:navigate|go) to the "(.*?)" functionality(?:$|.*?"(.*?)")/, async function(this: KrakenWorld, name: string, additional?: string) {
-  console.log(`Navigate to the ${name} functionality ${additional}`)
   await NavigateTo(this.page, name, additional);
 });
 
@@ -383,7 +375,6 @@ async function saveLastPostUrl(page: Page, cookie: Cookie) {
   let element = await getElement(page, GetSelector("post/settings/url"));
   let url = await TextContens(element);
   if (url) {
-    console.log(`Post url is ${url}`);
     let post_slug = url.replace(/.*?localhost:\d+?\//, '').replace(/\n/, '').trim();
     cookie.posts.last.url = Urls["main"] + "/" + post_slug;
   }
