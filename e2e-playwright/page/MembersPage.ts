@@ -1,4 +1,4 @@
-import { Locator, Page } from '@playwright/test';
+import { expect, Locator, Page } from '@playwright/test';
 
 const membersUrl = 'http://localhost:9333/ghost/#/members/';
 const inMembers = new RegExp(`^${membersUrl}/?$`);
@@ -82,6 +82,16 @@ export class MembersPage {
         }
     }
 
+    async deleteCurrentMember() {
+      let navigation = this.page.waitForNavigation({ waitUntil: 'networkidle' });
+      await this.actions.click();
+      await this.page.waitForTimeout(200);
+      await this.deleteMember.click();
+      await this.page.waitForTimeout(200);
+      await this.page.keyboard.press('Enter');
+      await navigation;
+    }
+
 
     async creationStatus(): Promise<boolean> {
       if (await this.retry.count() == 1) {
@@ -133,6 +143,18 @@ export class MembersPage {
       await this.page.locator("//button/span[normalize-space()='Close']").click()
       await this.page.waitForTimeout(100);
       await this.page.keyboard.press('Escape');
+    }
+
+    async deleteMemberMultiple() {
+      await this.actions.click();
+      await this.page.waitForTimeout(1000);
+      await this.page.locator('button', { hasText: "Delete selected members" }).click();
+      await this.page.waitForTimeout(1000);
+      await this.page.locator('button', { hasText: "Download backup" }).click();
+      await this.page.waitForTimeout(100);
+      // Close
+      await this.page.keyboard.press('Escape');
+      await this.open();
     }
 
     async editMember({ currName, currEmail }: { currName?: string, currEmail?: string}, { name, email, notes, label }: { name?: string, email?: string, notes?: string, label?: string }) {

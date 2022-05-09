@@ -32,21 +32,10 @@ test('Delete member', async ({ page }) => {
     await membersPage.open();
 
     // Create member X
-    await membersPage.createMember(fakeValues.name, fakeValues.email, fakeValues.notes);
-
-    //Validated Creation
-    await membersPage.open();
-    await page.waitForLoadState('networkidle');
-    await expect(page.locator('h3', { hasText: fakeValues.name })).toHaveCount(1);
-    await expect(page.locator('p', { hasText: fakeValues.email })).toHaveCount(1);
-
-    //Delete member
-    await page.locator('h3', { hasText: fakeValues.name }).click();
-    await membersPage.actions.click();
-    await membersPage.deleteMember.click();
-    await page.keyboard.press('Enter');
-
-    //Validated error
-    await expect(page.locator('p', { hasText: fakeValues.email })).toHaveCount(0);
-
+    await membersPage.createMember(fakeValues.name, fakeValues.email, fakeValues.notes, false);
+    // Check it was created
+    expect(membersPage.creationStatus).toBeTruthy();
+    await membersPage.deleteCurrentMember();
+    // Now that we are on the list after deletion check it's not there
+    await expect(membersPage.containsEmail(fakeValues.email)).toHaveCount(0);
 });

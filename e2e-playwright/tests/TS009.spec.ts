@@ -37,13 +37,9 @@ test('Filter member delete', async ({ page }) => {
     await membersPage.createMember('Im going to be deleted', fakeValues.emailx, fakeValues.notes);
     await membersPage.createMember('Im going to be deleted', fakeValues.emaily, fakeValues.notes);
 
-    //Validate search member A
-    await membersPage.search.fill('Im going to be deleted');
-    await page.keyboard.press('Enter');
-    await page.waitForTimeout(5000);
-    await membersPage.actions.click();
-    await page.locator('button', { hasText: "Delete selected members" }).click();
-    await page.locator('button', { hasText: "Download backup" }).click();
+    // Search for both members
+    await membersPage.filterMembers('Im going to be deleted');
+    await membersPage.deleteMemberMultiple();
 
     await expect(membersPage.containsEmail(fakeValues.emailx)).toHaveCount(0);
     await expect(membersPage.containsEmail(fakeValues.emaily)).toHaveCount(0);
