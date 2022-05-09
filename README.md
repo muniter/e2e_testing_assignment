@@ -5,15 +5,16 @@
 
 Las siguientes son las funcionalidades elegidas para realizar las pruebas.
 
-| No | Nombre | Descripción |
-| -- | ------ | ------------|
-| 1  | **Login** | Se puede hacer signin de un usuario registrado previamente.   |
-| 2  | **Crear una publicación** | Se puede crear una publicación, esta es la unidad mínima de contenido de Ghost.  |
-| 3  | **Editar una publicación**| Se puede editar todos los detalles de una publicación ya creada.                                                                                               |
-| 4  | **Eliminar una publicación**| Se puede eliminar una publicación ya creada.                                                                                                                 |
-| 5  | **Crear un member**| Se crean los miembros de la página, aquellos que están suscritos a su contenido, se provee un nombre, correo y labels.                                                |
-| 6  | **Editar un member**| Se puede editar todos los datos de un member ya creado.                                                                                                              |
-| 7 | **Eliminar un member**| Se puede eliminar un member ya creado.                                                                                                                             |
+| No | Nombre                        | Descripción                                                                                                             |
+| -- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| 1  | **Login**                     | Se puede hacer signin de un usuario registrado previamente.                                                             |
+| 2  | **Crear una publicación**     | Se puede crear una publicación, esta es la unidad mínima de contenido de Ghost.                                         |
+| 3  | **Editar una publicación**    | Se puede editar todos los detalles de una publicación ya creada.                                                        |
+| 4  | **Eliminar una publicación**  | Se puede eliminar una publicación ya creada.                                                                            |
+| 5  | **Crear un member**           | Se crean los miembros de la página, aquellos que están suscritos a su contenido, se provee un nombre, correo y labels.  |
+| 6  | **Editar un member**          | Se puede editar todos los datos de un member ya creado.                                                                 |
+| 7  | **Eliminar un member**        | Se puede eliminar un member ya creado.                                                                                  |
+| 8  | **Filtrar members**           | Se puede filtrar los miembros por nombre y otros identificadores.                                                       |
 
 ## Escenarios de prueba
 
@@ -35,9 +36,34 @@ Las siguientes son las funcionalidades elegidas para realizar las pruebas.
 | 14     | Create post and edit it                  | Login<br>Crear Post<br>Publicar Post<br>Editar Post<br>Validar Post publicado                                                                                                                                                                                                                           |
 | 15     | Create post and delete it                | Login<br>Crear Post<br>Publicar Post<br>Eliminar Post                                                                                                                                                                                                                                                   |
 
+## Análisis y comentarios de las herramientas
+
+Se encuentra en la [wiki](https://github.com/muniter/e2e_testing_assignment/wiki)
+
 ## Instrucciones
 
+Los archivos de playwwright se encuentran en [e2e-playwright/](https://github.com/muniter/e2e_testing_assignment/tree/main/e2e-playwright/tests)
+
+Los archivos de kraken, los features se encuentran en [features/](https://github.com/muniter/e2e_testing_assignment/tree/main/features), y los steps y support **están escritos en TypeScript** y se encuentran en [src_kraken/](https://github.com/muniter/e2e_testing_assignment/tree/main/src_kraken)
+
+Ambas herramientas están corriendo en **Continuous Integration** en este repositorio, puede [navegar a actions](https://github.com/muniter/e2e_testing_assignment/actions) para ver los últimos resultados de los test, o puede ver el [listado de commits](https://github.com/muniter/e2e_testing_assignment/commits/main) para ver su estado final.
+
+Los workflows, o definición de procedimientos están definidos de la siguiente manera:
+
+1. [Playwright](https://github.com/muniter/e2e_testing_assignment/blob/main/.github/workflows/playwright.yml)
+1. [Kraken](https://github.com/muniter/e2e_testing_assignment/blob/main/.github/workflows/kraken.yml)
+
+Estos corren con cada commit a master en el repositorio.
+
+**NOTA: Es muy importante que instale Ghost en el puerto en que explicamos, de esto dependen las pruebas**
+
+**NOTA: Todas las pruebas corren en chromium**
+
 ### Playwright
+
+[Ejemplo en CI](https://github.com/muniter/e2e_testing_assignment/blob/main/.github/workflows/playwright.yml)
+
+Instrucciones para instalar en máquina en Unix like systems (Linux, Mac OS (**no probado**)).
 
 * Instalar dependencias
 
@@ -45,56 +71,48 @@ Las siguientes son las funcionalidades elegidas para realizar las pruebas.
 npm install
 ```
 
+* Instalar dependencias nivel de sistema
+
+  * Chromium
+
 * Instalar Ghost
 
 ```bash
 npx ghost install 4.41.1 --local --port 9333 --dir ./Ghost
 ```
 
-* Correr ghost
+* Correr ghost: estará disponible en  http://localhost:9333/ghost/
 
 ```bash
 npx ghost start --dir ./Ghost
 ```
 
-* Correr test de playwright
+* Correr test de playwright (en un solo worker)
 
 ```bash
-npx playwright test
+npx playwright test --workers 1
+```
+
+**NOTA: si se quiere correr las pruebas con una base de datos limpia**
+
+Corra para eliminar la base de datos de Ghost y reiniciar.
+
+```bash
+rm -rf Ghost/content/data/ghost-local.db && npx ghost restart -d Ghost
 ```
 
 #### Tips
 
-Al momento de ejecutar ghost en el siguiente enlace:
-```bash
-http://localhost:9333/ghost/
-```
-Le va a pedir que se registre, si usted no crea un .env file para los datos de email y password puede registrarse con los siguientes datos:
-```bash
-email: tester@tester.com
-password: Very_Strong1!
-```
+Si tiene problemas para instalar o correr playwright [dirígase a la guía de instalación](https://playwright.dev/docs/intro#installation)
 
-Nueva instancia de Ghost y corre todas las pruebas de Playwright.
-
-```bash
-rm -rf Ghost/content/data/ghost-local.db && npx ghost restart -d Ghost && npx playwright test
-```
-
-Si quiere correr el test muchas veces para asegurarse que no sea flaky
-
-```bash
-npx playwright test --repeat-each 10
-```
-
-Si quiere correr el test en solamente un worker y un browser
-
-```bash
-npx playwright test --workers 1 --project chromium
-```
+También le puede servir verificar como las pruebas [automátizadas se definen en CI](https://github.com/muniter/e2e_testing_assignment/blob/main/.github/workflows/playwright.yml)
 
 
 ### Kraken
+
+[Ejemplo en CI](https://github.com/muniter/e2e_testing_assignment/blob/main/.github/workflows/kraken.yml)
+
+Instrucciones para instalar en máquina en Unix like systems (Linux, Mac OS (**no probado**)).
 
 * Instalar dependencias
 
@@ -102,43 +120,45 @@ npx playwright test --workers 1 --project chromium
 npm install
 ```
 
+* Instalar dependencias nivel de sistema
+
+  * [Todos los requisitos de kraken](https://github.com/TheSoftwareDesignLab/Kraken#-installation)
+
 * Instalar Ghost
+
+**NOTA:** Si ya lo instaló **de la forma explicada (puerto 9333)** puede eliminar la base de datos y reiniciarlo (más adelante se encuentra como).
 
 ```bash
 npx ghost install 4.41.1 --local --port 9333 --dir ./Ghost
 ```
 
-* Correr ghost
+* Correr ghost: estará disponible en  http://localhost:9333/ghost/
 
 ```bash
 npx ghost start --dir ./Ghost
 ```
 
-* Correr test de Kraken
+* **Compilar el código**
+
+Los steps y demás archivos que usa kraken son transpilados de TypeScript a JavaScript, se encuentran en la [carpeta src_kraken/](https://github.com/muniter/e2e_testing_assignment/tree/main/src_kraken) por lo cual se necesita hacer compilación antes de correr las pruebas de kraken.
+
+**Sin cambiar de directorio**, desde el **root** del repositorio correr:
+```bash
+tsc
+```
+
+* Correr tests de kraken
 
 ```bash
 npx kraken-node run
 ```
 
-#### Tips
+**NOTA: si se quiere correr las pruebas con una base de datos limpia**
 
-Si quiere correr las pruebas con una nueva instancia de Ghost en cada ocasión:
-
-Corra el siguiente comando antes:
+Corra para eliminar la base de datos de Ghost y reiniciar.
 
 ```bash
-rm -rf Ghost/content/data/ghost-local.db
-```
-
-Nueva instancia de Ghost y corre todas las pruebas de Kraken.
-
-```bash
-rm -rf Ghost/content/data/ghost-local.db && npx kraken-node run
-```
-
-Si usted no tiene instalado adb puede que se le presenten errores, por tanto puede usar el siguiente comando para instalarlo.
-```bash
-sudo apt install android-tools-adb android-tools-fastboot
+rm -rf Ghost/content/data/ghost-local.db && npx ghost restart -d Ghost
 ```
 
 ## Autores
