@@ -18,6 +18,8 @@ Las siguientes son las funcionalidades elegidas para realizar las pruebas.
 
 ## Escenarios de prueba
 
+**Nota**: Solo son 15 por [autorización del profesor Mario Linares](https://github.com/muniter/e2e_testing_assignment/wiki#an%C3%A1lisis-y-comentarios-sobre-herramientas)
+
 | Número | Nombre                                 | Descripción                                                                                                                                                                                                                                                                                             |
 | ------ | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 1      | Create member                            | Login<br>Crear miembro<br>Revisar que el miembro fue creado                                                                                                                                                                                                                                             |
