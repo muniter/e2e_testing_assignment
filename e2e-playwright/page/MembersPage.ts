@@ -63,19 +63,14 @@ export class MembersPage {
     async createMember(name: string, email: string, notes: string, back: boolean = true, label?: string) {
         await this.open()
         await this.newMember.click();
+        let timer = this.page.waitForTimeout(3000);
         await this.fillValues({ name, email, notes, label });
+        let networkidle = this.page.waitForLoadState('networkidle');
         await this.save.click();
+        await networkidle;
 
-        try {
-          await Promise.race([
-            this.saved.waitFor({ timeout: 1000 }),
-            this.retry.waitFor({ timeout: 1000 })
-          ]);
-        } catch (e) { }
-
-
+        await timer;
         // Wait to be saved
-        await this.page.waitForLoadState('networkidle');
         // Go back
         if (back) {
             await this.page.goBack({ waitUntil: 'networkidle' });
@@ -106,10 +101,12 @@ export class MembersPage {
     }
 
     async filterMembers(word: string) {
+      let navigation = this.page.waitForNavigation({ waitUntil: 'networkidle' });
       await this.search.fill(word);
       await this.page.waitForTimeout(100);
       await this.page.keyboard.press('Enter');
       await this.page.waitForTimeout(200);
+      await navigation;
     }
 
     async removeLabelMultiple(label: string) {
