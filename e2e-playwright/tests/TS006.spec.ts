@@ -13,16 +13,8 @@ import { user } from '../data/testData';
 import { LoginPage } from '../page/LoginPage';
 import { MembersPage } from '../page/MembersPage';
 import faker from '@faker-js/faker';
-import setup from '../setup';
 // Run this tests in parallel
 test.describe.configure({ mode: 'parallel' })
-test.beforeAll(async ({ browser }) => {
-    // The first login guarantees that we have a valid session
-    // and then we can parallelize the tests
-    const page = await browser.newPage();
-    await setup(page);
-    await page.close();
-})
 test('Create member retry', async ({ page }) => {
     // Intances and fakerValues
     const loginPage = new LoginPage(page);
@@ -39,23 +31,12 @@ test('Create member retry', async ({ page }) => {
 
     // Go to members page
     await membersPage.open();
-
-    // Create member X
+    // Create member with invalid email
     await membersPage.createMember(fakeValues.name, fakeValues.email.replace(/@.*$/, ''), fakeValues.notes, false);
-
-    //Validated Creation
-    await expect(membersPage.retry).toHaveCount(1);
-    await expect(membersPage.invalidEmail).toHaveCount(1);
-
-    //Change email
-    await page.waitForLoadState('networkidle');
-    //await page.locator('input[id="member-email"]').fill(fakeValues.email);
-    await membersPage.email.fill(fakeValues.email);
-    await membersPage.retry.click();
-
-    //Validated Creation
-    await membersPage.open();
-    await page.waitForLoadState('networkidle');
-    await expect(page.locator('h3', { hasText: fakeValues.name })).toHaveCount(1);
-    await expect(page.locator('p', { hasText: fakeValues.email })).toHaveCount(1);
+    //Validate the creation failed
+    expect(await membersPage.creationStatus()).toBeFalsy();
+    // Try again with a valid email
+    await membersPage.retryMember({ email: fakeValues.email });
+    //Validate the creation succeeded
+    expect(await membersPage.creationStatus()).toBeTruthy();
 });

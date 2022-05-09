@@ -9,18 +9,9 @@ import { user } from '../data/testData';
 import { LoginPage } from '../page/LoginPage';
 import { MembersPage } from '../page/MembersPage';
 import faker from '@faker-js/faker';
-import setup from '../setup';
 
 // Run this tests in parallel
 test.describe.configure({ mode: 'parallel' })
-
-test.beforeAll(async ({ browser }) => {
-    // The first login guarantees that we have a valid session
-    // and then we can parallelize the tests
-    const page = await browser.newPage();
-    await setup(page);
-    await page.close();
-})
 
 test('Create member', async ({ page }) => {
     

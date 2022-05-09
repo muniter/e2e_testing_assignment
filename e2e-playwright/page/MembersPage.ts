@@ -39,8 +39,13 @@ export class MembersPage {
           await this.page.goto(membersUrl, { waitUntil: 'networkidle' });
         }
     }
+    async retryMember({ name, email, notes, label }: { name?: string, email?: string, notes?: string, label?: string }) {
+      await this.fillValues({ name, email, notes, label });
+      await this.retry.click();
+      await this.page.waitForTimeout(1000);
+    }
 
-    private async fillValues({ name, email, notes, label }: { name?: string, email?: string, notes?: string, label?: string }) {
+    async fillValues({ name, email, notes, label }: { name?: string, email?: string, notes?: string, label?: string }) {
       if (name) {
         await this.name.fill('');
         await this.name.type(name);
@@ -75,6 +80,14 @@ export class MembersPage {
         if (back) {
             await this.page.goBack({ waitUntil: 'networkidle' });
         }
+    }
+
+
+    async creationStatus(): Promise<boolean> {
+      if (await this.retry.count() == 1) {
+        return false;
+      }
+      return true;
     }
 
     containsName(name: string): Locator {
