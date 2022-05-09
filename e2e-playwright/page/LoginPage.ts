@@ -19,14 +19,14 @@ export class LoginPage {
     let attempts = 0;
     while (attempts < this.attempts) {
       try {
-      attempts++;
-      await this._login(email, password);
+        attempts++;
+        await this._login(email, password);
       } catch (e) { }
     }
   }
 
   async setup(email: string, password: string) {
-      // Check if we need to create a new user
+    // Check if we need to create a new user
     if (this.page.url().includes('setup')) {
       await this.page.waitForSelector('input[id="blog-title"]');
       const input = await this.page.$('input[id="blog-title"]')

@@ -17,30 +17,30 @@ import faker from '@faker-js/faker';
 // Run this tests in parallel
 test.describe.configure({ mode: 'parallel' })
 test('Filter member delete', async ({ page }) => {
-    // Intances and fakerValues
-    const loginPage = new LoginPage(page);
-    const membersPage = new MembersPage(page);
-    const fakeValues = {
-        namea: faker.name.findName(),
-        nameb: faker.name.findName(),
-        emailx: faker.internet.email(),
-        emaily: faker.internet.email(),
-        notes: faker.lorem.sentence(),
-      }
-    // Login
-    await loginPage.open();
-    await loginPage.login(user.email, user.password);
-    expect(await loginPage.userIsLoggedIn()).toBeTruthy();
+  // Intances and fakerValues
+  const loginPage = new LoginPage(page);
+  const membersPage = new MembersPage(page);
+  const fakeValues = {
+    namea: faker.name.findName(),
+    nameb: faker.name.findName(),
+    emailx: faker.internet.email(),
+    emaily: faker.internet.email(),
+    notes: faker.lorem.sentence(),
+  }
+  // Login
+  await loginPage.open();
+  await loginPage.login(user.email, user.password);
+  expect(await loginPage.userIsLoggedIn()).toBeTruthy();
 
-    // Go to members page
-    await membersPage.open();
-    await membersPage.createMember('Im going to be deleted', fakeValues.emailx, fakeValues.notes);
-    await membersPage.createMember('Im going to be deleted', fakeValues.emaily, fakeValues.notes);
+  // Go to members page
+  await membersPage.open();
+  await membersPage.createMember('Im going to be deleted', fakeValues.emailx, fakeValues.notes);
+  await membersPage.createMember('Im going to be deleted', fakeValues.emaily, fakeValues.notes);
 
-    // Search for both members
-    await membersPage.filterMembers('Im going to be deleted');
-    await membersPage.deleteMemberMultiple();
+  // Search for both members
+  await membersPage.filterMembers('Im going to be deleted');
+  await membersPage.deleteMemberMultiple();
 
-    await expect(membersPage.containsEmail(fakeValues.emailx)).toHaveCount(0);
-    await expect(membersPage.containsEmail(fakeValues.emaily)).toHaveCount(0);
+  await expect(membersPage.containsEmail(fakeValues.emailx)).toHaveCount(0);
+  await expect(membersPage.containsEmail(fakeValues.emaily)).toHaveCount(0);
 });

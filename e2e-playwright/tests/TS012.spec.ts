@@ -14,23 +14,23 @@ import faker from '@faker-js/faker';
 // Run this tests in parallel
 test.describe.configure({ mode: 'parallel' })
 test('Create post without content', async ({ page }) => {
-    
-    // Intances and fakerValues
-    const loginPage = new LoginPage(page);
-    const postsPage = new PostsPage(page);
-    const fakeValues = {
-        title: faker.lorem.sentence(),
-    }
-    // Login
-    await loginPage.open();
-    await loginPage.login(user.email, user.password);
-    expect(await loginPage.userIsLoggedIn()).toBeTruthy();
 
-    // Create post
-    await postsPage.createPost(fakeValues.title, null);
-    
-    //ValidatedPost
-    await postsPage.open();
-    await page.waitForLoadState('networkidle');
-    await expect(postsPage.containsTitle(fakeValues.title)).toHaveCount(1);
+  // Intances and fakerValues
+  const loginPage = new LoginPage(page);
+  const postsPage = new PostsPage(page);
+  const fakeValues = {
+    title: faker.lorem.sentence(),
+  }
+  // Login
+  await loginPage.open();
+  await loginPage.login(user.email, user.password);
+  expect(await loginPage.userIsLoggedIn()).toBeTruthy();
+
+  // Create post
+  await postsPage.createPost(fakeValues.title, null);
+
+  //ValidatedPost
+  await postsPage.open();
+  await page.waitForLoadState('networkidle');
+  await expect(postsPage.containsTitle(fakeValues.title)).toHaveCount(1);
 });

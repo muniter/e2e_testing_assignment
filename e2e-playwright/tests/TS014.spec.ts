@@ -16,34 +16,34 @@ import faker from '@faker-js/faker';
 // Run this tests in parallel
 test.describe.configure({ mode: 'parallel' })
 test('Create post and edit it', async ({ page }) => {
-    
-    // Intances and fakerValues
-    const loginPage = new LoginPage(page);
-    const postsPage = new PostsPage(page);
-    const fakeValues = {
-        title: faker.lorem.sentence(),
-        content: faker.lorem.paragraph(),
-        newTitle:     faker.lorem.sentence()
-    }
 
-    // Login
-    await loginPage.open();
-    await loginPage.login(user.email, user.password);
-    expect(await loginPage.userIsLoggedIn()).toBeTruthy();
+  // Intances and fakerValues
+  const loginPage = new LoginPage(page);
+  const postsPage = new PostsPage(page);
+  const fakeValues = {
+    title: faker.lorem.sentence(),
+    content: faker.lorem.paragraph(),
+    newTitle: faker.lorem.sentence()
+  }
 
-    // Create post
-    await postsPage.createPost(fakeValues.title, fakeValues.content);
-    expect(await postsPage.isPublished()).toBeTruthy();
+  // Login
+  await loginPage.open();
+  await loginPage.login(user.email, user.password);
+  expect(await loginPage.userIsLoggedIn()).toBeTruthy();
 
-    //ValidatedPost
-    await postsPage.open();
-    await page.waitForLoadState('networkidle');
-    await expect(postsPage.containsTitle(fakeValues.title)).toHaveCount(1);
+  // Create post
+  await postsPage.createPost(fakeValues.title, fakeValues.content);
+  expect(await postsPage.isPublished()).toBeTruthy();
 
-    // Edit post
-    await postsPage.editPost(fakeValues.title, fakeValues.newTitle);
-    // Check if the new member is in the list
-    await expect(postsPage.containsTitle(fakeValues.newTitle)).toHaveCount(1, { timeout: 5000 });
+  //ValidatedPost
+  await postsPage.open();
+  await page.waitForLoadState('networkidle');
+  await expect(postsPage.containsTitle(fakeValues.title)).toHaveCount(1);
+
+  // Edit post
+  await postsPage.editPost(fakeValues.title, fakeValues.newTitle);
+  // Check if the new member is in the list
+  await expect(postsPage.containsTitle(fakeValues.newTitle)).toHaveCount(1, { timeout: 5000 });
 
 });
 

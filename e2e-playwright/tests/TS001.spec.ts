@@ -14,29 +14,29 @@ import faker from '@faker-js/faker';
 test.describe.configure({ mode: 'parallel' })
 
 test('Create member', async ({ page }) => {
-    
-    // Intances and fakerValues
-    const loginPage = new LoginPage(page);
-    const membersPage = new MembersPage(page);
-    const fakeValues = {
-        name: faker.name.firstName(),
-        email: faker.internet.email(),
-        notes: faker.lorem.sentence(),
-    }
-    // Login
-    await loginPage.open();
-    await loginPage.login(user.email, user.password);
-    expect(await loginPage.userIsLoggedIn()).toBeTruthy();
 
-    // Go to members page
-    await membersPage.open();
+  // Intances and fakerValues
+  const loginPage = new LoginPage(page);
+  const membersPage = new MembersPage(page);
+  const fakeValues = {
+    name: faker.name.firstName(),
+    email: faker.internet.email(),
+    notes: faker.lorem.sentence(),
+  }
+  // Login
+  await loginPage.open();
+  await loginPage.login(user.email, user.password);
+  expect(await loginPage.userIsLoggedIn()).toBeTruthy();
 
-    // Create member
-    await membersPage.createMember(fakeValues.name, fakeValues.email, fakeValues.notes);
+  // Go to members page
+  await membersPage.open();
 
-    // Validate member
-    await membersPage.open();
-    await page.waitForLoadState('networkidle');
-    await expect(membersPage.containsName(fakeValues.name)).toHaveCount(1);
+  // Create member
+  await membersPage.createMember(fakeValues.name, fakeValues.email, fakeValues.notes);
+
+  // Validate member
+  await membersPage.open();
+  await page.waitForLoadState('networkidle');
+  await expect(membersPage.containsName(fakeValues.name)).toHaveCount(1);
 });
 

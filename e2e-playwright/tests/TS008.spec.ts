@@ -15,33 +15,33 @@ import faker from '@faker-js/faker';
 // Run this tests in parallel
 test.describe.configure({ mode: 'parallel' })
 test('Filter member', async ({ page }) => {
-    // Intances and fakerValues
-    const loginPage = new LoginPage(page);
-    const membersPage = new MembersPage(page);
-    const fakeValues = {
-        namea: faker.name.findName(),
-        nameb: 'ZZZ' + faker.name.findName(),  // Distinctive name won't show up by chance
-        emailx: faker.internet.email(),
-        emaily: faker.internet.email(),
-        notes: faker.lorem.sentence(),
-        filter: faker.random.alpha(7),
-      }
-    // Login
-    await loginPage.open();
-    await loginPage.login(user.email, user.password);
-    expect(await loginPage.userIsLoggedIn()).toBeTruthy();
+  // Intances and fakerValues
+  const loginPage = new LoginPage(page);
+  const membersPage = new MembersPage(page);
+  const fakeValues = {
+    namea: faker.name.findName(),
+    nameb: 'ZZZ' + faker.name.findName(),  // Distinctive name won't show up by chance
+    emailx: faker.internet.email(),
+    emaily: faker.internet.email(),
+    notes: faker.lorem.sentence(),
+    filter: faker.random.alpha(7),
+  }
+  // Login
+  await loginPage.open();
+  await loginPage.login(user.email, user.password);
+  expect(await loginPage.userIsLoggedIn()).toBeTruthy();
 
-    // Go to members page
-    await membersPage.open();
+  // Go to members page
+  await membersPage.open();
 
-    let only_name = fakeValues.namea
-    // Create member A with email x and special name to match the filter
-    await membersPage.createMember(fakeValues.namea, fakeValues.emailx, fakeValues.notes);
-    // Create member B
-    await membersPage.createMember(fakeValues.nameb, fakeValues.emaily, fakeValues.notes);
+  let only_name = fakeValues.namea
+  // Create member A with email x and special name to match the filter
+  await membersPage.createMember(fakeValues.namea, fakeValues.emailx, fakeValues.notes);
+  // Create member B
+  await membersPage.createMember(fakeValues.nameb, fakeValues.emaily, fakeValues.notes);
 
-    //Validate by searching for the first member name
-    await membersPage.filterMembers(fakeValues.namea);
-    await expect(membersPage.containsName(only_name)).toHaveCount(1);
-    await expect(membersPage.containsName(fakeValues.nameb)).toHaveCount(0);
+  //Validate by searching for the first member name
+  await membersPage.filterMembers(fakeValues.namea);
+  await expect(membersPage.containsName(only_name)).toHaveCount(1);
+  await expect(membersPage.containsName(fakeValues.nameb)).toHaveCount(0);
 });

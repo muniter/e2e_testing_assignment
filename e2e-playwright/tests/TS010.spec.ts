@@ -16,33 +16,33 @@ import faker from '@faker-js/faker';
 // Run this tests in parallel
 test.describe.configure({ mode: 'parallel' })
 test('Filter member remove label', async ({ page }) => {
-    // Intances and fakerValues
-    const loginPage = new LoginPage(page);
-    const membersPage = new MembersPage(page);
-    const fakeValues = {
-        namea: faker.name.findName(),
-        emaila: faker.internet.email(),
-        emailb: faker.internet.email(),
-        notes: faker.lorem.sentence(),
-        label: faker.lorem.word(7),
-      }
-    // Login
-    await loginPage.open();
-    await loginPage.login(user.email, user.password);
-    expect(await loginPage.userIsLoggedIn()).toBeTruthy();
+  // Intances and fakerValues
+  const loginPage = new LoginPage(page);
+  const membersPage = new MembersPage(page);
+  const fakeValues = {
+    namea: faker.name.findName(),
+    emaila: faker.internet.email(),
+    emailb: faker.internet.email(),
+    notes: faker.lorem.sentence(),
+    label: faker.lorem.word(7),
+  }
+  // Login
+  await loginPage.open();
+  await loginPage.login(user.email, user.password);
+  expect(await loginPage.userIsLoggedIn()).toBeTruthy();
 
-    // Go to members page
-    await membersPage.open();
-    await membersPage.createMember(fakeValues.namea, fakeValues.emaila, fakeValues.notes, true, fakeValues.label);
-    await membersPage.createMember(fakeValues.namea, fakeValues.emailb, fakeValues.notes, true, fakeValues.label);
+  // Go to members page
+  await membersPage.open();
+  await membersPage.createMember(fakeValues.namea, fakeValues.emaila, fakeValues.notes, true, fakeValues.label);
+  await membersPage.createMember(fakeValues.namea, fakeValues.emailb, fakeValues.notes, true, fakeValues.label);
 
-    // Filter members and remove the label
-    await membersPage.filterMembers(fakeValues.namea);
-    await membersPage.removeLabelMultiple(fakeValues.label);
+  // Filter members and remove the label
+  await membersPage.filterMembers(fakeValues.namea);
+  await membersPage.removeLabelMultiple(fakeValues.label);
 
-    // Check that the members don't have the label
-    await membersPage.openMember({ email: fakeValues.emaila });
-    await expect(membersPage.containsLabel(fakeValues.label)).toHaveCount(0);
-    await membersPage.openMember({ email: fakeValues.emailb });
-    await expect(membersPage.containsLabel(fakeValues.label)).toHaveCount(0);
+  // Check that the members don't have the label
+  await membersPage.openMember({ email: fakeValues.emaila });
+  await expect(membersPage.containsLabel(fakeValues.label)).toHaveCount(0);
+  await membersPage.openMember({ email: fakeValues.emailb });
+  await expect(membersPage.containsLabel(fakeValues.label)).toHaveCount(0);
 });

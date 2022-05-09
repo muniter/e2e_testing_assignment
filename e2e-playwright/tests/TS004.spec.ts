@@ -13,23 +13,23 @@ import faker from '@faker-js/faker';
 // Run this tests in parallel
 test.describe.configure({ mode: 'parallel' })
 test('Create member without name', async ({ page }) => {
-    // Intances and fakerValues
-    const loginPage = new LoginPage(page);
-    const membersPage = new MembersPage(page);
+  // Intances and fakerValues
+  const loginPage = new LoginPage(page);
+  const membersPage = new MembersPage(page);
 
-    const fakeValues = {
-        email: faker.internet.email(),
-        notes: faker.lorem.sentence(),
-      }
-    // Login
-    await loginPage.open();
-    await loginPage.login(user.email, user.password);
-    expect(await loginPage.userIsLoggedIn()).toBeTruthy();
+  const fakeValues = {
+    email: faker.internet.email(),
+    notes: faker.lorem.sentence(),
+  }
+  // Login
+  await loginPage.open();
+  await loginPage.login(user.email, user.password);
+  expect(await loginPage.userIsLoggedIn()).toBeTruthy();
 
-    // Create member
-    await membersPage.createMember("", fakeValues.email, fakeValues.notes);
+  // Create member
+  await membersPage.createMember("", fakeValues.email, fakeValues.notes);
 
-    // In the list view when there's no name, the email is set as the name
-    // therefore we check for name
-    await expect(membersPage.containsName(fakeValues.email)).toHaveCount(1);
+  // In the list view when there's no name, the email is set as the name
+  // therefore we check for name
+  await expect(membersPage.containsName(fakeValues.email)).toHaveCount(1);
 });
