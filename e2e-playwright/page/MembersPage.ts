@@ -1,7 +1,7 @@
-import { expect, Locator, Page } from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
+import { Urls } from '../../SharedConfig';
 
-const membersUrl = 'http://localhost:9333/ghost/#/members/';
-const inMembers = new RegExp(`^${membersUrl}/?$`);
+const listUrl = Urls['member/list']
 
 export class MembersPage {
   readonly page: Page;
@@ -35,8 +35,8 @@ export class MembersPage {
   }
 
   async open() {
-    if (!membersUrl.includes(this.page.url())) {
-      await this.page.goto(membersUrl, { waitUntil: 'networkidle' });
+    if (!listUrl.includes(this.page.url())) {
+      await this.page.goto(listUrl, { waitUntil: 'networkidle' });
     }
   }
   async retryMember({ name, email, notes, label }: { name?: string, email?: string, notes?: string, label?: string }) {

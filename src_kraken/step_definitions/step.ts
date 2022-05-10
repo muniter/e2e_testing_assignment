@@ -4,7 +4,7 @@ import { Login } from './login';
 import type { Page } from 'puppeteer-core/lib/cjs/puppeteer/common/Page';
 import { Cookie, KrakenWorld } from '../support/support';
 import { ElementHandle } from 'puppeteer-core/lib/cjs/puppeteer/common/JSHandle';
-const Urls = require('./urls').Urls;
+import { Urls } from '../../SharedConfig';
 const isCI = process.env.CI || false;
 const defaultTiemout = isCI ? 15000 : 5000;
 

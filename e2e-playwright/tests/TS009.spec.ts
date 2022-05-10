@@ -10,7 +10,6 @@ Filtrar nuevamente con nombre A
 Validar que ninguno de los miembros con correo B y C aparecen
 */
 import { test, expect } from '@playwright/test';
-import { user } from '../data/testData';
 import { LoginPage } from '../page/LoginPage';
 import { MembersPage } from '../page/MembersPage';
 import faker from '@faker-js/faker';
@@ -29,7 +28,7 @@ test('Filter member delete', async ({ page }) => {
   }
   // Login
   await loginPage.open();
-  await loginPage.login(user.email, user.password);
+  await loginPage.login();
   expect(await loginPage.userIsLoggedIn()).toBeTruthy();
 
   // Go to members page

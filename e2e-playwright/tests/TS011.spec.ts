@@ -6,7 +6,6 @@ Validar creación del Post
 */
 
 import { test, expect } from '@playwright/test';
-import { user } from '../data/testData';
 import { LoginPage } from '../page/LoginPage';
 import { PostsPage } from '../page/PostsPage';
 import faker from '@faker-js/faker';
@@ -24,7 +23,7 @@ test('Create post', async ({ page }) => {
   }
   // Login
   await loginPage.open();
-  await loginPage.login(user.email, user.password);
+  await loginPage.login();
   expect(await loginPage.userIsLoggedIn()).toBeTruthy();
 
   // Create post

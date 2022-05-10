@@ -1,6 +1,8 @@
 import { Locator, Page } from '@playwright/test';
 
-const postsUrl = 'http://localhost:9333/ghost/#/posts';
+import { Urls } from '../../SharedConfig';
+
+const listUrl = Urls['post/list']
 export class PostsPage {
   readonly page: Page;
   readonly newPost: Locator;
@@ -39,7 +41,7 @@ export class PostsPage {
   }
 
   async open() {
-    await this.page.goto(postsUrl);
+    await this.page.goto(listUrl);
     await this.page.waitForLoadState('networkidle');
   }
 
@@ -70,7 +72,7 @@ export class PostsPage {
   }
 
   async editPost(oldTitle: string, newTitle: string) {
-    await this.page.goto(postsUrl);
+    await this.page.goto(listUrl);
     await this.page.waitForLoadState('networkidle');
     await this.page.locator('li', { hasText: oldTitle }).click();
 
@@ -78,19 +80,19 @@ export class PostsPage {
     await this.page.waitForTimeout(1000);
     await this.updateDrowndown.click();
     await this.updateButton.click({ timeout: 3000 });
-    await this.page.goto(postsUrl);
+    await this.page.goto(listUrl);
     await this.page.waitForLoadState('networkidle');
 
   }
 
   async deletePost(title: string) {
-    await this.page.goto(postsUrl);
+    await this.page.goto(listUrl);
     await this.page.waitForLoadState('networkidle');
     await this.page.locator('li', { hasText: title }).click({ timeout: 3000 });
     await this.settingsButton.click();
     await this.deleteButton.click({ timeout: 3000 });
     await this.deleteConfirm.click();
-    await this.page.goto(postsUrl);
+    await this.page.goto(listUrl);
     await this.page.waitForLoadState('networkidle');
   }
 }

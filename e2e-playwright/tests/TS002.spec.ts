@@ -7,7 +7,6 @@ Crear miembro cvon nombre A y email y
 Revisar que el miembro fue creado
 */
 import { test, expect } from '@playwright/test';
-import { user } from '../data/testData';
 import { LoginPage } from '../page/LoginPage';
 import { MembersPage } from '../page/MembersPage';
 import faker from '@faker-js/faker';
@@ -25,7 +24,7 @@ test('Create Member with same name', async ({ page }) => {
   }
   // Login
   await loginPage.open();
-  await loginPage.login(user.email, user.password);
+  await loginPage.login();
   expect(await loginPage.userIsLoggedIn()).toBeTruthy();
 
   // Go to members page
