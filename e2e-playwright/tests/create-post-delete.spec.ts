@@ -1,20 +1,21 @@
 /* 
-- Escenario de prueba 14:
+- Escenario de prueba 15:
 Login
 Crear Post
 Publicar Post
-Editar Post
+Eliminar Post
 
 */
 
 import { test, expect } from '@playwright/test';
+import { user } from '../data/testData';
 import { LoginPage } from '../page/LoginPage';
 import { PostsPage } from '../page/PostsPage';
 import faker from '@faker-js/faker';
 
 // Run this tests in parallel
 test.describe.configure({ mode: 'parallel' })
-test('Create post and edit it', async ({ page }) => {
+test('Create post and delete it', async ({ page }) => {
 
   // Intances and fakerValues
   const loginPage = new LoginPage(page);
@@ -22,12 +23,10 @@ test('Create post and edit it', async ({ page }) => {
   const fakeValues = {
     title: faker.lorem.sentence(),
     content: faker.lorem.paragraph(),
-    newTitle: faker.lorem.sentence()
   }
-
   // Login
   await loginPage.open();
-  await loginPage.login();
+  await loginPage.login(user.email, user.password);
   expect(await loginPage.userIsLoggedIn()).toBeTruthy();
 
   // Create post
@@ -39,10 +38,11 @@ test('Create post and edit it', async ({ page }) => {
   await page.waitForLoadState('networkidle');
   await expect(postsPage.containsTitle(fakeValues.title)).toHaveCount(1);
 
-  // Edit post
-  await postsPage.editPost(fakeValues.title, fakeValues.newTitle);
-  // Check if the new member is in the list
-  await expect(postsPage.containsTitle(fakeValues.newTitle)).toHaveCount(1, { timeout: 5000 });
+
+  // Delete post
+  await postsPage.deletePost(fakeValues.title);
+  // Check that the new member is not in the list
+  await expect(postsPage.containsTitle(fakeValues.title)).toHaveCount(0);
 
 });
 

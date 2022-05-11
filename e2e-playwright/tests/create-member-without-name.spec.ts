@@ -6,6 +6,7 @@ Intentar guardar
 Ver que guardar falla
 */
 import { test, expect } from '@playwright/test';
+import { user } from '../data/testData';
 import { LoginPage } from '../page/LoginPage';
 import { MembersPage } from '../page/MembersPage';
 import faker from '@faker-js/faker';
@@ -22,7 +23,7 @@ test('Create member without name', async ({ page }) => {
   }
   // Login
   await loginPage.open();
-  await loginPage.login();
+  await loginPage.login(user.email, user.password);
   expect(await loginPage.userIsLoggedIn()).toBeTruthy();
 
   // Create member
