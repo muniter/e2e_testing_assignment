@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "baseUrl": ".",
+    "rootDir": "./",
+    "lib": [
+      "dom",
+      "es2018"
+    ],
+    "module": "commonjs",
+    "allowJs": true,
+    "sourceMap": true,
+    "outDir": "../web",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true
+  },
+  "include": [
+    "./**/*.ts"
+  ]
+}

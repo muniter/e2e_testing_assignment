@@ -1,4 +1,4 @@
-import { Urls, SiteConfig } from '../../SharedConfig';
+import { Urls, SiteConfig } from  '../support/SharedConfig';
 import type { Page } from 'puppeteer-core/lib/cjs/puppeteer/common/Page';
 
 async function firstLogin(page: Page) {
@@ -25,10 +25,8 @@ async function firstLogin(page: Page) {
 async function normalLogin(page: Page) {
   let element;
   element = await page.$('input[type="email"]');
-  // @ts-ignore
-  await element!.type(SiteConfig.username);
+  await element!.type(SiteConfig.email);
   element = await page.$('input[type="password"]');
-  // @ts-ignore
   await element!.type(SiteConfig.password);
   element = await page.$('button[type="submit"]');
   return element!.click();

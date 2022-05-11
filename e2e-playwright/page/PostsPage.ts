@@ -1,6 +1,5 @@
 import { Locator, Page } from '@playwright/test';
-
-import { Urls } from '../../SharedConfig';
+import { Urls } from '../shared/SharedConfig';
 
 const listUrl = Urls['post/list']
 export class PostsPage {

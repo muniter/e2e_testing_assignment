@@ -5,7 +5,14 @@ import type { Page } from 'puppeteer-core/lib/cjs/puppeteer/common/Page';
 
 
 Before(async function(this: KrakenWorld) {
-  this.deviceClient = new WebClient('chrome', { }, this.userId);
+  let cs = ''
+  let ce = ''
+  // Colors only not on CI
+  cs = '\[\e[42m\]'
+  ce = '\[\e[m\] '
+
+  console.log('='.repeat(80), '\n', 'Running scenario: ' + cs + this.scenario.name + ce);
+  this.deviceClient = new WebClient('chrome', {}, this.userId);
   this.driver = await this.deviceClient.startKrakenForUserId(this.userId);
   this.testId = this.userId;
   let browser = await this.driver.getPuppeteer();
@@ -18,7 +25,6 @@ Before(async function(this: KrakenWorld) {
   }
   this.page.setDefaultTimeout(10000);
 })
-
 After(async function(this: KrakenWorld) {
   await this.deviceClient.stopKrakenForUserId(this.userId);
 });

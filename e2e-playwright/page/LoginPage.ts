@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test';
-import { Urls, SiteConfig } from '../../SharedConfig';
+import { Urls, SiteConfig } from '../shared/SharedConfig';
 
 export class LoginPage {
   readonly page: Page;
