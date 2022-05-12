@@ -109,7 +109,8 @@ export function processKrakenOriginalReport(reportPath: string): ScenarioReportF
   let steps = scenario.steps.filter(step => step.keyword.match(reg))
   // Prepare the output
   let output: ScenarioReportFormat = {
-    name: scenario.name,
+    // @ts-ignore
+    name: rep.uri.replace(/(.feature|^.*?\/)/g, ''),
     // @ts-ignore
     file: cwd + '/' + rep.uri,
     steps: [],
