@@ -25,6 +25,11 @@ export class LoginPage {
 
   async setup() {
     // Check if we need to create a new user
+    await this.page.waitForLoadState('networkidle');
+    let curr_url = this.page.url();
+    if (curr_url.includes('one')) {
+      await this.page.locator("section > a[href='#/setup/two/']").click();
+    }
     if (this.page.url().includes('setup')) {
       await this.page.waitForSelector('input[id="blog-title"]');
       const input = await this.page.$('input[id="blog-title"]')
