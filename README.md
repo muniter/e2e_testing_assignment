@@ -1,3 +1,19 @@
+# WARNING
+
+# Para correr se necesita docker
+
+Para correr las pruebas de playwright:
+
+```
+GHOST_VERSION=4.41.1 npx playwright test
+```
+
+Cuando vayamos a hacer VRT, las cosas cambian, solo se pueden correr en 1 worker, pues la base de datos se eliminará en cada corrida de cada caso, pero esto hasta ahora no está implementado.
+
+```
+GHOST_VRT=1 GHOST_VERSION=4.41.1 npx playwright test --worker 1
+```
+
 # E2E Testing
 
 
