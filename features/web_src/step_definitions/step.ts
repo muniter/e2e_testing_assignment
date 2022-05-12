@@ -79,6 +79,7 @@ const Selectors: SelectorsCollection = {
   "member/action/retry save": "//span[normalize-space()='Retry']",
   "member/action/actions": "//button[./span/span[contains(., 'Actions')]]",
   "member/action/actions/delete": "//button/span[contains(., 'Delete member')]",
+  "member/action/actions/modal/delete": "//div[@class='modal-footer']/button/span[contains(., 'Delete member')]",
   "member/action/list actions": "//button[./span/span[contains(., 'Actions')]]",
   "member/action/list actions/delete": "//button[./span[contains(., 'Delete selected members')]]",
   "member/action/list actions/delete confirm": "//button[./span[contains(., 'Download backup')]]",
@@ -122,9 +123,9 @@ async function getElement(page: Page, selector: string, value?: string, hidden: 
     }
   }
   if (result == null) {
-    console.log('===============Selector not Found ==================')
-    console.log(`Selector: ${selector}`)
-    console.log(`Value: ${value}`)
+    // console.log('===============Selector not Found ==================')
+    // console.log(`Selector: ${selector}`)
+    // console.log(`Value: ${value}`)
     throw new Error(`Element ${selector} not found`);
   }
   return result;
@@ -283,10 +284,26 @@ When('I {string} the {string}', async function(this: KrakenWorld, action: string
 
 When('I delete the {string}', async function(this: KrakenWorld, scope: string) {
   if (scope === 'member') {
+    // Handle the case with an old Ghsot version:
     // Press the action button first
-    await ClickElement(this.page, GetSelector("member/action/actions"));
-    // Press the delete button now
-    await ClickElement(this.page, GetSelector("member/action/actions/delete"));
+    let watchdog = Promise.race([
+      this.page.waitForXPath(GetSelector("member/action/actions")),
+      this.page.waitForXPath(GetSelector("member/action/actions/delete")),
+    ])
+
+    let res = await watchdog
+    // @ts-ignore
+    if (res !== null) {
+      let text = await res.evaluate((el) => el.textContent);
+      // Clicks or the delete button or the action button
+      await res.click();
+      // When not in the old version click the delete member button in the action menu
+      if (text !== "Delete member") {
+        await ClickElement(this.page, GetSelector("member/action/actions/delete"));
+      }
+    }
+    // Press the modal delete button
+    await ClickElement(this.page, GetSelector("member/action/actions/modal/delete"));
     // Press enter to confirm the dialog
     let p = this.page.waitForNavigation({ waitUntil: 'networkidle0' });
     this.page.keyboard.press('Enter');
@@ -350,10 +367,11 @@ Then('I should see member saving failed', async function(this: KrakenWorld,) {
 
 When('I remove the label {string} from all the filtered members', async function(this: KrakenWorld, label: string) {
   // TODO: Fix this timeout
-  // await this.page.waitForTimeout(1000);
+  await this.page.waitForTimeout(1000);
   await ClickElement(this.page, GetSelector("member/action/list actions"));
   await ClickElement(this.page, GetSelector("member/action/list actions/remove label"));
 
+  await this.page.waitForTimeout(1000);
   // Get the select an option to use
   let select = await getElement(this.page, GetSelector("member/action/list actions/remove label select"), label);
   let option = await getElement(this.page, GetSelector("member/action/list actions/remove label select option"), label);
@@ -361,6 +379,7 @@ When('I remove the label {string} from all the filtered members', async function
   let value = await option.evaluate(el => el.value);
   await select.select(value);
 
+  await this.page.waitForTimeout(1000);
   await ClickElement(this.page, GetSelector("member/action/list actions/remove label confirm"));
   await ClickElement(this.page, GetSelector("member/action/list actions/remove label confirm close"));
 });
