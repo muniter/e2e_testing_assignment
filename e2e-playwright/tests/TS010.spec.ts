@@ -9,7 +9,6 @@ Entrar a vista miembro A y verificar que no tiene label X
 Entrar a vista miembro B y verificar que no tiene label X
 */
 import { test, expect } from '@playwright/test';
-import { user } from '../data/testData';
 import { LoginPage } from '../page/LoginPage';
 import { MembersPage } from '../page/MembersPage';
 import faker from '@faker-js/faker';
@@ -28,7 +27,7 @@ test('Filter member remove label', async ({ page }) => {
   }
   // Login
   await loginPage.open();
-  await loginPage.login(user.email, user.password);
+  await loginPage.login();
   expect(await loginPage.userIsLoggedIn()).toBeTruthy();
 
   // Go to members page

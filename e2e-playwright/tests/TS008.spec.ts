@@ -8,7 +8,6 @@ Asegurar que aparezca en la lista el miembro A
 Asegurar que no aparezca en la lista el miembro B"
 */
 import { test, expect } from '@playwright/test';
-import { user } from '../data/testData';
 import { LoginPage } from '../page/LoginPage';
 import { MembersPage } from '../page/MembersPage';
 import faker from '@faker-js/faker';
@@ -28,7 +27,7 @@ test('Filter member', async ({ page }) => {
   }
   // Login
   await loginPage.open();
-  await loginPage.login(user.email, user.password);
+  await loginPage.login();
   expect(await loginPage.userIsLoggedIn()).toBeTruthy();
 
   // Go to members page
