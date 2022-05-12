@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import { randomUUID } from 'crypto';
 import { KrakenReportFormat, Report, ScenarioInformation, ScenarioReportFormat, TestSuiteReportFormat } from './types';
-import { deleteCreateDir } from './util';
+import { deleteCreateDir } from '../util';
 
 export function processKraken(prev: string, post: string, reportDir: string): Report {
   deleteCreateDir(reportDir);

@@ -3,8 +3,8 @@ import * as fs from 'fs';
 import { processKraken } from './krakenProcess';
 import { randomUUID } from 'crypto';
 import { Command, Option, program } from 'commander';
-import { Report, ScenarioReportFormat, ScenarioStep } from './types';
-import { deleteCreateDir } from './util';
+import { Report, ScenarioReportFormat, ScenarioStep } from '../types';
+import { deleteCreateDir } from '../util';
 const compareImages = require("resemblejs/compareImages");
 
 

@@ -7,7 +7,7 @@
     "pretest": "npx tsc --incremental -p tests/tsconfig.json",
     "playwright": "playwright test",
     "kraken": "npx tsc --build ./features/web_src/tsconfig.json && npx kraken-node run",
-    "reporter": "npx tsc --build ./shared && npx ts-node shared/reporter.ts"
+    "reporter": "npx tsc --build ./shared && npx ts-node shared/reporter/index.ts"
   },
   "keywords": [],
   "author": "",
