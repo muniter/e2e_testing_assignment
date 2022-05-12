@@ -22,6 +22,7 @@ export async function startGhost() {
 
     // Return only when ghost is ready
     let child = spawn('docker', ['logs', '-f', CNAME]);
+    console.log('Waiting for Ghsot to be operational');
     if (child.stdout) {
       for await (let line of child.stdout) {
         let l = line.toString('utf8').trim()

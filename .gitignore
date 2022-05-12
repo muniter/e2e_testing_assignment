@@ -115,3 +115,5 @@ features/**/**.js
 .kraken/
 *.js
 *.d.ts
+
+screenshots/*/*/images/*.png

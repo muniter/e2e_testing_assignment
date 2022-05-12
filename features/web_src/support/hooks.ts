@@ -3,6 +3,8 @@ import { After, Before } from '@cucumber/cucumber';
 import { WebClient } from './WebClient'
 import type { Page } from 'puppeteer-core/lib/cjs/puppeteer/common/Page';
 import { startGhost } from '../../../shared/runner';
+import { saveScenarioReportInfo } from "./utils";
+import { VISUAL_REGRESSION_TESTING } from "../../../shared/SharedConfig";
 
 Before(async function(this: KrakenWorld) {
   await startGhost();
@@ -23,5 +25,8 @@ Before(async function(this: KrakenWorld) {
   this.page.setDefaultTimeout(10000);
 })
 After(async function(this: KrakenWorld) {
+  if (VISUAL_REGRESSION_TESTING) {
+    saveScenarioReportInfo(this.scenario)
+  }
   await this.deviceClient.stopKrakenForUserId(this.userId);
 });
