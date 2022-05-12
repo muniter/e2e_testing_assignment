@@ -7,6 +7,7 @@ import { Report, ScenarioReportFormat, ScenarioStep } from '../types';
 import { deleteCreateDir } from '../util';
 const compareImages = require("resemblejs/compareImages");
 import { ComparisonOptions } from 'resemblejs';
+import { render } from './render';
 
 async function main(command: Command) {
   let opts = command.opts();
@@ -23,18 +24,34 @@ async function main(command: Command) {
     reportDir = `${process.cwd()}/screenshots/kraken/report_${opts.prev}_${opts.post}`;
     imagesDir = reportDir + '/images';
     reportFile = reportDir + '/report.json';
-    report = processKraken(opts.prev, opts.post, reportDir);
+    if (!opts.onlyrender) {
+      report = processKraken(opts.prev, opts.post, reportDir);
+    } else {
+      // Only rendering, load the existing one
+      if (!fs.existsSync(reportFile)) {
+        throw new Error('No report file found: ' + reportFile);
+      }
+      report = JSON.parse(fs.readFileSync(reportFile).toString()) as Report;
+    }
 
   } else if (toprocess = 'playwright') {
 
     // Process playwright
-    // TODO: Implement
-    // result = processPlaywright(opts.prev, opts.post);
     reportDir = `${process.cwd()}/screenshots/playwright/report_${opts.prev}_${opts.post}`;
     reportFile = reportDir + '/report.json';
     imagesDir = reportDir + 'images';
     deleteCreateDir(reportDir);
     deleteCreateDir(imagesDir);
+    if (!opts.onlyrender) {
+      // TODO: Implement
+      // result = processPlaywright(opts.prev, opts.post);
+    } else {
+      // Only rendering, load the existing one
+      if (!fs.existsSync(reportFile)) {
+        throw new Error('No report file found: ' + reportFile);
+      }
+      report = JSON.parse(fs.readFileSync(reportFile).toString()) as Report;
+    }
     throw new Error('Playwright not implemented yet');
 
   } else {
@@ -43,7 +60,7 @@ async function main(command: Command) {
 
 
   // Then when everything is processed we can do image comparison
-  if (report) {
+  if (!opts.onlyrender && report) {
     // Make sure we are comparing the same thing
     if (report.prev.scenarios.length != report.post.scenarios.length) {
       throw new Error('Scenarios count does not match');
@@ -72,6 +89,9 @@ async function main(command: Command) {
   // Finally we can write the report which will be used for the HTML
   console.log(`Kraken report generated for versions ${opts.prev} and ${opts.post} at ${reportFile.replace(process.cwd(), '')}`);
   fs.writeFileSync(reportFile, JSON.stringify(report, null, 2));
+  // Render the report
+  render(report, reportDir);
+  console.log('Report generated in: ' + reportDir);
 }
 
 // Pass two scenarios (the same scenario in two ghost versions) and return the
@@ -145,6 +165,7 @@ program
   // .option('--kraken', 'Process the report data from kraken')
   // .option('--plawyright', 'Process the report data from playwright')
   .option('--report', 'Generate the report')
+  .option('--onlyrender', 'Render the report only')
   .requiredOption('--prev <string>', 'Version to take as prev')
   .requiredOption('--post <string>', 'Version to taskes as post')
 

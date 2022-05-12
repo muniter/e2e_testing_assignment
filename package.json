@@ -25,7 +25,6 @@
     "@types/resemblejs": "^4.1.0",
     "commander": "^9.2.0",
     "ghost-cli": "^1.19.3",
-    "handlebars": "^4.7.7",
     "kraken-node": "^1.0.24",
     "mustache": "^4.2.0",
     "resemblejs": "^4.1.0"

@@ -30,8 +30,6 @@ npm run reporter -- --process kraken --prev 4.38.1 --post 4.41.1
 
 Cuando el anterior comando corra y pasen se genera la siguiente estructura en la carpeta screenshots: Esto habrá extraido los screenshots tomados por los reportes de kraken, y combinado la información sacará una carpeta adicional con nomber `reoprt_{prev}_{post}' en esta se encontrará un archivo `report.json` dondé estará todo combinado, referenciando las imágenes que corresponden a cada paso de cada escenario:
 
-La
-
 ```bash
 screenshots
 └── kraken
@@ -54,10 +52,19 @@ screenshots
         │   ├── 01401cc4-4c31-4ed5-b9b6-81db02cf6230.png
         │   ├── ...
         │   └── ffe8f115-cb28-4d7b-b978-0d33da1458b8.png
-        └── report.json
+        ├─── index.html <----------------- The rendered report
+        └── report.json <----------------- The merged reports
 ```
 
-4. De este output se genera una página HTML.
+**De este output se genera una página HTML que vemos en index.html**
+
+4. Si ya se tiene el `report.json` listo y solo se quiere hacer render.
+
+```bash
+npm run reporter -- --onlyrender --process kraken --prev 4.38.1 --post 4.41.1
+```
+
+Y generará nuevamente el `screenshots/kraken/report_4.38.1_4.41.1/index.html`
 
 # Para correr se necesita docker
 
