@@ -6,7 +6,7 @@
   "scripts": {
     "pretest": "tsc --incremental -p tests/tsconfig.json",
     "playwright": "playwright test",
-    "kraken": "tsc -p ./features/web_src/tsconfig.json && npx kraken-node run"
+    "kraken": "tsc --build ./features/web_src/tsconfig.json && npx kraken-node run"
   },
   "keywords": [],
   "author": "",

@@ -79,6 +79,22 @@ M.keep_one = function(name)
   end
 end
 
+M.comment_one = function(name)
+  local features = M.get_features()
+  local found
+  for i, feature in ipairs(features) do
+    if feature.name == name then
+      found = i
+      break
+    end
+  end
+  if found then
+    M.comment_features({features[found]})
+  else
+    vim.notify(string.format('No feature named %s', name))
+  end
+end
+
 M.keep_all = function()
   local features = M.get_features()
   M.uncomment_features(features)
@@ -86,10 +102,13 @@ end
 
 M.command = function(cargs)
   local subcommand = cargs.fargs[1]
+  if cargs.bang then
+    return M.comment_one(subcommand)
+  end
   if subcommand == 'all' then
-    M.keep_all()
+    return M.keep_all()
   else
-    M.keep_one(subcommand)
+    return M.keep_one(subcommand)
   end
 end
 
@@ -107,5 +126,5 @@ vim.api.nvim_create_user_command('Features', M.command, {
   nargs = 1,
   complete = M.complete,
   force = true,
-  bang = false,
+  bang = true,
 })

@@ -8,6 +8,7 @@
       "es2018"
     ],
     "module": "commonjs",
+    "moduleResolution": "Node",
     "allowJs": true,
     "sourceMap": true,
     "outDir": "../web",
@@ -19,6 +20,11 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true
   },
+  "references": [
+    {
+      "path": "../../shared/"
+    }
+  ],
   "include": [
     "./**/*.ts"
   ]

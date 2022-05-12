@@ -1,12 +1,17 @@
-const Url = (process.env.GHOST_URL || 'http://localhost:9333').replace(/\/$/, '');
+export const VERSION = process.env.GHOST_VERSION || '4.41';
+export const PORT = parseInt(process.env.GHOST_PORT || '9333')
+export const VISUAL_REGRESSION_TESTING = Boolean(process.env.GHOST_VRT || false);
+export const URL = (process.env.GHOST_URL || 'http://localhost:' + PORT.toString()).replace(/\/$/, '');
+export const IMAGE = `ghost:${VERSION}`;
+export const CNAME = `ghost-testing`;
 
 export const Urls = {
-  main: Url,
-  signin: Url + "/ghost/#/signin",
-  setup: Url + "/ghost/#/setup",
-  dashboard: Url + "/ghost/#/dashboard",
-  "member/list": Url + "/ghost/#/members",
-  "post/list": Url + "/ghost/#/posts",
+  main: URL,
+  signin: URL + "/ghost/#/signin",
+  setup: URL + "/ghost/#/setup",
+  dashboard: URL + "/ghost/#/dashboard",
+  "member/list": URL + "/ghost/#/members",
+  "post/list": URL + "/ghost/#/posts",
 } as const
 
 export const SiteConfig = {

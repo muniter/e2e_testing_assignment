@@ -111,6 +111,7 @@ test-results/
 reports/
 
 features/**/**.js
-*.js.map
+*.map
 .kraken/
 *.js
+*.d.ts

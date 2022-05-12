@@ -2,15 +2,12 @@ import { KrakenWorld } from "./support";
 import { After, Before } from '@cucumber/cucumber';
 import { WebClient } from './WebClient'
 import type { Page } from 'puppeteer-core/lib/cjs/puppeteer/common/Page';
-
+import { startGhost } from '../../../shared/runner';
 
 Before(async function(this: KrakenWorld) {
+  await startGhost();
   let cs = ''
   let ce = ''
-  // Colors only not on CI
-  cs = '\[\e[42m\]'
-  ce = '\[\e[m\] '
-
   console.log('='.repeat(80), '\n', 'Running scenario: ' + cs + this.scenario.name + ce);
   this.deviceClient = new WebClient('chrome', {}, this.userId);
   this.driver = await this.deviceClient.startKrakenForUserId(this.userId);
