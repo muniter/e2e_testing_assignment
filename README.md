@@ -1,5 +1,55 @@
 # WARNING
 
+## Generar VRT reports
+
+1. Correr Ghost en ambas versiones de la siguiente manera:
+
+Nota: se usa `CI=1` para que corra headless.
+
+```bash
+CI=1 GHOST_VRT=1 GHOST_VERSION=4.41.1 npm run kraken
+CI=1 GHOST_VRT=1 GHOST_VERSION=4.38.1 npm run kraken
+```
+
+Cuando los anteriores comandos corran y pasen se genera la siguiente estructura en la carpeta screenshots:
+
+```
+screenshots
+└── kraken
+    ├── 4.38.1
+    │   └── toProcess.json
+    └── 4.41.1
+        └── toProcess.json
+```
+
+3. Para procesar los archivos `toProcess.json`
+
+```bash
+npm run reporter -- --process kraken --prev 4.38.1 --post 4.41.1
+```
+
+Cuando el anterior comando corra y pasen se genera la siguiente estructura en la carpeta screenshots: Esto habrá extraido los screenshots tomados por los reportes de kraken, y combinado la información en el arhcivo: `report_4.38.1_4.41.1.json`.
+
+```bash
+screenshots
+└── kraken
+    ├── 4.38.1
+    │   ├── images
+    │   │   ├── 00aea521-361c-469f-bfb8-65a552de2fa3.png
+    │   │   ├── ...
+    │   │   └── ffca2e00-8759-4abe-b819-6102e21fb2af.png
+    │   └── toProcess.json
+    ├── 4.41.1
+    │   ├── images
+    │   │   ├── 0201d945-9f8b-4a17-98dd-7e042ec56580.png
+    │   │   ├── ...
+    │   │   ├── 059ddb8d-5d94-4816-90eb-2cb05d2ce7d6.png
+    │   └── toProcess.json
+    └── report_4.38.1_4.41.1.json
+```
+
+3. Procesar los resultados de ambos
+
 # Para correr se necesita docker
 
 Para correr las pruebas de playwright:
