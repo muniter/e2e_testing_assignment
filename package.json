@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "pretest": "tsc --incremental -p tests/tsconfig.json",
+    "pretest": "npx tsc --incremental -p tests/tsconfig.json",
     "playwright": "playwright test",
-    "kraken": "tsc --build ./features/web_src/tsconfig.json && npx kraken-node run"
+    "kraken": "npx tsc --build ./features/web_src/tsconfig.json && npx kraken-node run",
+    "reporter": "npx tsc --build ./shared && npx ts-node shared/reporter.ts"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +23,8 @@
     "@faker-js/faker": "^6.3.1",
     "commander": "^9.2.0",
     "ghost-cli": "^1.19.3",
-    "kraken-node": "^1.0.24"
+    "handlebars": "^4.7.7",
+    "kraken-node": "^1.0.24",
+    "resemblejs": "^4.1.0"
   }
 }
