@@ -6,9 +6,8 @@ import { Command, Option, program } from 'commander';
 import { Report, ScenarioReportFormat, ScenarioStep } from '../types';
 import { deleteCreateDir } from '../util';
 const compareImages = require("resemblejs/compareImages");
+import { ComparisonOptions } from 'resemblejs';
 
-
-// ================ Kraken =================== //
 async function main(command: Command) {
   let opts = command.opts();
   let reportDir: string
@@ -29,6 +28,7 @@ async function main(command: Command) {
   } else if (toprocess = 'playwright') {
 
     // Process playwright
+    // TODO: Implement
     // result = processPlaywright(opts.prev, opts.post);
     reportDir = `${process.cwd()}/screenshots/playwright/report_${opts.prev}_${opts.post}`;
     reportFile = reportDir + '/report.json';
@@ -54,6 +54,9 @@ async function main(command: Command) {
     // Create the images directory, remove an old one
     deleteCreateDir(imagesDir);
     console.log('Starting diff report, image comparison will take some time...');
+    // Now by looping through the scenarios for each of the ghost verison, we
+    // prodcuce a third "test suite" named diff, which is a comparison of
+    // images of prev and post steps
     for (let i = 0; i < report.prev.scenarios.length; i++) {
       let prev_scenario = report.prev.scenarios[i]!;
       let post_scenario = report.post.scenarios[i]!;
@@ -61,17 +64,19 @@ async function main(command: Command) {
       let scenario_diff = {
         name: prev_scenario.name,
         file: prev_scenario.file,
-        steps: await diffScenarioSteps(prev_scenario, post_scenario, imagesDir)
+        steps: await diffScenariosSteps(prev_scenario, post_scenario, imagesDir)
       }
       report.diff.scenarios.push(scenario_diff);
     }
   }
-  // Finally we can write the report
+  // Finally we can write the report which will be used for the HTML
   console.log(`Kraken report generated for versions ${opts.prev} and ${opts.post} at ${reportFile.replace(process.cwd(), '')}`);
   fs.writeFileSync(reportFile, JSON.stringify(report, null, 2));
 }
 
-async function diffScenarioSteps(prev: ScenarioReportFormat, post: ScenarioReportFormat, imagesDir: string): Promise<ScenarioStep[]> {
+// Pass two scenarios (the same scenario in two ghost versions) and return the
+// steps of the third "diff" scenario by running the images over ressemblejs
+async function diffScenariosSteps(prev: ScenarioReportFormat, post: ScenarioReportFormat, imagesDir: string): Promise<ScenarioStep[]> {
   let steps: ScenarioStep[] = []
   if (prev.steps.length != post.steps.length) {
     throw new Error('Steps count does not match');
@@ -92,8 +97,9 @@ async function diffScenarioSteps(prev: ScenarioReportFormat, post: ScenarioRepor
   return steps;
 }
 
+// Run resemblejso over two paths (scenario step images) and return the data from ressemble
 async function getDiff(prev: string, post: string, output: string): Promise<Record<string, any>> {
-  const options = {
+  const options: ComparisonOptions = {
     output: {
       errorColor: {
         red: 255,
@@ -104,25 +110,30 @@ async function getDiff(prev: string, post: string, output: string): Promise<Reco
       transparency: 0.3,
       largeImageThreshold: 1200,
       useCrossOrigin: false,
-      outputDiff: true
     },
     scaleToSameSize: true,
     ignore: "antialiasing"
   };
 
-  const data = await compareImages(fs.readFileSync(prev), fs.readFileSync(post), options);
-  fs.writeFileSync(output, data.getBuffer());
-  return {
-    image: output,
-    prev: prev,
-    post: post,
-    isSameDimensions: data.isSameDimensions,
-    dimensionDifference: data.dimensionDifference,
-    rawMisMatchPercentage: data.rawMisMatchPercentage,
-    misMatchPercentage: data.misMatchPercentage,
-    diffBounds: data.diffBounds,
-    analysisTime: data.analysisTime
-  };
+  // Call resemblejs get the diff and save it at the expected location
+  const data = await compareImages(fs.readFileSync(prev), fs.readFileSync(post), options)!;
+  if (data && data.getBuffer) {
+    let buffer = data.getBuffer(false)
+    fs.writeFileSync(output, buffer);
+    return {
+      image: output,
+      prev: prev,
+      post: post,
+      isSameDimensions: data.isSameDimensions,
+      dimensionDifference: data.dimensionDifference,
+      rawMisMatchPercentage: data.rawMisMatchPercentage,
+      misMatchPercentage: data.misMatchPercentage,
+      diffBounds: data.diffBounds,
+      analysisTime: data.analysisTime
+    };
+  } else {
+    throw new Error('No data from resemblejs, or no buffer');
+  }
 }
 
 
