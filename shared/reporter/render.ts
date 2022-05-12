@@ -8,6 +8,7 @@ export function render(report: Report, destination: string) {
     process: 'kraken',
     prev: report.prev.version,
     post: report.prev.version,
+    scenarios: report.diff!.scenarios!,
   }
   // Render an html file
   let html = Mustache.render(fs.readFileSync(`${process.cwd()}/shared/reporter/template.html`, 'utf8'), view);

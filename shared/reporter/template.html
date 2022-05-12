@@ -24,6 +24,15 @@
           <h5>Post: {{ post }}</h5>
         </div>
       </div>
+      <!-- list -->
+      <div class="row justify-content-center">
+        {{#scenarios}}
+          <h5>{{ name }}<h5>
+          {{#steps}}
+            <img src="{{ image }}" width="100">
+          {{/steps}}
+        {{/scenarios}}
+      </div>
     </div>
   </div>
 </body>
