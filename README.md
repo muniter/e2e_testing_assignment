@@ -28,27 +28,36 @@ screenshots
 npm run reporter -- --process kraken --prev 4.38.1 --post 4.41.1
 ```
 
-Cuando el anterior comando corra y pasen se genera la siguiente estructura en la carpeta screenshots: Esto habrá extraido los screenshots tomados por los reportes de kraken, y combinado la información en el arhcivo: `report_4.38.1_4.41.1.json`.
+Cuando el anterior comando corra y pasen se genera la siguiente estructura en la carpeta screenshots: Esto habrá extraido los screenshots tomados por los reportes de kraken, y combinado la información sacará una carpeta adicional con nomber `reoprt_{prev}_{post}' en esta se encontrará un archivo `report.json` dondé estará todo combinado, referenciando las imágenes que corresponden a cada paso de cada escenario:
+
+La
 
 ```bash
 screenshots
 └── kraken
+    ├── 4.36
+    │   └── toProcess.json
     ├── 4.38.1
     │   ├── images
-    │   │   ├── 00aea521-361c-469f-bfb8-65a552de2fa3.png
+    │   │   ├── 0022c060-811b-4349-927f-c7ba13cb0a77.png
     │   │   ├── ...
-    │   │   └── ffca2e00-8759-4abe-b819-6102e21fb2af.png
+    │   │   └── ff8a0f18-eea9-4a4a-8ef6-c422554b5381.png
     │   └── toProcess.json
     ├── 4.41.1
     │   ├── images
-    │   │   ├── 0201d945-9f8b-4a17-98dd-7e042ec56580.png
+    │   │   ├── 00b7feb9-ee8c-4724-a039-9ceed34b2585.png
     │   │   ├── ...
-    │   │   ├── 059ddb8d-5d94-4816-90eb-2cb05d2ce7d6.png
+    │   │   └── ff188d3f-64a2-411b-ac04-4bd17c5eec52.png
     │   └── toProcess.json
-    └── report_4.38.1_4.41.1.json
+    └── report_4.38.1_4.41.1
+        ├── images
+        │   ├── 01401cc4-4c31-4ed5-b9b6-81db02cf6230.png
+        │   ├── ...
+        │   └── ffe8f115-cb28-4d7b-b978-0d33da1458b8.png
+        └── report.json
 ```
 
-3. Procesar los resultados de ambos
+4. De este output se genera una página HTML.
 
 # Para correr se necesita docker
 
