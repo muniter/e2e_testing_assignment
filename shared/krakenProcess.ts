@@ -1,43 +1,11 @@
 import * as fs from 'fs';
 import { randomUUID } from 'crypto';
+import { KrakenReportFormat, Report, ScenarioInformation, ScenarioReportFormat, TestSuiteReportFormat } from './types';
+import { deleteCreateDir } from './util';
 
-export interface ScenarioInformation {
-  name: string,
-  path: string,
-  step: number,
-  report: string,
-}
-
-
-interface KrakenReportFormat {
-  elements: Array<{
-    keyword: string,
-    name: string,
-    steps: Array<{
-      name: string,
-      keyword: string,
-      embeddings: Array<{ mime_type: string, data: string }>
-    }>
-  }>
-}
-
-interface TestSuiteReportFormat {
-  version: string,
-  scenarios: Array<ScenarioReportFormat>,
-}
-
-interface ScenarioReportFormat {
-  name: string,
-  file: string,
-  steps: Array<{
-    name: string,
-    image: string,
-    base64: boolean,
-  }>
-}
-
-export function processKraken(prev: string, post: string) {
-  const outputFile = `${process.cwd()}/screenshots/kraken/report_${prev}_${post}.json`
+export function processKraken(prev: string, post: string, reportDir: string): Report {
+  deleteCreateDir(reportDir);
+  const outputFile = reportDir + '/report.json'
   if (fs.existsSync(outputFile)) {
     fs.unlinkSync(outputFile);
   }
@@ -70,7 +38,8 @@ export function processKraken(prev: string, post: string) {
   })
 
   fs.writeFileSync(outputFile, JSON.stringify(out, null, 2));
-  console.log(`Kraken report generated for versions ${prev} and ${post} at ${outputFile}`);
+  console.log(`Kraken PRE processing report generated for versions ${prev} and ${post} at ${outputFile.replace(process.cwd(), '')}`);
+  return out;
 }
 
 export function generateReport(version: string): TestSuiteReportFormat {
