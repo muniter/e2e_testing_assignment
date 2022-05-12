@@ -32,8 +32,3 @@ Scenario: Login, create two members applying labels, filter them and batch remve
   And I go back
   And I go to the "edit member" functionality for the member with email "|FAKE_EMAIL|2"
   And I should "not see" the "member" "label" "|FAKE_LABEL|1" in the "edit"
-  And I go back
-
-  # Cleanup
-  And I set the "member list" "search" to "I'm getting a label"
-  And I delete the "multiple members"
