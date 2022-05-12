@@ -4,15 +4,18 @@ import { Login } from './login';
 import type { Page } from 'puppeteer-core/lib/cjs/puppeteer/common/Page';
 import { Cookie, KrakenWorld } from '../support/support';
 import { ElementHandle } from 'puppeteer-core/lib/cjs/puppeteer/common/JSHandle';
-import { Urls } from  '../../../shared/SharedConfig';
+import { Urls, VISUAL_REGRESSION_TESTING } from '../../../shared/SharedConfig';
 const isCI = process.env.CI || false;
 const defaultTiemout = isCI ? 15000 : 5000;
 
 type ValueGeneratorCollection = {
   [key: string]: () => string
 }
-
-faker.seed(12345);
+if (VISUAL_REGRESSION_TESTING) {
+  // Only seeding on VRT helps us run tests over and over while not running into data integrity
+  // issues, like the member with email xyz already exists.
+  faker.seed(12345);
+}
 
 const ValueGenerators: ValueGeneratorCollection = {
   "|FAKE_NAME|": faker.name.findName,
