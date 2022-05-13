@@ -12,9 +12,14 @@
 </head>
 
 <style>
-  .step-image {
-    max-width: 50vh;
+  img {
     border: 1px solid #ccc;
+    margin: 5px;
+    height: 50vh;
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    margin: auto;
   }
 
   .failed {
@@ -51,7 +56,7 @@
   </div>
   <div class="row justify-content-center gy-2">
     <!-- Scenario accordion -->
-    <div class="col col-10">
+    <div class="col col-xxl-8">
       <div class="accordion accordion-flush" id="accordion-scenarios">
         {% for scenario in scenarios %}
         {% if scenario.failed %}
@@ -100,7 +105,7 @@
                       <div class="row justify-content-center gy-2">
                         <div class="row justify-content-center gy-2">
                           <div class="col col-auto">
-                            <h5>Difference</h5>
+                            <h4>Difference</h4>
                           </div>
                         </div>
                         <div class="row justify-content-center gy-2">
@@ -112,8 +117,7 @@
                         </div>
                         <div class="row justify-content-center gy-2">
                           <div class="col col-auto">
-                            <hr>
-                            <h5>Previous ({{ prev }})</h5>
+                            <h4>Previous ({{ prev }})</h4>
                           </div>
                         </div>
                         <div class="row justify-content-center gy-2">
@@ -125,8 +129,7 @@
                         </div>
                         <div class="row justify-content-center gy-2">
                           <div class="col col-auto">
-                            <hr>
-                            <h5>Post ({{ post }})</h5>
+                            <h4>Post ({{ post }})</h4>
                           </div>
                         </div>
                         <div class="row justify-content-center">
