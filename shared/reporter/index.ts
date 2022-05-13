@@ -15,13 +15,12 @@ async function main(command: Command) {
   let imagesDir: string
   let reportFile: string
   let report: Report
-  console.log(opts);
   // Fisrt thing is processing
   let toprocess = opts?.process;
   if (toprocess == 'kraken') {
 
     // Process kraken
-    reportDir = `${process.cwd()}/screenshots/kraken/report_${opts.prev}_${opts.post}`;
+    reportDir = `screenshots/kraken/report_${opts.prev}_${opts.post}`;
     imagesDir = reportDir + '/images';
     reportFile = reportDir + '/report.json';
     if (!opts.onlyrender) {
@@ -37,7 +36,7 @@ async function main(command: Command) {
   } else if (toprocess = 'playwright') {
 
     // Process playwright
-    reportDir = `${process.cwd()}/screenshots/playwright/report_${opts.prev}_${opts.post}`;
+    reportDir = `screenshots/playwright/report_${opts.prev}_${opts.post}`;
     reportFile = reportDir + '/report.json';
     imagesDir = reportDir + 'images';
     deleteCreateDir(reportDir);
@@ -90,8 +89,12 @@ async function main(command: Command) {
   console.log(`Kraken report generated for versions ${opts.prev} and ${opts.post} at ${reportFile.replace(process.cwd(), '')}`);
   fs.writeFileSync(reportFile, JSON.stringify(report, null, 2));
   // Render the report
-  render(report, reportDir);
+  let should_exit = render(report, toprocess, reportDir, opts.live);
   console.log('Report generated in: ' + reportDir);
+  if (should_exit) {
+    process.exit(0);
+  }
+  // Wait forever
 }
 
 // Pass two scenarios (the same scenario in two ghost versions) and return the
@@ -108,6 +111,7 @@ async function diffScenariosSteps(prev: ScenarioReportFormat, post: ScenarioRepo
     let data = await getDiff(prev_step.image, post_step.image, imagesDir + '/' + randomUUID() + '.png');
     let image = data.image
     data.image = undefined;
+    // Move the prev and post images to the images dir and change it's path
     steps.push({
       name: prev_step.name,
       image: image,
@@ -166,6 +170,7 @@ program
   // .option('--plawyright', 'Process the report data from playwright')
   .option('--report', 'Generate the report')
   .option('--onlyrender', 'Render the report only')
+  .option('--live', 'Live render the report')
   .requiredOption('--prev <string>', 'Version to take as prev')
   .requiredOption('--post <string>', 'Version to taskes as post')
 

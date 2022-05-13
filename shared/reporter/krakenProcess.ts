@@ -17,7 +17,7 @@ export function processKraken(prev: string, post: string, reportDir: string): Re
   // Process to move the image from base64 to file
   let versions = [prev, post]
   versions.forEach(version => {
-    let dir = `${process.cwd()}/screenshots/kraken/${version}/images`
+    let dir = `screenshots/kraken/${version}/images`
     if (fs.existsSync(dir)) {
       fs.rmSync(dir, { recursive: true, force: true });
     }
@@ -29,7 +29,7 @@ export function processKraken(prev: string, post: string, reportDir: string): Re
     report.scenarios.forEach(scenario => {
       scenario.steps.forEach(step => {
         if (step.base64) {
-          let imageName = `${process.cwd()}/screenshots/kraken/${report.version}/images/${randomUUID()}.png`
+          let imageName = `screenshots/kraken/${report.version}/images/${randomUUID()}.png`
           writeBase64toFile(step.image, imageName);
           step.image = imageName;
         }
@@ -38,12 +38,12 @@ export function processKraken(prev: string, post: string, reportDir: string): Re
   })
 
   fs.writeFileSync(outputFile, JSON.stringify(out, null, 2));
-  console.log(`Kraken PRE processing report generated for versions ${prev} and ${post} at ${outputFile.replace(process.cwd(), '')}`);
+  console.log(`Kraken PRE processing report generated for versions ${prev} and ${post} at ${outputFile}`);
   return out;
 }
 
 export function generateReport(version: string): TestSuiteReportFormat {
-  let toProcessFile = `${process.cwd()}/screenshots/kraken/${version}/toProcess.json`;
+  let toProcessFile = `./screenshots/kraken/${version}/toProcess.json`;
   // Try opening the file, and error if it doesn't exist
   try {
     fs.accessSync(toProcessFile);
@@ -70,7 +70,6 @@ export function processKrakenOriginalReport(reportPath: string): ScenarioReportF
   if (report.length < 1) {
     throw new Error('No report found')
   }
-  let cwd = process.cwd()
   let rep = report.shift()
   let scenario = rep?.elements?.shift()!
   // Filter only the steps
@@ -81,7 +80,7 @@ export function processKrakenOriginalReport(reportPath: string): ScenarioReportF
     // @ts-ignore
     name: rep.uri.replace(/(.feature|^.*?\/)/g, ''),
     // @ts-ignore
-    file: cwd + '/' + rep.uri,
+    file: './' + rep.uri,
     steps: [],
   }
 
