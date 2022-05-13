@@ -1,0 +1,75 @@
+name: Kraken VRT Tests
+on:
+  push:
+  pull_request:
+jobs:
+  kraken-vrt:
+    permissions:
+      contents: write
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    env:
+      GHOST_VERSION_PRE: 4.36
+      GHOST_VERSION_POST: 4.41.1
+      GHOST_VRT: true
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        path: repo
+    - uses: actions/checkout@v3
+      with:
+        path: gh-pages
+        ref: gh-pages
+        fetch-depth: 0
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14.x'
+    - name: Install system dependencies
+      run: sudo apt-get install -y android-tools-adb
+    - name: Setup chrome driver
+      uses: nanasess/setup-chromedriver@v1
+    - name: Setup docker
+      uses: docker-practice/actions-setup-docker@v1
+    - name: Pull docker image
+      run: |
+        docker image pull ghost:${GHOST_VERSION_PRE}
+        docker image pull ghost:${GHOST_VERSION_POST}
+    - name: Install node dependencies
+      working-directory: repo
+      run: npm ci
+    - name: Run kraken tests with pre version
+      working-directory: repo
+      run: GHOST_VERSION=${GHOST_VERSION_PRE} npm run kraken
+    - name: Run kraken tests with post version
+      working-directory: repo
+      run: GHOST_VERSION=${GHOST_VERSION_POST} npm run kraken
+    - name: Generate the html report
+      working-directory: repo
+      run: npm run reporter -- --process kraken --prev ${GHOST_VERSION_PRE} --post ${GHOST_VERSION_POST}
+    - name: Setup gh-pages
+      run: |
+        mkdir output
+        cd output
+        mkdir screenshots || true
+        # Copy the .git directory
+        cp -r ../gh-pages/.git .
+        # Copy the possibly existing playwright report
+        cp -r ../gh-pages/screenshots/playwright ./screenshots/playwright || true
+        # Copy the generated ouput
+        cp -r ../repo/kraken.html ./ || true
+        cp -r ../repo/screenshots/kraken ./screenshots/kraken || true
+
+    - name: Commit files
+      working-directory: output
+      run: |
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add --all
+        git commit -m "VRT reports update" -a
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: gh-pages
+        force: true
+        directory: output
