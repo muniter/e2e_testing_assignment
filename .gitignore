@@ -117,3 +117,5 @@ features/**/**.js
 *.d.ts
 
 screenshots/*/*/images/*.png
+kraken.html
+playwright.html
