@@ -1,5 +1,6 @@
 import { KrakenWorld } from "./support";
 import { After, Before } from '@cucumber/cucumber';
+import { ITestCaseHookParameter } from '@cucumber/cucumber/lib/support_code_library_builder/types';
 import { WebClient } from './WebClient'
 import type { Page } from 'puppeteer-core/lib/cjs/puppeteer/common/Page';
 import { startGhost } from '../../../shared/runner';
@@ -24,8 +25,9 @@ Before(async function(this: KrakenWorld) {
   }
   this.page.setDefaultTimeout(10000);
 })
-After(async function(this: KrakenWorld) {
-  if (VISUAL_REGRESSION_TESTING) {
+After(async function(this: KrakenWorld , params: ITestCaseHookParameter) {
+  if (VISUAL_REGRESSION_TESTING && params.result?.status === 1) {
+    // If on VRT and passing
     saveScenarioReportInfo(this.scenario)
   }
   await this.deviceClient.stopKrakenForUserId(this.userId);

@@ -24,6 +24,7 @@ export function saveScenarioReportInfo(scenario: ScenarioInformation) {
   let dir = `screenshots/kraken/${VERSION}`
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true })
+    console.log('\nCreating VRT report directory for the first time:', dir)
   }
   let data: ScenarioInformation[] = []
   let fname = dir + '/toProcess.json'
