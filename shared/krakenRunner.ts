@@ -12,9 +12,7 @@ export function runKraken() {
   let featuresDir = './features';
   // Get all the files in the features directory
   let files = fs.readdirSync(featuresDir).filter(f => f.endsWith('.feature') || f.endsWith('.commented'))
-  console.log('Files on first filter', files)
   files = files.map(f => f.replace('.commented', '')).sort();;  // Remove commented and sort
-  console.log('Files on removing comment', files, files.length)
 
   let file = files.shift();
   if (!file) {
