@@ -64,6 +64,8 @@ jobs:
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
+        # Move to the first commit of the repository
+        git reset --soft ${git rev-list --max-parents=0 HEAD}
         git add --all
         git commit -m "VRT reports update" -a
     - name: Push changes
