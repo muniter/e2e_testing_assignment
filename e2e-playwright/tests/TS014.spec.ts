@@ -14,7 +14,7 @@ import faker from '@faker-js/faker';
 
 // Run this tests in parallel
 test.describe.configure({ mode: 'parallel' })
-test('Create post and edit it', async ({ page }) => {
+test('Create post and edit it', async ({ page }, testinfo) => {
 
   // Intances and fakerValues
   const loginPage = new LoginPage(page);

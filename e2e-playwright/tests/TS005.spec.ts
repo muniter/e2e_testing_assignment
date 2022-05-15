@@ -15,7 +15,7 @@ import { MembersPage } from '../page/MembersPage';
 import faker from '@faker-js/faker';
 // Run this tests in parallel
 test.describe.configure({ mode: 'parallel' })
-test('Create member duplicate email', async ({ page }) => {
+test('Create member duplicate email', async ({ page }, testinfo) => {
   // Intances and fakerValues
   const loginPage = new LoginPage(page);
   const membersPage = new MembersPage(page);

@@ -11,10 +11,11 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from '../page/LoginPage';
 import { PostsPage } from '../page/PostsPage';
 import faker from '@faker-js/faker';
-
+import { VRTBeforeAll } from '../util/util';
+test.beforeAll(VRTBeforeAll);
 // Run this tests in parallel
 test.describe.configure({ mode: 'parallel' })
-test('Create post and delete it', async ({ page }) => {
+test('Create post and delete it', async ({ page }, testinfo) => {
 
   // Intances and fakerValues
   const loginPage = new LoginPage(page);

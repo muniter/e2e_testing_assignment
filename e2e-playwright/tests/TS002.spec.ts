@@ -12,7 +12,7 @@ import { MembersPage } from '../page/MembersPage';
 import faker from '@faker-js/faker';
 // Run this tests in parallel
 test.describe.configure({ mode: 'parallel' })
-test('Create Member with same name', async ({ page }) => {
+test('Create Member with same name', async ({ page }, testinfo) => {
   // Intances and fakerValues
   const loginPage = new LoginPage(page);
   const membersPage = new MembersPage(page);

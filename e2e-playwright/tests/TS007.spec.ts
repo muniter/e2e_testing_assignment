@@ -7,13 +7,15 @@ Entrar a vista de edición de miembro
 Eliminar miembro
 Revisar que no aparece y ha sido eliminado correctamente
 */
+import { VISUAL_REGRESSION_TESTING } from '../../shared/SharedConfig';
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../page/LoginPage';
 import { MembersPage } from '../page/MembersPage';
 import faker from '@faker-js/faker';
 // Run this tests in parallel
 test.describe.configure({ mode: 'parallel' })
-test('Delete member', async ({ page }) => {
+test('Delete member', async ({ page }, testinfo) => {
+  testinfo.skip(VISUAL_REGRESSION_TESTING)
   // Intances and fakerValues
   const loginPage = new LoginPage(page);
   const membersPage = new MembersPage(page);
