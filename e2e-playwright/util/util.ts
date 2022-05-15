@@ -1,6 +1,5 @@
-import type { Page } from '@playwright/test'
+import type { Page, TestInfo } from '@playwright/test'
 import { VERSION, VISUAL_REGRESSION_TESTING } from '../../shared/SharedConfig';
-import * as fs from 'fs';
 import { LoginPage } from '../page/LoginPage';
 import { chromium } from '@playwright/test';
 import { startGhost } from '../../shared/runner';
@@ -8,17 +7,17 @@ import { startGhost } from '../../shared/runner';
 
 let counter = 0;
 let baseDir = `./screenshots/playwright/${VERSION}`
-export async function takeScreenshot(page: Page, scenarioName: string, stepName?: string) {
-  if (VISUAL_REGRESSION_TESTING) {
+export async function takeScreenshot(page: Page, testInfo?: TestInfo, stepName?: string) {
+  if (!testInfo) {
+    throw new Error('testInfo not provided');
+  }
+
+  let scenarioName = testInfo.title;
+  if (VISUAL_REGRESSION_TESTING && testInfo.title !== '__ignore__') {
+    let stepNumber = String(counter).padStart(3, '0')
     counter++;
-    await page.screenshot({ path: `${baseDir}/scenarios/${scenarioName}/steps/${String(counter).padStart(2, '0')}_${stepName}.png`, fullPage: true });
+    await page.screenshot({ path: `${baseDir}/${scenarioName}/${stepNumber}_${stepName}.png`, fullPage: true });
   }
-}
-export function deleteCreateDir(dir: string) {
-  if (fs.existsSync(dir)) {
-    fs.rmSync(dir, { recursive: true, force: true });
-  }
-  fs.mkdirSync(dir);
 }
 
 export async function VRTBeforeAll() {
@@ -26,7 +25,7 @@ export async function VRTBeforeAll() {
     await startGhost();
     const browser = await chromium.launch();
     const page = await browser.newPage();
-    const loginPage = new LoginPage(page);
+    const loginPage = new LoginPage(page, { title: '__ignore__' } as TestInfo);
     await loginPage.open();
     await loginPage.setup();
     await browser.close();
