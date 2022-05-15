@@ -55,7 +55,7 @@ jobs:
 
     - name: Generate the html report
       working-directory: repo
-      run: npm run reporter -- --process kraken --prev ${GHOST_VERSION_PRE} --post ${GHOST_VERSION_POST}
+      run: npm run reporter -- --process playwright --prev ${GHOST_VERSION_PRE} --post ${GHOST_VERSION_POST}
 
     - name: Setup gh-pages
       working-directory: gh-pages

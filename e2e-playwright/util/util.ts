@@ -22,6 +22,11 @@ export async function takeScreenshot(page: Page, testInfo?: TestInfo, stepName?:
 
 export async function VRTBeforeAll() {
   if (VISUAL_REGRESSION_TESTING) {
+    await startGhostAndSetup();
+  }
+}
+
+export async function startGhostAndSetup() {
     await startGhost();
     const browser = await chromium.launch();
     const page = await browser.newPage();
@@ -29,5 +34,4 @@ export async function VRTBeforeAll() {
     await loginPage.open();
     await loginPage.setup();
     await browser.close();
-  }
 }
