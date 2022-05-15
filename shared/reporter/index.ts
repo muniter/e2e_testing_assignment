@@ -1,6 +1,7 @@
 // Takes care of generating the reports
 import * as fs from 'fs';
 import { processKraken } from './krakenProcess';
+import { processPlaywright } from './playwrightProcess';
 import { randomUUID } from 'crypto';
 import { Command, Option, program } from 'commander';
 import { Report, ScenarioReportFormat, ScenarioStep } from './types';
@@ -42,8 +43,7 @@ async function main(command: Command) {
     deleteCreateDir(reportDir);
     deleteCreateDir(imagesDir);
     if (!opts.onlyrender) {
-      // TODO: Implement
-      // result = processPlaywright(opts.prev, opts.post);
+      report = processPlaywright(opts.prev, opts.post, reportDir);
     } else {
       // Only rendering, load the existing one
       if (!fs.existsSync(reportFile)) {
@@ -51,7 +51,6 @@ async function main(command: Command) {
       }
       report = JSON.parse(fs.readFileSync(reportFile).toString()) as Report;
     }
-    throw new Error('Playwright not implemented yet');
 
   } else {
     throw new Error('No process specified');
@@ -86,7 +85,7 @@ async function main(command: Command) {
     }
   }
   // Finally we can write the report which will be used for the HTML
-  console.log(`Kraken report generated for versions ${opts.prev} and ${opts.post} at ${reportFile.replace(process.cwd(), '')}`);
+  console.log(`${toprocess} report generated for versions ${opts.prev} and ${opts.post} at ${reportFile.replace(process.cwd(), '')}`);
   fs.writeFileSync(reportFile, JSON.stringify(report, null, 2));
   // Render the report
   let should_exit = render(report, toprocess, reportDir, opts.live);
@@ -165,9 +164,7 @@ async function getDiff(prev: string, post: string, output: string): Promise<Reco
 // Entrypoint
 
 program
-  .addOption(new Option('--process <tool>', 'Process the report data from plawyright or kraken').choices(['kraken', 'plawright']))
-  // .option('--kraken', 'Process the report data from kraken')
-  // .option('--plawyright', 'Process the report data from playwright')
+  .addOption(new Option('--process <tool>', 'Process the report data from plawyright or kraken').choices(['kraken', 'playwright']))
   .option('--report', 'Generate the report')
   .option('--onlyrender', 'Render the report only')
   .option('--live', 'Live render the report')
