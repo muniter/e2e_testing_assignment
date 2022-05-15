@@ -1,11 +1,11 @@
 import { KrakenWorld } from "./support";
-import { After, Before } from '@cucumber/cucumber';
+import { AfterStep, After, Before } from '@cucumber/cucumber';
 import { ITestCaseHookParameter } from '@cucumber/cucumber/lib/support_code_library_builder/types';
 import { WebClient } from './WebClient'
 import type { Page } from 'puppeteer-core/lib/cjs/puppeteer/common/Page';
 import { startGhost } from '../../../shared/runner';
 import { saveScenarioReportInfo } from "./utils";
-import { VISUAL_REGRESSION_TESTING } from "../../../shared/SharedConfig";
+import { CI, VISUAL_REGRESSION_TESTING } from "../../../shared/SharedConfig";
 
 Before(async function(this: KrakenWorld) {
   await startGhost();
@@ -24,6 +24,13 @@ Before(async function(this: KrakenWorld) {
     throw new Error('No pages found');
   }
   this.page.setDefaultTimeout(10000);
+})
+
+AfterStep(async function(this: KrakenWorld, { gherkinDocument }: ITestCaseHookParameter) {
+  if (VISUAL_REGRESSION_TESTING && CI) {
+    // Wait for the page to be ready
+    await this.page.waitForTimeout(1000);
+  }
 })
 After(async function(this: KrakenWorld , params: ITestCaseHookParameter) {
   if (VISUAL_REGRESSION_TESTING && params.result?.status === 1) {
