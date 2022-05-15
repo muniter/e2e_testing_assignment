@@ -20,7 +20,7 @@ jobs:
       with:
         path: gh-pages
         ref: gh-pages
-        fetch-depth: 0
+        fetch-depth: 10
     - uses: actions/setup-node@v2
       with:
         node-version: '14.x'
@@ -47,20 +47,13 @@ jobs:
       working-directory: repo
       run: npm run reporter -- --process kraken --prev ${GHOST_VERSION_PRE} --post ${GHOST_VERSION_POST}
     - name: Setup gh-pages
+      working-directory: gh-pages
       run: |
-        mkdir output
-        cd output
-        mkdir screenshots || true
-        # Copy the .git directory
-        cp -r ../gh-pages/.git .
-        # Copy the possibly existing playwright report
-        cp -r ../gh-pages/screenshots/playwright ./screenshots/playwright || true
-        # Copy the generated ouput
-        cp -r ../repo/kraken.html ./ || true
-        cp -r ../repo/screenshots/kraken ./screenshots/kraken || true
-
+        rm -rf screenshots/kraken kraken.html || true
+        mv ../repo/screenshots/kraken screenshots/kraken
+        mv ../repo/kraken.html kraken.html
     - name: Commit files
-      working-directory: output
+      working-directory: gh-pages
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
@@ -74,4 +67,4 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: gh-pages
         force: true
-        directory: output
+        directory: gh-pages
