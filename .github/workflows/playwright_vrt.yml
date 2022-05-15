@@ -3,7 +3,7 @@ on:
   push:
   pull_request:
 jobs:
-  kraken-vrt:
+  playwright-vrt:
     permissions:
       contents: write
     timeout-minutes: 30
@@ -60,7 +60,7 @@ jobs:
     - name: Setup gh-pages
       working-directory: gh-pages
       run: |
-        rm -rf screenshots/playwright playwright.html
+        rm -rf screenshots/playwright playwright.html || true
         mv ../repo/playwright.html playwright.html
         mv ../repo/screenshots/playwright screenshots/playwright
 
