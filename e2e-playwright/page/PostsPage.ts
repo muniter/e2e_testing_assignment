@@ -1,9 +1,11 @@
-import { Locator, Page } from '@playwright/test';
+import { Locator, Page, TestInfo } from '@playwright/test';
 import { Urls } from '../../shared/SharedConfig';
+import { takeScreenshot } from '../util/util';
 
 const listUrl = Urls['post/list']
 export class PostsPage {
   readonly page: Page;
+  readonly testInfo: TestInfo;
   readonly newPost: Locator;
   readonly posts: Locator;
   readonly title: Locator;
@@ -18,8 +20,9 @@ export class PostsPage {
   readonly deleteButton: Locator;
   readonly deleteConfirm: Locator;
 
-  constructor(page: Page) {
+  constructor(page: Page, testInfo: TestInfo) {
     this.page = page;
+    this.testInfo = testInfo;
     this.newPost = page.locator('a:has-text("New Post")');
     this.posts = page.locator('li:has(a[href="#/posts/"])');
     this.title = page.locator('textarea[placeholder="Post title"]');
@@ -42,6 +45,7 @@ export class PostsPage {
   async open() {
     await this.page.goto(listUrl);
     await this.page.waitForLoadState('networkidle');
+    await takeScreenshot(this.page, this.testInfo, 'open_posts_page');
   }
 
   async createPost(title: string, content: any) {
@@ -49,6 +53,7 @@ export class PostsPage {
     await this.page.locator('.gh-nav').locator('li:has(a[href="#/posts/"])').click({ timeout: 5000 });
 
     await this.newPost.click();
+    await takeScreenshot(this.page, this.testInfo, 'open_new_post_page');
     await this.title.type(title);
     if (content !== null) {
       await this.content.type(content);
@@ -58,6 +63,7 @@ export class PostsPage {
     }
 
     await this.publishDrowndown.click();
+    await takeScreenshot(this.page, this.testInfo, 'select_publish_option');
     await this.publishButton.click();
     await this.page.waitForLoadState('networkidle');
     await this.publishConfirm.click();
@@ -78,6 +84,7 @@ export class PostsPage {
     await this.title.fill(newTitle);
     await this.page.waitForTimeout(1000);
     await this.updateDrowndown.click();
+    await takeScreenshot(this.page, this.testInfo, 'select_update_option');
     await this.updateButton.click({ timeout: 3000 });
     await this.page.goto(listUrl);
     await this.page.waitForLoadState('networkidle');
@@ -89,7 +96,9 @@ export class PostsPage {
     await this.page.waitForLoadState('networkidle');
     await this.page.locator('li', { hasText: title }).click({ timeout: 3000 });
     await this.settingsButton.click();
+    await takeScreenshot(this.page, this.testInfo, 'open_post_settings');
     await this.deleteButton.click({ timeout: 3000 });
+    await takeScreenshot(this.page, this.testInfo, 'confirm_delete');
     await this.deleteConfirm.click();
     await this.page.goto(listUrl);
     await this.page.waitForLoadState('networkidle');

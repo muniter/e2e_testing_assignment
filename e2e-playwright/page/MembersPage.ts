@@ -1,10 +1,12 @@
-import { Locator, Page } from '@playwright/test';
+import { Locator, Page, TestInfo } from '@playwright/test';
 import { Urls } from '../../shared/SharedConfig';
+import { takeScreenshot } from '../util/util';
 
 const listUrl = Urls['member/list']
 
 export class MembersPage {
   readonly page: Page;
+  readonly testInfo: TestInfo;
   readonly newMember: Locator;
   readonly name: Locator;
   readonly email: Locator;
@@ -18,8 +20,9 @@ export class MembersPage {
   readonly deleteMember: Locator;
   readonly search: Locator;
 
-  constructor(page: Page) {
+  constructor(page: Page, testInfo: TestInfo) {
     this.page = page;
+    this.testInfo = testInfo;
     this.newMember = page.locator('a:has-text("New Member")');
     this.name = page.locator('input[id="member-name"]');
     this.email = page.locator('input[id="member-email"]');
@@ -40,6 +43,7 @@ export class MembersPage {
     }
   }
   async retryMember({ name, email, notes, label }: { name?: string, email?: string, notes?: string, label?: string }) {
+    await takeScreenshot(this.page, this.testInfo, 'retry_member');
     await this.fillValues({ name, email, notes, label });
     await this.retry.click();
     await this.page.waitForTimeout(1000);
@@ -67,6 +71,7 @@ export class MembersPage {
 
   async createMember(name: string, email: string, notes: string, back: boolean = true, label?: string) {
     await this.open()
+    await takeScreenshot(this.page, this.testInfo, 'create_member');
     await this.newMember.click();
     let timer = this.page.waitForTimeout(3000);
     await this.fillValues({ name, email, notes, label });
@@ -86,6 +91,7 @@ export class MembersPage {
     let navigation = this.page.waitForNavigation({ waitUntil: 'networkidle' });
     await this.actions.click();
     await this.page.waitForTimeout(200);
+    await takeScreenshot(this.page, this.testInfo, 'delete_member');
     await this.deleteMember.click();
     await this.page.waitForTimeout(200);
     await this.page.keyboard.press('Enter');
@@ -125,6 +131,7 @@ export class MembersPage {
 
   async filterMembers(word: string) {
     let navigation = this.page.waitForNavigation({ waitUntil: 'networkidle' });
+    await takeScreenshot(this.page, this.testInfo, 'filter_members');
     await this.search.fill(word);
     await this.page.waitForTimeout(100);
     await this.page.keyboard.press('Enter');
@@ -160,6 +167,7 @@ export class MembersPage {
   async editMember({ currName, currEmail }: { currName?: string, currEmail?: string }, { name, email, notes, label }: { name?: string, email?: string, notes?: string, label?: string }) {
     await this.openMember({ name: currName, email: currEmail })
     await this.fillValues({ name, email, notes, label });
+    await takeScreenshot(this.page, this.testInfo, 'edit_member');
     await this.save.click();
     // Return false if it finds the retry button else true
     try {

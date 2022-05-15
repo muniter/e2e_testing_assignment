@@ -1,16 +1,20 @@
-import type { Page } from '@playwright/test';
+import type { Page, TestInfo } from '@playwright/test';
 import { Urls, SiteConfig } from '../../shared/SharedConfig';
+import { takeScreenshot } from '../util/util';
 
 export class LoginPage {
   readonly page: Page;
   private attempts: number = 3;
+  private testInfo: TestInfo|undefined;
 
-  constructor(page: Page) {
+  constructor(page: Page, testInfo: TestInfo) {
     this.page = page;
+    this.testInfo = testInfo;
   }
 
   async open() {
     await this.page.goto(Urls.signin, { waitUntil: 'networkidle' });
+    await takeScreenshot(this.page, this.testInfo, 'open_login_page');
   }
 
   async login() {
@@ -32,6 +36,7 @@ export class LoginPage {
     }
     if (this.page.url().includes('setup')) {
       await this.page.waitForSelector('input[id="blog-title"]');
+      await takeScreenshot(this.page, this.testInfo, 'setup_page');
       const input = await this.page.$('input[id="blog-title"]')
       await input?.type(SiteConfig.siteTitle);
       const name = await this.page.$('input[id="name"]')
