@@ -18,8 +18,8 @@ test.describe.configure({ mode: 'parallel' })
 test('Create post and delete it', async ({ page }, testinfo) => {
 
   // Intances and fakerValues
-  const loginPage = new LoginPage(page);
-  const postsPage = new PostsPage(page);
+  const loginPage = new LoginPage(page, testinfo);
+  const postsPage = new PostsPage(page, testinfo);
   const fakeValues = {
     title: faker.lorem.sentence(),
     content: faker.lorem.paragraph(),

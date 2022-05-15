@@ -13,15 +13,18 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from '../page/LoginPage';
 import { PostsPage } from '../page/PostsPage';
 import faker from '@faker-js/faker';
+import { VRTBeforeAll } from '../util/util';
+
+test.beforeAll(VRTBeforeAll);
 
 // Run this tests in parallel
 test.describe.configure({ mode: 'parallel' })
 test('Create multiple post with the same title', async ({ page }, testinfo) => {
 
   // Intances and fakerValues
-  const loginPage = new LoginPage(page);
-  const postsPage = new PostsPage(page);
-  const postsPage2 = new PostsPage(page);
+  const loginPage = new LoginPage(page, testinfo);
+  const postsPage = new PostsPage(page, testinfo);
+  const postsPage2 = new PostsPage(page, testinfo);
   const fakeValues = {
     title: faker.lorem.sentence(),
     content: faker.lorem.paragraph(),

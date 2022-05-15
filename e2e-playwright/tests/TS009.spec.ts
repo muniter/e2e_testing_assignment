@@ -13,12 +13,15 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from '../page/LoginPage';
 import { MembersPage } from '../page/MembersPage';
 import faker from '@faker-js/faker';
+import { VRTBeforeAll } from '../util/util';
+
+test.beforeAll(VRTBeforeAll);
 // Run this tests in parallel
 test.describe.configure({ mode: 'parallel' })
 test('Filter member delete', async ({ page }, testinfo) => {
   // Intances and fakerValues
-  const loginPage = new LoginPage(page);
-  const membersPage = new MembersPage(page);
+  const loginPage = new LoginPage(page, testinfo);
+  const membersPage = new MembersPage(page, testinfo);
   const fakeValues = {
     namea: faker.name.findName(),
     nameb: faker.name.findName(),
