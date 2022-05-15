@@ -13,10 +13,10 @@ import { PostsPage } from '../page/PostsPage';
 import faker from '@faker-js/faker';
 import { VRTBeforeAll } from '../util/util';
 test.beforeAll(VRTBeforeAll);
+faker.seed(123);
 // Run this tests in parallel
 test.describe.configure({ mode: 'parallel' })
 test('Create post and delete it', async ({ page }, testinfo) => {
-
   // Intances and fakerValues
   const loginPage = new LoginPage(page, testinfo);
   const postsPage = new PostsPage(page, testinfo);

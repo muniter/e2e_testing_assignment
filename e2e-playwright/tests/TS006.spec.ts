@@ -15,6 +15,7 @@ import faker from '@faker-js/faker';
 import { VRTBeforeAll } from '../util/util';
 
 test.beforeAll(VRTBeforeAll);
+faker.seed(123);
 // Run this tests in parallel
 test.describe.configure({ mode: 'parallel' })
 test('Create member retry', async ({ page }, testinfo) => {
