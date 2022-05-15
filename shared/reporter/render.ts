@@ -3,7 +3,7 @@ import { Report } from './types';
 import * as nunjucks from 'nunjucks';
 
 export function render(report: Report, program: string, destination: string, live: boolean = false): boolean {
-  let FAILED_VALUE = 8; // 8%
+  let FAILED_VALUE = 2; // 8%
   let should_exit = true; // Used to tell the caller to not exit the program
 
   // Pass the template which scenarios failed
