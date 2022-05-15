@@ -1,87 +1,13 @@
-# WARNING
-
-## Generar VRT reports
-
-1. Correr Ghost en ambas versiones de la siguiente manera:
-
-Nota: se usa `CI=1` para que corra headless.
-
-```bash
-CI=1 GHOST_VRT=1 GHOST_VERSION=4.41.1 npm run kraken
-CI=1 GHOST_VRT=1 GHOST_VERSION=4.38.1 npm run kraken
-```
-
-Cuando los anteriores comandos corran y pasen se genera la siguiente estructura en la carpeta screenshots:
-
-```
-screenshots
-└── kraken
-    ├── 4.38.1
-    │   └── toProcess.json
-    └── 4.41.1
-        └── toProcess.json
-```
-
-3. Para procesar los archivos `toProcess.json`
-
-```bash
-npm run reporter -- --process kraken --prev 4.38.1 --post 4.41.1
-```
-
-Cuando el anterior comando corra y pasen se genera la siguiente estructura en la carpeta screenshots: Esto habrá extraido los screenshots tomados por los reportes de kraken, y combinado la información sacará una carpeta adicional con nomber `reoprt_{prev}_{post}' en esta se encontrará un archivo `report.json` dondé estará todo combinado, referenciando las imágenes que corresponden a cada paso de cada escenario:
-
-```bash
-screenshots
-└── kraken
-    ├── 4.36
-    │   └── toProcess.json
-    ├── 4.38.1
-    │   ├── images
-    │   │   ├── 0022c060-811b-4349-927f-c7ba13cb0a77.png
-    │   │   ├── ...
-    │   │   └── ff8a0f18-eea9-4a4a-8ef6-c422554b5381.png
-    │   └── toProcess.json
-    ├── 4.41.1
-    │   ├── images
-    │   │   ├── 00b7feb9-ee8c-4724-a039-9ceed34b2585.png
-    │   │   ├── ...
-    │   │   └── ff188d3f-64a2-411b-ac04-4bd17c5eec52.png
-    │   └── toProcess.json
-    └── report_4.38.1_4.41.1
-        ├── images
-        │   ├── 01401cc4-4c31-4ed5-b9b6-81db02cf6230.png
-        │   ├── ...
-        │   └── ffe8f115-cb28-4d7b-b978-0d33da1458b8.png
-        ├─── index.html <----------------- The rendered report
-        └── report.json <----------------- The merged reports
-```
-
-**De este output se genera una página HTML que vemos en index.html**
-
-4. Si ya se tiene el `report.json` listo y solo se quiere hacer render.
-
-```bash
-npm run reporter -- --onlyrender --process kraken --prev 4.38.1 --post 4.41.1
-```
-
-Y generará nuevamente el `screenshots/kraken/report_4.38.1_4.41.1/index.html`
-
-# Para correr se necesita docker
-
-Para correr las pruebas de playwright:
-
-```
-GHOST_VERSION=4.41.1 npx playwright test
-```
-
-Cuando vayamos a hacer VRT, las cosas cambian, solo se pueden correr en 1 worker, pues la base de datos se eliminará en cada corrida de cada caso, pero esto hasta ahora no está implementado.
-
-```
-GHOST_VRT=1 GHOST_VERSION=4.41.1 npx playwright test --worker 1
-```
-
 # E2E Testing
 
+* Aplicación bajo pruebas: [Ghost](https://github.com/TryGhost/Ghost)
+* Versión: 4.41.1
+* Versión for VRT: 4.36
+
+Reportes VRT:
+
+* [Kraken VRT](https://github.com/muniter/e2e_testing_assignment/blob/main/.github/workflows/kraken_vrt.yml#L1)
+* [Ghost VRT](https://github.com/muniter/e2e_testing_assignment/blob/main/.github/workflows/ghost_vrt.yml#L1)
 
 ## Funcionalidades bajo prueba
 
@@ -99,6 +25,11 @@ Las siguientes son las funcionalidades elegidas para realizar las pruebas.
 | 8  | **Filtrar members**           | Se puede filtrar los miembros por nombre y otros identificadores.                                                       |
 
 ## Escenarios de prueba
+
+**Despliegue la lista para ver el inventario de escenarios de prueba.**
+
+<details>
+<summary>Listado de escenarios de prueba</summary>
 
 **Nota**: Solo son 15 por [autorización del profesor Mario Linares](https://github.com/muniter/e2e_testing_assignment/wiki#an%C3%A1lisis-y-comentarios-sobre-herramientas)
 
@@ -120,6 +51,8 @@ Las siguientes son las funcionalidades elegidas para realizar las pruebas.
 | 14     | Create post and edit it                  | Login<br>Crear Post<br>Publicar Post<br>Editar Post<br>Validar Post publicado                                                                                                                                                                                                                           |
 | 15     | Create post and delete it                | Login<br>Crear Post<br>Publicar Post<br>Eliminar Post                                                                                                                                                                                                                                                   |
 
+</details>
+
 ## Análisis y comentarios de las herramientas
 
 Se encuentra en la [wiki](https://github.com/muniter/e2e_testing_assignment/wiki)
@@ -136,10 +69,10 @@ Los workflows, o definición de procedimientos están definidos de la siguiente 
 
 1. [Playwright](https://github.com/muniter/e2e_testing_assignment/blob/main/.github/workflows/playwright.yml)
 1. [Kraken](https://github.com/muniter/e2e_testing_assignment/blob/main/.github/workflows/kraken.yml)
+1. [Kraken VRT](https://github.com/muniter/e2e_testing_assignment/blob/main/.github/workflows/kraken_vrt.yml#L1)
+1. [Ghost VRT](https://github.com/muniter/e2e_testing_assignment/blob/main/.github/workflows/ghost_vrt.yml#L1)
 
 Estos corren con cada commit a master en el repositorio.
-
-**NOTA: Es muy importante que instale Ghost en el puerto en que explicamos, de esto dependen las pruebas**
 
 **NOTA: Todas las pruebas corren en chromium**
 
@@ -149,29 +82,20 @@ Estos corren con cada commit a master en el repositorio.
 
 Instrucciones para instalar en máquina en Unix like systems (Linux, Mac OS (**no probado**)).
 
-* Instalar dependencias
+#### 1. Instalar dependencias
 
 ```bash
 npm install
 ```
 
-* Instalar dependencias nivel de sistema
+#### 2. Instalar dependencias nivel de sistema
 
   * Chromium
+  * Docker
 
-* Instalar Ghost
+#### 3. Correr las pruebas:
 
-```bash
-npx ghost install 4.41.1 --local --port 9333 --dir ./Ghost
-```
-
-* Correr ghost: estará disponible en  http://localhost:9333/ghost/
-
-```bash
-npx ghost start --dir ./Ghost
-```
-
-* Correr test de playwright (en un solo worker)
+**NOTA**: El [global setup](https://github.com/muniter/e2e_testing_assignment/blob/main/global-setup.ts) de playwright se encargará de levantar una instancia de Ghost usando un contenedor en el puerto 9333. por lo cual solo el siguiente llamado es suficiente para hacer el bootstrap.
 
 ```bash
 npx playwright test --workers 1
@@ -179,11 +103,12 @@ npx playwright test --workers 1
 
 **NOTA: si se quiere correr las pruebas con una base de datos limpia**
 
-Corra para eliminar la base de datos de Ghost y reiniciar.
+Elimine el contenedor, en la próxima corrida se recreará automáticamente.
 
 ```bash
-rm -rf Ghost/content/data/ghost-local.db && npx ghost restart -d Ghost
+docker rm --force ghost-testing
 ```
+
 
 #### Tips
 
@@ -198,52 +123,83 @@ También le puede servir verificar como las pruebas [automátizadas se definen e
 
 Instrucciones para instalar en máquina en Unix like systems (Linux, Mac OS (**no probado**)).
 
-* Instalar dependencias
+#### 1. Instalar dependencias
 
 ```bash
 npm install
 ```
 
-* Instalar dependencias nivel de sistema
+#### 2. Instalar dependencias nivel de sistema
 
   * [Todos los requisitos de kraken](https://github.com/TheSoftwareDesignLab/Kraken#-installation)
+  * Chromium
+  * Docker
 
-* Instalar Ghost
+#### 3. Correr tests de kraken
 
-**NOTA:** Si ya lo instaló **de la forma explicada (puerto 9333)** puede eliminar la base de datos y reiniciarlo (más adelante se encuentra como).
-
-```bash
-npx ghost install 4.41.1 --local --port 9333 --dir ./Ghost
-```
-
-* Correr ghost: estará disponible en  http://localhost:9333/ghost/
+**NOTA**: El [before step](https://github.com/muniter/e2e_testing_assignment/blob/main/features/web_src/support/hooks.ts#L11) de kraken se encargará de levantar una instancia de Ghost usando un contenedor en el puerto 9333. por lo cual solo el siguiente llamado es suficiente para hacer el bootstrap.
 
 ```bash
-npx ghost start --dir ./Ghost
-```
-
-* **Compilar el código**
-
-Los steps y demás archivos que usa kraken son transpilados de TypeScript a JavaScript, se encuentran en la [carpeta src_kraken/](https://github.com/muniter/e2e_testing_assignment/tree/main/src_kraken) por lo cual se necesita hacer compilación antes de correr las pruebas de kraken.
-
-**Sin cambiar de directorio**, desde el **root** del repositorio correr:
-```bash
-tsc
-```
-
-* Correr tests de kraken
-
-```bash
-npx kraken-node run
+npm run kraken
 ```
 
 **NOTA: si se quiere correr las pruebas con una base de datos limpia**
 
-Corra para eliminar la base de datos de Ghost y reiniciar.
+Elimine el contenedor, en la próxima corrida se recreará automáticamente.
 
 ```bash
-rm -rf Ghost/content/data/ghost-local.db && npx ghost restart -d Ghost
+docker rm --force ghost-testing
 ```
+
+## Visual Regression Testing
+
+Actualmente las pruebas de VRT se corren en cada commit de este repositorio, como se puede ver en los siguientes workflows:
+
+* [Kraken VRT](https://github.com/muniter/e2e_testing_assignment/blob/main/.github/workflows/kraken_vrt.yml#L1)
+* [Ghost VRT](https://github.com/muniter/e2e_testing_assignment/blob/main/.github/workflows/ghost_vrt.yml#L1)
+
+Los resultados son publicados automáticamente a la rama [gh-pages](https://github.com/muniter/e2e_testing_assignment/tree/gh-pages) de este repositorio y por lo tanto se sirve como contenido web en los siguientes links:
+
+* [Kraken VRT results](https://muniter.github.io/e2e_testing_assignment/kraken.html)
+* [Playwright VRT results](https://muniter.github.io/e2e_testing_assignment/playwright.html)
+
+Para correr las pruebas en modos VRT se hace necesario lo siguiente:
+
+#### 1. Correr Ghost en ambas versiones de la siguiente manera:
+
+**Kraken**
+
+```bash
+CI=1 GHOST_VRT=1 GHOST_VERSION=4.41.1 npm run kraken
+CI=1 GHOST_VRT=1 GHOST_VERSION=4.36 npm run kraken
+```
+
+**Playwright**
+
+```bash
+CI=1 GHOST_VRT=1 GHOST_VERSION=4.41.1 npx playwright test --workers 1
+CI=1 GHOST_VRT=1 GHOST_VERSION=4.36 npx playwright test --workers 1
+```
+
+#### 2. Procesamiento de datos y generación de reporte: 
+
+La automatización de este procesamiento se encuentra en el script [reporter](https://github.com/muniter/e2e_testing_assignment/blob/main/shared/reporter/index.ts#L12) donde se toman los resultados de los screenshots, [se analizan con resembleJS](https://github.com/muniter/e2e_testing_assignment/blob/main/shared/reporter/index.ts#L143) y luego se aplican un [template](https://github.com/muniter/e2e_testing_assignment/blob/main/shared/reporter/template.html#L1) HTML usando nunjucks.
+
+**Kraken**
+
+```bash
+npm run reporter -- --process kraken --prev 4.36 --post 4.41.1
+```
+
+Esto generará un archivo en la base del repositorio [`kraken.html`](https://muniter.github.io/e2e_testing_assignment/kraken.html).
+
+**Playwright**
+
+```bash
+npm run reporter -- --process playwright --prev 4.36 --post 4.41.1
+```
+
+Esto generará un archivo en la base del repositorio [`playwright.html`](https://muniter.github.io/e2e_testing_assignment/playwright.html).
 
 ## Autores
 
