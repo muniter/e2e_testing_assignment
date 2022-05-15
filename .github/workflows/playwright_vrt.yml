@@ -60,9 +60,9 @@ jobs:
     - name: Setup gh-pages
       working-directory: gh-pages
       run: |
-        rm -rf screenshots/kraken kraken.html
-        mv ../repo/screenshots/kraken screenshots/kraken
-        mv ../repo/kraken.html kraken.html
+        rm -rf screenshots/playwright playwright.html
+        mv ../repo/playwright.html playwright.html
+        mv ../repo/screenshots/playwright screenshots/playwright
 
     - name: Commit files
       working-directory: gh-pages
