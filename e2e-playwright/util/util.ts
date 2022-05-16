@@ -16,6 +16,7 @@ export async function takeScreenshot(page: Page, testInfo?: TestInfo, stepName?:
   if (VISUAL_REGRESSION_TESTING && testInfo.title !== '__ignore__') {
     let stepNumber = String(counter).padStart(3, '0')
     counter++;
+    await page.waitForTimeout(1000);
     await page.screenshot({ path: `${baseDir}/${scenarioName}/${stepNumber}_${stepName}.png`, fullPage: true });
   }
 }

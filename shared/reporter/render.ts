@@ -36,6 +36,7 @@ export function render(report: Report, program: string, destination: string, liv
     prev: report.prev.version,
     post: report.post.version,
     scenarios: diff?.scenarios,
+    failPercent: FAILED_VALUE,
   }
 
   if (live) {

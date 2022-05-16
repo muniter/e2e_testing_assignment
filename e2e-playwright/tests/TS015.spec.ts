@@ -12,11 +12,14 @@ import { LoginPage } from '../page/LoginPage';
 import { PostsPage } from '../page/PostsPage';
 import faker from '@faker-js/faker';
 import { VRTBeforeAll } from '../util/util';
+import { VISUAL_REGRESSION_TESTING } from '../../shared/SharedConfig';
 test.beforeAll(VRTBeforeAll);
+if (VISUAL_REGRESSION_TESTING) {
+  faker.seed(12345);
+}
 // Run this tests in parallel
 test.describe.configure({ mode: 'parallel' })
 test('Create post and delete it', async ({ page }, testinfo) => {
-
   // Intances and fakerValues
   const loginPage = new LoginPage(page, testinfo);
   const postsPage = new PostsPage(page, testinfo);

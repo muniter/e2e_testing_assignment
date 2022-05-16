@@ -47,7 +47,7 @@ export function generateReport(version: string): TestSuiteReportFormat {
       let { name } = fileName.match(/(^\d+)_(?<name>.*?)\.png/)?.groups!
 
       if (name) {
-        name = name.replace('_', ' ');
+        name = name.replace(/\_/g, ' ');
       } else {
         console.error(`Error parsing step ${fileIdx} with name ${name}`);
         process.exit(1);

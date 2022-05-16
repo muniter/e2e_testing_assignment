@@ -15,6 +15,9 @@ import faker from '@faker-js/faker';
 import { VRTBeforeAll } from '../util/util';
 
 test.beforeAll(VRTBeforeAll);
+if (VISUAL_REGRESSION_TESTING) {
+  faker.seed(12345);
+}
 // Run this tests in parallel
 test.describe.configure({ mode: 'parallel' })
 test('Delete member', async ({ page }, testinfo) => {

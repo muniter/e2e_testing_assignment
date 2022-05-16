@@ -48,7 +48,7 @@
         </div>
         <div class="row justify-content-center">
           <div class="col col-auto">
-            <p>Legend: Red naming on scenario or step means it failed the maximum selected difference of 8%</p>
+            <p>Legend: Red naming on scenario or step means it failed the maximum selected difference of {{ failPercent }}</p>
           </div>
         </div>
       </div>
@@ -71,7 +71,7 @@
             <button class="accordion-button {{ class }} collapsed" type="button" data-bs-toggle="collapse"
               data-bs-target="#scenario-data-{{ loop.index }}" aria-expanded="true"
               aria-controls="#scenario-data-{{ loop.index }}">
-              <i class="{{ icon }}"></i>Scenario {{ loop.index }}: {{ scenario.name }}
+              <i class="{{ icon }}"></i>Scenario {{ loop.index }}: {{ scenario.name | title }}
             </button>
           </h2>
           <div id="scenario-data-{{ loop.index }}" class="accordion-collapse collapse"
@@ -95,7 +95,7 @@
                       data-bs-target="#step-data-{{ sidx }}-{{ loop.index }}" aria-expanded="true"
                       aria-controls="#step-data-{{ sidx }}-{{ loop.index }}">
                       <i class="{{ icon }}"></i>Step {{ loop.index }} ({{ step.data.misMatchPercentage | float |
-                      round(1) }}%): {{ step.name }}
+                      round(1) }}%): {{ step.name | title }}
                     </button>
                   </h2>
                   <div id="step-data-{{ sidx }}-{{ loop.index }}" class="accordion-collapse collapse"
