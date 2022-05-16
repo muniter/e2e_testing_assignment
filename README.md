@@ -6,8 +6,8 @@
 
 Reportes VRT:
 
-- [Kraken VRT](https://github.com/muniter/e2e_testing_assignment/blob/main/.github/workflows/kraken_vrt.yml#L1)
-- [Playwright VRT](https://github.com/muniter/e2e_testing_assignment/blob/main/.github/workflows/playwright_vrt.yml#L1)
+- [Kraken VRT](https://muniter.github.io/e2e_testing_assignment/kraken.html)
+- [Playwright VRT](https://muniter.github.io/e2e_testing_assignment/playwright.html)
 
 ## Funcionalidades bajo prueba
 
@@ -61,7 +61,7 @@ Se encuentra en la [wiki](https://github.com/muniter/e2e_testing_assignment/wiki
 
 Los archivos de playwwright se encuentran en [e2e-playwright/](https://github.com/muniter/e2e_testing_assignment/tree/main/e2e-playwright/tests)
 
-Los archivos de kraken, los features se encuentran en [features/](https://github.com/muniter/e2e_testing_assignment/tree/main/features), y los steps y support **están escritos en TypeScript** y se encuentran en [src_kraken/](https://github.com/muniter/e2e_testing_assignment/tree/main/features/web_src)
+Los archivos de kraken, los features se encuentran en [features/](https://github.com/muniter/e2e_testing_assignment/tree/main/features), y los steps y support **están escritos en TypeScript** y se encuentran en [features/web_src/](https://github.com/muniter/e2e_testing_assignment/tree/main/features/web_src)
 
 Ambas herramientas están corriendo en **Continuous Integration** en este repositorio, puede [navegar a actions](https://github.com/muniter/e2e_testing_assignment/actions) para ver los últimos resultados de los test, o puede ver el [listado de commits](https://github.com/muniter/e2e_testing_assignment/commits/main) para ver su estado final.
 
