@@ -176,11 +176,6 @@ export const Scenarios: ScenarioSchema = {
       oracle: false,
       data: { name: { length: 192 } },
     },
-    shortname: {
-      title: 'Very short name',
-      oracle: true,
-      data: { name: { length: 2 } },
-    },
     noemail: {
       title: 'No email',
       oracle: false,
@@ -200,16 +195,6 @@ export const Scenarios: ScenarioSchema = {
       title: 'Invalid email',
       oracle: false,
       data: { email: { kind: 'invalid' } },
-    },
-    notldemail: {
-      title: 'No TLD email',
-      oracle: false,
-      data: { email: { kind: 'notld' } },
-    },
-    nobio: {
-      title: 'No bio',
-      oracle: true,
-      data: { bio: { omit: true } },
     },
     biolessfrontier: {
       title: 'Long bio (near frontier 199 vs 200)',
