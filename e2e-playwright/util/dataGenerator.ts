@@ -1,13 +1,16 @@
-import { writeFileSync } from 'fs';
+import { writeFileSync, readFileSync } from 'fs';
+import { StaffData } from '../page/StaffPage';
 import faker from '@faker-js/faker';
 
-type DataPoolType = 'apriori' | 'dynamic' | 'random';
+const APRIORI_POOL_FILE = './pool.json';
+
+export type DataPoolType = 'apriori' | 'dynamic' | 'random';
 
 // Data pool on disk (a priori) and generated at runtime (dynamic)
 type DataPool = Record<Model, Record<ScenarioIdentifier, ScenarioDataPool>>;
-type Model = 'member' | 'profile';
+type Model = 'member' | 'staff';
 type ScenarioIdentifier = string
-type ScenarioDataPool = Member[]|Profile[];
+type ScenarioDataPool = Member[] | Staff[];
 
 type Member = {
   name: string;
@@ -16,7 +19,7 @@ type Member = {
   labels: string[];
 };
 
-type Profile = Member
+type Staff = StaffData
 
 
 interface FieldOption {
@@ -148,23 +151,121 @@ export const Scenarios: ScenarioSchema = {
       data: { labels: { number: 50, length: 5 } },
     }
   },
-  profile: {},
+  staff: {
+    noname: {
+      title: 'No name',
+      oracle: false,
+      data: {
+        name: { omit: true }
+      },
+    },
+    longname: {
+      title: 'Long name',
+      oracle: true,
+      data: {
+        name: { length: 100 }
+      }
+    },
+    maxlongname: {
+      title: 'Max long name (191)',
+      oracle: true,
+      data: { name: { length: 191 } },
+    },
+    overmaxlongname: {
+      title: 'Over max long name (192)',
+      oracle: false,
+      data: { name: { length: 192 } },
+    },
+    shortname: {
+      title: 'Very short name',
+      oracle: true,
+      data: { name: { length: 2 } },
+    },
+    noemail: {
+      title: 'No email',
+      oracle: false,
+      data: { email: { omit: true } },
+    },
+    longemail: {
+      title: 'Long email: 60',
+      oracle: false,
+      data: { email: { length: 60 } },
+    },
+    verylongemail: {
+      title: 'Very long email: 100',
+      oracle: false,
+      data: { email: { length: 100 } },
+    },
+    invalidemail: {
+      title: 'Invalid email',
+      oracle: false,
+      data: { email: { kind: 'invalid' } },
+    },
+    notldemail: {
+      title: 'No TLD email',
+      oracle: false,
+      data: { email: { kind: 'notld' } },
+    },
+    nobio: {
+      title: 'No bio',
+      oracle: true,
+      data: { bio: { omit: true } },
+    },
+    biolessfrontier: {
+      title: 'Long bio (near frontier 199 vs 200)',
+      oracle: true,
+      data: { bio: { length: 199 } },
+    },
+    biomorefrontier: {
+      title: 'Long bio (over frontier 201 vs 200)',
+      oracle: false,
+      data: { bio: { length: 201 } },
+    },
+    bioinfrontier: {
+      title: 'Long bio (in frontier 200 vs 200)',
+      oracle: true,
+      data: { bio: { length: 200 } },
+    },
+  },
 } as const
 
-export function generateMember({ pool, config }: { pool: DataPoolType, config: ScenarioConfig }): Member {
+export function getMember({ pool, identifier, config }: { pool: DataPoolType, identifier: string, config: ScenarioConfig }): Member {
+  let member: Member
   if (pool === 'random') {
-    let member: Member = {
+    member = {
       name: genName(config.data.name || { once: true }),
       email: genEmail(config.data.email || { once: true }),
       notes: genNotes(config.data.notes || { once: true }),
       labels: genlabels(config.data.labels || { omit: true }),
     }
-    // console.log(member);
-
-    return member;
+  } else if (pool == 'apriori') {
+    member = getFromPool('member', identifier, 'apriori') as Member
+  } else if (pool == 'dynamic') {
+    member = getFromPool('member', identifier, 'dynamic') as Member
   } else {
-    throw new Error('Not implemented');
+    throw new Error('Unknown pool');
   }
+  return member;
+}
+
+export function getStaff({ pool, identifier, config }: { pool: DataPoolType, identifier: string, config: ScenarioConfig }): Staff {
+  let staff: Staff
+  if (pool === 'random') {
+    staff = {
+      name: config.data.name && genName(config.data.name),
+      email: config.data.email && genEmail(config.data.email),
+      bio: config.data.bio && genNotes(config.data.bio),
+    }
+    staff = Object.fromEntries(Object.entries(staff).filter(([_, v]) => v !== undefined));
+
+  } else if (pool == 'apriori') {
+    staff = getFromPool('staff', identifier, 'apriori') as Staff
+  } else if (pool == 'dynamic') {
+    staff = getFromPool('staff', identifier, 'dynamic') as Staff
+  } else {
+    throw new Error('Unknown pool');
+  }
+  return staff;
 }
 
 function genEmail(options: FieldOption): string {
@@ -249,28 +350,74 @@ function stringGenerator({ length, generator, omit, once }: FieldOption): string
   return res;
 }
 
-function generatePool() {
+let DynamicPool: DataPool;
+let LoadedDynamicPool = false;
+let AprioriPool: DataPool;
+let LoadedAprioriPool = false;
+
+// Load a scenario data from a data pool type.
+// @param model: Model the scenario belongs to
+// @param scenario: Scenario identifier to get the data for
+// @param poolType: Data pool type to get the data froma (apriori, dynamic)
+// @returns Scenario data, picked at random from the pool
+function getFromPool(model: Model, identifier: string, poolType: DataPoolType): Member | Staff {
+  let pool: DataPool;
+  if (poolType === 'apriori') {
+    if (!LoadedAprioriPool) {
+      AprioriPool = JSON.parse(readFileSync(APRIORI_POOL_FILE, 'utf8')) as DataPool;
+      LoadedDynamicPool = true;
+    }
+    pool = AprioriPool;
+  } else if (poolType === 'dynamic') {
+    if (!LoadedDynamicPool) {
+      DynamicPool = generatePool(false);
+      LoadedDynamicPool = true;
+    }
+    pool = DynamicPool;
+  } else {
+    throw new Error('Unknown pool type');
+  }
+
+  // Filter the pool to get the data for this specific scenario
+  let scenarioPool = pool[model][identifier];
+  // Get one at random from the available data
+  let data = scenarioPool[Math.floor(Math.random() * scenarioPool.length)];
+  return data;
+}
+
+function generatePool(write: boolean = true): DataPool {
   // @ts-ignore
-  let pool: DataPool = { member: {}, profile: {} };
+  let pool: DataPool = { member: {}, staff: {} };
   let number = 100
   Object.entries(Scenarios).forEach(([model, scenarios]) => {
     if (model === 'member') {
-      let modelData: Record<string, Member[] | Profile[]> = {};
+      let modelData: Record<string, Member[] | Staff[]> = {};
       Object.entries(scenarios).forEach(([identifier, config]) => {
-        let scenarioData: Member[] | Profile[] = [];
+        let scenarioData: Member[] = [];
         for (let i = 0; i < number; i++) {
-          scenarioData.push(generateMember({ pool: 'random', config }));
+          scenarioData.push(getMember({ pool: 'random', identifier: identifier, config }));
         }
         modelData[identifier] = scenarioData;
       });
       pool.member = modelData;
-    } else if (model === 'profile') {
-      pool.profile = {};
+    } else if (model === 'staff') {
+
+      let modelData: Record<string, Member[] | Staff[]> = {};
+      Object.entries(scenarios).forEach(([identifier, config]) => {
+        let scenarioData: Staff[] = [];
+        for (let i = 0; i < number; i++) {
+          scenarioData.push(getStaff({ pool: 'random', identifier: identifier, config }));
+        }
+        modelData[identifier] = scenarioData;
+      });
+      pool.staff = modelData;
+
     } else {
       throw new Error('Not implemented');
     }
   });
-  writeFileSync('./pool.json', JSON.stringify(pool, null, 2));
+  if (write) {
+    writeFileSync('./pool.json', JSON.stringify(pool, null, 2));
+  }
+  return pool;
 }
-
-generatePool();
