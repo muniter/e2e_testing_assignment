@@ -119,3 +119,4 @@ features/**/**.js
 screenshots/*/*/images/*.png
 kraken.html
 playwright.html
+screenshots/**/*.png
