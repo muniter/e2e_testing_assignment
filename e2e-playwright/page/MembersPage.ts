@@ -3,6 +3,7 @@ import { Urls } from '../../shared/SharedConfig';
 import { takeScreenshot } from '../util/util';
 
 const listUrl = Urls['member/list']
+const creatUrl = Urls['member/new']
 
 export class MembersPage {
   readonly page: Page;
@@ -49,23 +50,57 @@ export class MembersPage {
     await this.page.waitForTimeout(1000);
   }
 
-  async fillValues({ name, email, notes, label }: { name?: string, email?: string, notes?: string, label?: string }) {
+  async fillValues({ name, email, notes, label }: { name?: string, email?: string, notes?: string, label?: string|string[] }) {
     if (name) {
       await this.name.fill('');
-      await this.name.type(name);
+      await this.name.fill(name);
     }
     if (label) {
-      await this.label.fill(label);
-      await this.label.focus();
-      await this.page.keyboard.press('Enter');
+      if (Array.isArray(label)) {
+        for (let l of label) {
+          await this.fillValues({ label: l });
+        }
+      } else {
+        await this.label.type(label, { delay: 5 });
+        await this.label.focus();
+        await this.page.keyboard.press('Enter');
+      }
     }
     if (email) {
       await this.email.fill('');
-      await this.email.type(email);
+      await this.email.fill(email);
     }
     if (notes) {
       await this.notes.fill('');
-      await this.notes.type(notes);
+      await this.notes.fill(notes);
+    }
+  }
+
+  async CreateMember({ name, email, notes, labels }: { name?: string, email?: string, notes?: string, labels?: string[] }): Promise<boolean> {
+    await this.page.goto(creatUrl, { waitUntil: 'networkidle' });
+    await this.fillValues({ name, email, notes });
+    if (labels) {
+      for (let label of labels) {
+        await this.fillValues({ label });
+      }
+    }
+    let watchdog = [
+      this.retry.elementHandle({ timeout: 5000 }),
+      this.saved.elementHandle({ timeout: 5000 }),
+    ]
+    await this.save.click();
+    let result = await Promise.race(watchdog)
+    let text = await result?.innerText()
+    if (text) {
+      if (text.includes('Saved')) {
+        return true;
+      } else if (text.includes('Retry')) {
+        return false;
+      } else {
+        throw new Error('Unknown error');
+      }
+    } else {
+      throw new Error('Timeout, not saved nor retry');
     }
   }
 

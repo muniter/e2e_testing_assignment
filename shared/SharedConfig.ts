@@ -12,6 +12,7 @@ export const Urls = {
   setup: URL + "/ghost/#/setup",
   dashboard: URL + "/ghost/#/dashboard",
   "member/list": URL + "/ghost/#/members",
+  "member/new": URL + "/ghost/#/members/new",
   "post/list": URL + "/ghost/#/posts",
 } as const
 
