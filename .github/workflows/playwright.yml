@@ -1,7 +1,12 @@
 name: Playwright Tests
 on:
   push:
+    branches:
+     - main
+     - dev**
   pull_request:
+    branches:
+     - main
 jobs:
   playwrigh-tests:
     env:
@@ -23,4 +28,4 @@ jobs:
       if: always()
       run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: npx playwright test --workers 1
+      run: npx playwright test --project=regular --workers 1

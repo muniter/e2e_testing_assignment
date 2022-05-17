@@ -1,7 +1,11 @@
 name: Kraken VRT Tests
 on:
   push:
+    branches:
+     - main
   pull_request:
+    branches:
+     - main
 jobs:
   kraken-vrt:
     permissions:

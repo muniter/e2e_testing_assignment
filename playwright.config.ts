@@ -47,10 +47,18 @@ const config: PlaywrightTestConfig = {
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
+      name: 'regular',
       use: {
         ...devices['Desktop Chrome'],
       },
+      testIgnore: [ 'data.spec.ts']
+    },
+    {
+      name: 'data',
+      use: {
+        ...devices['Desktop Chrome'],
+      },
+      testMatch: ['data.spec.ts']
     },
 
     // {

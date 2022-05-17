@@ -1,7 +1,11 @@
 name: Playwright VRT Tests
 on:
   push:
+    branches:
+     - main
   pull_request:
+    branches:
+     - main
 jobs:
   playwright-vrt:
     permissions:
@@ -47,11 +51,11 @@ jobs:
 
     - name: Run Playwright tests with pre version
       working-directory: repo
-      run: GHOST_VERSION=${GHOST_VERSION_PRE} npx playwright test --workers 1
+      run: GHOST_VERSION=${GHOST_VERSION_PRE} npx playwright test --project=regular --workers 1
 
     - name: Run playwright tests with post version
       working-directory: repo
-      run: GHOST_VERSION=${GHOST_VERSION_POST} npm run playwright test --workers 1
+      run: GHOST_VERSION=${GHOST_VERSION_POST} npx playwright test --project=regular --workers 1
 
     - name: Generate the html report
       working-directory: repo

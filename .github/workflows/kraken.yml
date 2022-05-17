@@ -1,7 +1,11 @@
 name: Kraken Tests
 on:
   push:
+    branches:
+     - main
   pull_request:
+    branches:
+     - main
 jobs:
   kraken-tests:
     timeout-minutes: 30
