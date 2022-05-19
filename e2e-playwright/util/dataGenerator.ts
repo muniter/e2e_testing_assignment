@@ -406,6 +406,9 @@ function getFromPool(model: Model, identifier: string, poolType: DataPoolType): 
   // Filter the pool to get the data for this specific scenario
   // This is a pool of 100
   let scenarioPool = pool[model][identifier];
+  if (!scenarioPool) {
+    throw new Error('Scenario not found in pool, make sure to update the apriori pool');
+  }
   // Get one at random from the available data
   let data = scenarioPool[Math.floor(Math.random() * scenarioPool.length)];
   return data;
