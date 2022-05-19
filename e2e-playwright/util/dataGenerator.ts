@@ -411,11 +411,14 @@ function getFromPool(model: Model, identifier: string, poolType: DataPoolType): 
 // This is done by creating a "smaller" data pool for each of the scenarios stated
 // at the start of this file, this "smaller" data pool is of size DATA_POOL_GEN_PER_SCENARIO
 // for each of the scenarios.
-export function generatePool(write: boolean = true): DataPool {
+export function generatePool(write: boolean = true, seed?: number): DataPool {
   let pool: DataPool = { member: {}, staff: {} };
   Object.entries(Scenarios).forEach(([model, scenarios]) => {
     // For each of the member scenarios let's create a "smaller" "inner" pool
     // of size DATA_POOL_GEN_PER_SCENARIO
+    if (seed) {
+      faker.seed(seed);
+    }
     if (model === 'member') {
       let modelData: Record<string, Member[] | Staff[]> = {};
       Object.entries(scenarios).forEach(([identifier, config]) => {
@@ -448,4 +451,8 @@ export function generatePool(write: boolean = true): DataPool {
     writeFileSync('./pool.json', JSON.stringify(pool, null, 2));
   }
   return pool;
+}
+
+if (require.main === module) {
+  generatePool(true, 12345);
 }
