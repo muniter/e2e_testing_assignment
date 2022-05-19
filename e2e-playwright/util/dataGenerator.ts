@@ -358,6 +358,12 @@ function stringGenerator({ length, generator, omit, once }: FieldOption):
     return res
   }
 
+  // If it ends with a space, change it for a random alphaNumeric, since ghost
+  // removes trailing whitespaces in some fileds
+  if (res.endsWith(' ')) {
+    res = res.slice(0, -1) + faker.random.alphaNumeric(1);
+  }
+
   // Return a random string from the generator function compying with the given characteristics.
   return res;
 }
