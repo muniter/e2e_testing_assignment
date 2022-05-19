@@ -382,7 +382,7 @@ function getFromPool(model: Model, identifier: string, poolType: DataPoolType): 
     if (!LoadedAprioriPool) {
       // Using apriori therefor reading form file
       AprioriPool = JSON.parse(readFileSync(APRIORI_POOL_FILE, 'utf8')) as DataPool;
-      LoadedDynamicPool = true;
+      LoadedAprioriPool = true;
     }
     pool = AprioriPool;
   } else if (poolType === 'dynamic') {
