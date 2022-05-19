@@ -8,7 +8,8 @@
     "playwright": "playwright test",
     "kraken-compile": "npx tsc --build ./features/web_src/tsconfig.json",
     "kraken": "npm run kraken-compile && npx ts-node shared/krakenRunner.ts",
-    "reporter": "npx tsc --build ./shared && npx ts-node shared/reporter/index.ts"
+    "reporter": "npx tsc --build ./shared && npx ts-node shared/reporter/index.ts",
+    "gendatapool": "npx ts-node e2e-playwright/util/dataGenerator.ts"
   },
   "keywords": [],
   "author": "",
