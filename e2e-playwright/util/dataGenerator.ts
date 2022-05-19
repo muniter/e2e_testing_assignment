@@ -51,6 +51,7 @@ export const Scenarios: ScenarioSchema = {
     // With title 'no name'
     // With oracle true, meaning it should pass creation
     // With data: name (omitted), all other fields default value
+    
     noname: {
       title: 'No name',
       oracle: true,
@@ -251,7 +252,21 @@ export const Scenarios: ScenarioSchema = {
       oracle: false,
       data: { twitter: { length: 16 } },
     },
-
+    websitevalid: {
+      title: 'Long website (near frontier 1999 vs 2000) include .com',
+      oracle: true,
+      data: { website: { length: 16 } },
+    },
+    websitemorefrontier: {
+      title: 'Long website (over frontier 2001 vs 2000) include .com',
+      oracle: false,
+      data: { website: { length: 1997 } },
+    },
+    websiteinfrontier: {
+      title: 'Long website (in frontier 2000 vs 2000) include .com',
+      oracle: true,
+      data: { website: { length: 1996} },
+    },
 
   },
 } as const
@@ -290,6 +305,7 @@ export function getStaff({ pool, identifier, config }: { pool: DataPoolType, ide
       bio: config.data.bio && genNotes(config.data.bio),
       location: config.data.location && genNotes(config.data.location),
       twitter: config.data.twitter && genNotes(config.data.twitter),
+      website: config.data.website && genWebsite(config.data.website),
     }
     staff = Object.fromEntries(Object.entries(staff).filter(([_, v]) => v !== undefined));
 
@@ -360,6 +376,11 @@ function genNotes(options: FieldOption): string {
   });
 }
 
+// Generate an email given a field option
+function genWebsite(options: FieldOption): string {
+  return faker.random.alphaNumeric(options.length) + '.com';
+}
+
 // Generates a string from a given generator function matching the given
 // options. For example generate a name using faker.name.findName, if the name
 // needs to be 100 character longs keep string concatenating or slicing until
@@ -392,12 +413,6 @@ function stringGenerator({ length, generator, omit, once }: FieldOption):
     return res
   }
 
-  // If it ends with a space, change it for a random alphaNumeric, since ghost
-  // removes trailing whitespaces in some fileds
-  if (res.endsWith(' ')) {
-    res = res.slice(0, -1) + faker.random.alphaNumeric(1);
-  }
-
   // Return a random string from the generator function compying with the given characteristics.
   return res;
 }
@@ -422,7 +437,7 @@ function getFromPool(model: Model, identifier: string, poolType: DataPoolType): 
     if (!LoadedAprioriPool) {
       // Using apriori therefor reading form file
       AprioriPool = JSON.parse(readFileSync(APRIORI_POOL_FILE, 'utf8')) as DataPool;
-      LoadedAprioriPool = true;
+      LoadedDynamicPool = true;
     }
     pool = AprioriPool;
   } else if (poolType === 'dynamic') {
@@ -440,9 +455,6 @@ function getFromPool(model: Model, identifier: string, poolType: DataPoolType): 
   // Filter the pool to get the data for this specific scenario
   // This is a pool of 100
   let scenarioPool = pool[model][identifier];
-  if (!scenarioPool) {
-    throw new Error('Scenario not found in pool, make sure to update the apriori pool');
-  }
   // Get one at random from the available data
   let data = scenarioPool[Math.floor(Math.random() * scenarioPool.length)];
   return data;
