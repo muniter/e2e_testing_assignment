@@ -24,10 +24,10 @@ DataPools.forEach(pool => {
       const member = getMember({ pool: pool, identifier: identifier, config: scenario })
 
       // Login
-      const loginPage = new LoginPage(page, testinfo);
-      await loginPage.open();
-      await loginPage.login();
-      expect(await loginPage.userIsLoggedIn()).toBeTruthy();
+      // const loginPage = new LoginPage(page, testinfo);
+      // await loginPage.open();
+      // await loginPage.login();
+      // expect(await loginPage.userIsLoggedIn()).toBeTruthy();
 
       // Go to members page
       const membersPage = new MembersPage(page, testinfo);
@@ -50,10 +50,10 @@ DataPools.forEach(pool => {
       const staffEdit = getStaff({ pool: pool, identifier: identifier, config: scenario })
 
       // Login
-      const loginPage = new LoginPage(page, testinfo);
-      await loginPage.open();
-      await loginPage.login();
-      expect(await loginPage.userIsLoggedIn()).toBeTruthy();
+      // const loginPage = new LoginPage(page, testinfo);
+      // await loginPage.open();
+      // await loginPage.login();
+      // expect(await loginPage.userIsLoggedIn()).toBeTruthy();
 
       // Go to the staff edit page
       const staffPage = new StaffPage(page, testinfo);

@@ -1,0 +1,15 @@
+{
+  "cookies": [
+    {
+      "sameSite": "Lax",
+      "name": "ghost-admin-api-session",
+      "value": "s%3AU9ZtN5BGwTHqVvTwDuZnUcK9Y9RF5foz.o4Jgv2%2FwXjFa0eZNqPZsV1xHsd5llyarwyIa4tu0YNI",
+      "domain": "localhost",
+      "path": "/ghost",
+      "expires": 1668707431.424014,
+      "httpOnly": true,
+      "secure": false
+    }
+  ],
+  "origins": []
+}
