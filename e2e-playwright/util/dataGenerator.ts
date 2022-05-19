@@ -221,6 +221,38 @@ export const Scenarios: ScenarioSchema = {
       oracle: true,
       data: { bio: { length: 200 } },
     },
+    locationlessfrontier: {
+      title: 'Long location (near frontier 149 vs 150)',
+      oracle: true,
+      data: { location: { length: 149 } },
+    },
+    locationinfrontier: {
+      title: 'Long location (near frontier 150 vs 150)',
+      oracle: true,
+      data: { location: { length: 150 } },
+    },
+    locationmorefrontier: {
+      title: 'Long location (over frontier 151 vs 150)',
+      oracle: false,
+      data: { location: { length: 151 } },
+    },
+    twitterlessfrontier:{
+      title: 'Long twitter (near frontier 14 vs 15)',
+      oracle: true,
+      data: { twitter: { length: 14 } },
+    },
+    twitterinfrontier: {
+      title: 'Long twitter (in frontier 15 vs 15)',
+      oracle: true,
+      data: { twitter: { length: 15 } },
+    },
+    twittermorefrontier: {
+      title: 'Long twitter (over frontier 16 vs 15)',
+      oracle: false,
+      data: { twitter: { length: 16 } },
+    },
+
+
   },
 } as const
 

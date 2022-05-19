@@ -23,6 +23,7 @@ export class StaffPage {
   readonly save: Locator;
   readonly saved: Locator;
   readonly retry: Locator;
+  readonly twitter: Locator;
 
   constructor(page: Page, testInfo: TestInfo) {
     this.page = page;
@@ -37,6 +38,7 @@ export class StaffPage {
     this.save = page.locator('button:has-text("Save")');
     this.saved = page.locator('button:has-text("Saved")');
     this.retry = page.locator('button:has-text("Retry")');
+    this.twitter = page.locator('input[id="user-twitter"]');
   }
 
   async open() {
