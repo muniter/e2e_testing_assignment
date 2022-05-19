@@ -21,7 +21,7 @@ DataPools.forEach(pool => {
     let oracleType = oracle ? 'positive' : 'negative'
     test(`${counter}. Pool (${pool}): Member creation: ${title}. (Oracle: ${oracleType})`, async ({ page }, testinfo) => {
       // This method generates the member using the provided pool configuration
-      const member = getMember({ pool: 'random', identifier: identifier, config: scenario })
+      const member = getMember({ pool: pool, identifier: identifier, config: scenario })
 
       // Login
       const loginPage = new LoginPage(page, testinfo);
@@ -47,7 +47,7 @@ DataPools.forEach(pool => {
     let oracleType = oracle ? 'positive' : 'negative'
     test(`${counter}. Pool (${pool}): Staff edition: ${title}. (Oracle: ${oracleType})`, async ({ page }, testinfo) => {
       // This method generates the member using the provided pool configuration
-      const staffEdit = getStaff({ pool: 'random', identifier: identifier, config: scenario })
+      const staffEdit = getStaff({ pool: pool, identifier: identifier, config: scenario })
 
       // Login
       const loginPage = new LoginPage(page, testinfo);

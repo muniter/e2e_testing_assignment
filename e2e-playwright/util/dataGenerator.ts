@@ -392,6 +392,12 @@ function stringGenerator({ length, generator, omit, once }: FieldOption):
     return res
   }
 
+  // If it ends with a space, change it for a random alphaNumeric, since ghost
+  // removes trailing whitespaces in some fileds
+  if (res.endsWith(' ')) {
+    res = res.slice(0, -1) + faker.random.alphaNumeric(1);
+  }
+
   // Return a random string from the generator function compying with the given characteristics.
   return res;
 }
@@ -416,7 +422,7 @@ function getFromPool(model: Model, identifier: string, poolType: DataPoolType): 
     if (!LoadedAprioriPool) {
       // Using apriori therefor reading form file
       AprioriPool = JSON.parse(readFileSync(APRIORI_POOL_FILE, 'utf8')) as DataPool;
-      LoadedDynamicPool = true;
+      LoadedAprioriPool = true;
     }
     pool = AprioriPool;
   } else if (poolType === 'dynamic') {
@@ -434,6 +440,9 @@ function getFromPool(model: Model, identifier: string, poolType: DataPoolType): 
   // Filter the pool to get the data for this specific scenario
   // This is a pool of 100
   let scenarioPool = pool[model][identifier];
+  if (!scenarioPool) {
+    throw new Error('Scenario not found in pool, make sure to update the apriori pool');
+  }
   // Get one at random from the available data
   let data = scenarioPool[Math.floor(Math.random() * scenarioPool.length)];
   return data;
@@ -445,11 +454,14 @@ function getFromPool(model: Model, identifier: string, poolType: DataPoolType): 
 // This is done by creating a "smaller" data pool for each of the scenarios stated
 // at the start of this file, this "smaller" data pool is of size DATA_POOL_GEN_PER_SCENARIO
 // for each of the scenarios.
-export function generatePool(write: boolean = true): DataPool {
+export function generatePool(write: boolean = true, seed?: number): DataPool {
   let pool: DataPool = { member: {}, staff: {} };
   Object.entries(Scenarios).forEach(([model, scenarios]) => {
     // For each of the member scenarios let's create a "smaller" "inner" pool
     // of size DATA_POOL_GEN_PER_SCENARIO
+    if (seed) {
+      faker.seed(seed);
+    }
     if (model === 'member') {
       let modelData: Record<string, Member[] | Staff[]> = {};
       Object.entries(scenarios).forEach(([identifier, config]) => {
@@ -482,4 +494,8 @@ export function generatePool(write: boolean = true): DataPool {
     writeFileSync('./pool.json', JSON.stringify(pool, null, 2));
   }
   return pool;
+}
+
+if (require.main === module) {
+  generatePool(true, 12345);
 }
