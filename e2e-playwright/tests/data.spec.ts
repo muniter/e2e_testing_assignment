@@ -32,7 +32,7 @@ DataPools.forEach(pool => {
       // Go to members page
       const membersPage = new MembersPage(page, testinfo);
       // Create member with the given data, returns true if created successfully
-      // or false if the creation faileed
+      // or false if the creation failed
       // console.log(member);
       let res = await membersPage.CreateMember(member);
       // The scenarios data comes from the data pool and the oracles is defined with the data

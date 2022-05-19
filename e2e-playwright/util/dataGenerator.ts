@@ -288,6 +288,8 @@ export function getStaff({ pool, identifier, config }: { pool: DataPoolType, ide
       name: config.data.name && genName(config.data.name),
       email: config.data.email && genEmail(config.data.email),
       bio: config.data.bio && genNotes(config.data.bio),
+      location: config.data.location && genNotes(config.data.location),
+      twitter: config.data.twitter && genNotes(config.data.twitter),
     }
     staff = Object.fromEntries(Object.entries(staff).filter(([_, v]) => v !== undefined));
 

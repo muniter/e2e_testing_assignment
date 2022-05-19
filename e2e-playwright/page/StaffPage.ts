@@ -8,6 +8,7 @@ export interface StaffData {
   website?: string,
   location?: string,
   slug?: string
+  twitter?: string,
 }
 
 export class StaffPage {
