@@ -1,11 +1,10 @@
 import { test, expect, TestInfo, Page } from '@playwright/test';
 import { LoginPage } from '../page/LoginPage';
 import { MembersPage } from '../page/MembersPage';
-import { Cookie, nameDataScenario, VRTBeforeAll } from '../util/util'
+import { Cookie, nameDataScenario } from '../util/util'
 import { Scenarios, ScenarioConfig, DataPools, getData, generateCombinations } from '../util/dataGenerator';
 import { StaffPage } from '../page/StaffPage';
-
-test.beforeAll(VRTBeforeAll);
+import { SiteConfig } from '../../shared/SharedConfig';
 
 // Run this tests in parallel
 test.describe.configure({ mode: 'parallel' })
@@ -69,7 +68,9 @@ Object.entries(Scenarios).forEach(([identifier, scenario]) => {
   counter++;
 })
 
-let combinations = generateCombinations(50)
+let numberOfCombinations = 90 - 15 + 1 - counter
+// console.log('Number of combination scenarios: ', numberOfCombinations)
+let combinations = generateCombinations(numberOfCombinations)
 combinations.forEach((combination) => {
   let identifier_1 = combination[0]
   let scenario_1 = Scenarios[identifier_1]

@@ -33,6 +33,7 @@ interface FieldOption {
   omit?: boolean,
   kind?: string,
   once?: boolean,
+  leftadd?: boolean,  // fields like email, cutting and adding at the domain is problemtic
   generator?: () => string,
 }
 
@@ -59,6 +60,17 @@ export const Scenarios: ScenarioSchema = {
     oracle: true,
     data: {
       name: { omit: true }
+    },
+  },
+  emptyallfields: {
+    title: 'Empty all fields',
+    model: 'member',
+    oracle: false,
+    data: {
+      name: { omit: true },
+      email: { omit: true },
+      labels: { omit: true },
+      notes: { omit: true },
     },
   },
   longname: {
@@ -93,11 +105,11 @@ export const Scenarios: ScenarioSchema = {
     oracle: false,
     data: { email: { omit: true } },
   },
-  longemail: {
-    title: 'Long email: 60',
+  normalemail: {
+    title: 'Email normal (40)',
     model: 'member',
-    oracle: false,
-    data: { email: { length: 60 } },
+    oracle: true,
+    data: { email: { length: 40 } },
   },
   verylongemail: {
     title: 'Very long email: 100',
@@ -123,6 +135,45 @@ export const Scenarios: ScenarioSchema = {
     oracle: false,
     data: { email: { kind: 'notld' } },
   },
+  // Failure ov email validations
+  // Source: https://www.netmeister.org/blog/email.html
+  emojiemail: {
+    title: '[BUG] Emoji email',
+    model: 'member',
+    oracle: false,
+    data: { email: { kind: 'emoji' } },
+  },
+  multiplesarrobas: {
+    title: '[BUG] Email should allow multiple "@"',
+    model: 'member',
+    oracle: false,
+    data: { email: { kind: 'mutiple@' } },
+  },
+  multiplepunctuationchars: {
+    title: 'Email should allow multiple punctuation characters',
+    model: 'member',
+    oracle: true,
+    data: { email: { kind: 'mutiple_punctuation' } },
+  },
+  ipaddressasdomain: {
+    title: '[BUG] Email should allow IP address as domain "whatever@[166.84.7.99]"',
+    model: 'member',
+    oracle: false,
+    data: { email: { kind: 'ip_domain' } },
+  },
+  specialdot: {
+    title: 'Email should not allow consecutive dots "."',
+    model: 'member',
+    oracle: false,
+    data: { email: { kind: 'special_dot' } },
+  },
+  speciaquoteddot: {
+    title: 'Email should allow consecutive dots ".." if they are quoted " "',
+    model: 'member',
+    oracle: true,
+    data: { email: { kind: 'special_quoted_dot' } },
+  },
+  // End of email validation
   normalnote: {
     title: 'Normal note',
     model: 'member',
@@ -183,11 +234,23 @@ export const Scenarios: ScenarioSchema = {
     oracle: true,
     data: { labels: { number: 50, length: 5 } },
   },
+  // STAFF
   snoname: {
     title: 'No name',
     model: 'staff',
     oracle: false,
     data: { name: { omit: true } },
+  },
+  semptyallfields: {
+    title: 'Empty all fields',
+    model: 'staff',
+    oracle: false,
+    data: {
+      name: { omit: true },
+      email: { omit: true },
+      website: { omit: true },
+      bio: { omit: true },
+    },
   },
   slongname: {
     title: 'Long name',
@@ -213,18 +276,24 @@ export const Scenarios: ScenarioSchema = {
     oracle: false,
     data: { email: { omit: true } },
   },
-  slongemail: {
-    title: 'Long email: 60',
-    model: 'staff',
-    oracle: false,
-    data: { email: { length: 60 } },
-  },
-  sverylongemail: {
-    title: 'Very long email: 100',
-    model: 'staff',
-    oracle: false,
-    data: { email: { length: 100 } },
-  },
+  // semailonfrontier: {
+  //   title: 'Email on frontier (74)',
+  //   model: 'staff',
+  //   oracle: true,
+  //   data: { email: { length: 74 } },
+  // },
+  // semailunderfrontier: {
+  //   title: 'Email under frontier (73)',
+  //   model: 'staff',
+  //   oracle: true,
+  //   data: { email: { length: 73 } },
+  // },
+  // semailoverfrontier: {
+  //   title: 'Email over frontier (75)',
+  //   model: 'staff',
+  //   oracle: false,
+  //   data: { email: { length: 75 } },
+  // },
   sinvalidemail: {
     title: 'Invalid email',
     model: 'staff',
@@ -337,12 +406,25 @@ function genEmail(options: FieldOption): string {
     email = 'invalid'
   } else if (options.kind === 'notld') {
     email = 'a@a'
+  } else if (options.kind === 'emoji') {
+    email = 'hola💩@' + faker.internet.domainName()
+  } else if (options.kind === 'mutiple@') {
+    email = '@1st.relay,@2nd.relay:user@' + faker.internet.domainName()
+  } else if (options.kind === 'mutiple_punctuation') {
+    email = '*+-/=?^_`{|}~#$@' + faker.internet.domainName()
+  } else if (options.kind === 'special_dot') {
+    email = 'jd..oe@' + faker.internet.domainName()
+  } else if (options.kind === 'special_quoted_dot') {
+    email = '"jd..oe"@' + faker.internet.domainName()
+  } else if (options.kind === 'ip_domain') {
+    email = faker.random.word() + "@[166.84.7.99]"
   } else {
     // yeeeeet partial :p
     let gengen = () => { let i = 0; return () => { i++; return i <= 1 ? faker.internet.email() : faker.internet.domainWord() } }
     let generator = gengen();
     email = stringGenerator({
       ...options,
+      leftadd: true,
       generator,
     });
   };
@@ -406,7 +488,7 @@ function genNotes(options: FieldOption): string {
 // options. For example generate a name using faker.name.findName, if the name
 // needs to be 100 character longs keep string concatenating or slicing until
 // it's 100 characters long.
-function stringGenerator({ length, generator, omit, once }: FieldOption):
+function stringGenerator({ length, generator, omit, once, leftadd }: FieldOption):
   string {
   let res = '';
 
@@ -415,11 +497,20 @@ function stringGenerator({ length, generator, omit, once }: FieldOption):
       if (!generator) {
         throw new Error('generator is not defined');
       }
-      res += generator();
+      if (leftadd) {
+        res = generator() + res;
+      } else {
+        res += generator();
+      }
     }
     if (res.length > length) {
-      // Slice from the start
-      res = res.slice(0, length);
+      if (leftadd) {
+        // Slice from the left
+        res = res.slice(res.length - length);
+      } else {
+        // Slice from the right
+        res = res.slice(0, length);
+      }
     }
   }
 
