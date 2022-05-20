@@ -249,6 +249,42 @@ export const Scenarios: ScenarioSchema = {
     oracle: true,
     data: { bio: { length: 200 } },
   },
+  websitevalid: {
+    title: 'Regular website',
+    model: 'staff',
+    oracle: true,
+    data: { website: { kind: 'regular' } },
+  },
+  emptywebsite: {
+    title: 'Website without tld (e.g. no .com)',
+    model: 'staff',
+    oracle: true,
+    data: { website: { omit: true } },
+  },
+  websitenotld: {
+    title: 'Website without tld (e.g. no .com)',
+    model: 'staff',
+    oracle: false,
+    data: { website: { kind: 'notld' } },
+  },
+  websitenearfrontier: {
+    title: 'Long website (near frontier 1999 vs 2000)',
+    model: 'staff',
+    oracle: true,
+    data: { website: { length: 1999 } },
+  },
+  websitemorefrontier: {
+    title: 'Long website (over frontier 2001 vs 2000)',
+    model: 'staff',
+    oracle: false,
+    data: { website: { length: 2001 } },
+  },
+  websiteinfrontier: {
+    title: 'Long website (in frontier 2000 vs 2000)',
+    model: 'staff',
+    oracle: true,
+    data: { website: { length: 2000 } },
+  },
 } as const
 
 // Get a member or staff from any of the pools given a scenario configuration
@@ -277,6 +313,7 @@ export function getData({ pool, identifier }: { pool: DataPoolType, identifier: 
           name: config.data.name && genName(config.data.name),
           email: config.data.email && genEmail(config.data.email),
           bio: config.data.bio && genNotes(config.data.bio),
+          website: genWebsite(config.data.website || { omit: true }),
         } as Staff
         data = Object.fromEntries(Object.entries(data).filter(([_, v]) => v !== undefined));
       }
@@ -335,6 +372,25 @@ function genlabels(options: FieldOption): string[] {
     }));
   }
   return labels;
+}
+
+function genWebsite(options: FieldOption): string {
+  let res: string = '';
+  if (options.kind === 'regular') {
+    res = faker.internet.url();
+  } else if (options.kind === 'notld') {
+    res = faker.word.verb();
+  } else {
+    let generator = () => faker.random.alphaNumeric();
+    res = stringGenerator({
+      ...options,
+      generator,
+    })
+    if (options.length) {
+      res = res.slice(0, options.length - 4) + '.com'
+    }
+  }
+  return res;
 }
 
 // Generate a note|bio given a field option
@@ -430,7 +486,10 @@ function getFromPool(identifier: string, poolType: DataPoolType): Member | Staff
     throw new Error(`Scenario identifier ${identifier} not found in pool, make sure to update the apriori pool`);
   }
   // Get one at random from the available data
-  let data = scenarioPool[Math.floor(Math.random() * scenarioPool.length)];
+  let random = Math.floor(Math.random() * scenarioPool.length);
+  let data = scenarioPool[random];
+  // Remove it to avoid duplicates
+  scenarioPool.splice(random, 1);
   return data;
 }
 
