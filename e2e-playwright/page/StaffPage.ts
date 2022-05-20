@@ -40,6 +40,7 @@ export class StaffPage {
   }
 
   async open() {
+    await this.page.reload({ waitUntil: 'networkidle' });
     await this.page.goto(Urls.dashboard, { waitUntil: 'networkidle' });
     await this.settings.click();
     await this.yourProfile.click();

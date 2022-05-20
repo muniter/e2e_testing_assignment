@@ -77,6 +77,7 @@ export class MembersPage {
   }
 
   async CreateMember({ name, email, notes, labels }: { name?: string, email?: string, notes?: string, labels?: string[] }): Promise<boolean> {
+    await this.page.reload({ waitUntil: 'networkidle' });
     await this.page.goto(creatUrl, { waitUntil: 'networkidle' });
     await this.fillValues({ name, email, notes });
     if (labels) {
