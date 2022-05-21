@@ -597,7 +597,7 @@ export function getData({ pool, identifier }: { pool: DataPoolType, identifier: 
         data = Object.fromEntries(Object.entries(data).filter(([_, v]) => v !== undefined));
       } else if (config.model === 'tag') {
         data = {
-          name: genName(config.data.name || { once: true }),
+          name: genTagName(config.data.name || { once: true }),
           slug: genName(config.data.slug || { once: true }),
           color: genHex(config.data.color || { once: true }),
           description: genNotes(config.data.description || { once: true }),
@@ -663,6 +663,16 @@ function genName(options: FieldOption): string {
     generator,
   });
 }
+
+// Generate a name given a field option
+function genTagName(options: FieldOption): string {
+  let generator = () => faker.word.verb();
+  return stringGenerator({
+    ...options,
+    generator,
+  });
+}
+
 
 // Generate an array of labels given a field option
 function genlabels(options: FieldOption): string[] {
