@@ -364,16 +364,211 @@ export const Scenarios: ScenarioSchema = {
   },
   // Tags
   normal: {
-    title: 'Normal tag',
+    title: 'Normal, valid data in all fields',
     model: 'tag',
     oracle: true,
-    data: { },
+    data: {},
+  },
+  withoutname: {
+    title: 'Without name tag',
+    model: 'tag',
+    oracle: false,
+    data: { name: { omit: true } },
+  },
+  withoutcolor: {
+    title: 'without color tag',
+    model: 'tag',
+    oracle: true,
+    data: {
+      color: { omit: true }
+    },
+  },
+  colorwithhash: {
+    title: 'Color including the pound sign (#)',
+    model: 'tag',
+    oracle: false,
+    data: { color: { kind: 'with_pound' } },
+  },
+  colorwithpound: {
+    title: 'Invalid color (a string)',
+    model: 'tag',
+    oracle: false,
+    data: { color: { kind: 'invalid' } },
   },
   onelettercolor: {
     title: 'Fail tag',
     model: 'tag',
     oracle: false,
     data: { color: { kind: 'one_letter' } },
+  },
+  temptyall: {
+    title: 'Empty all fields',
+    model: 'tag',
+    oracle: false,
+    data: {
+      name: { omit: true },
+      slug: { omit: true },
+      color: { omit: true },
+      description: { omit: true },
+      twitterTitle: { omit: true },
+      twitterDescription: { omit: true },
+      facebookTitle: { omit: true },
+      facebookDescription: { omit: true },
+      metaDescription: { omit: true },
+      metaTitle: { omit: true },
+      canonicalUrl: { omit: true },
+      save: { omit: true },
+      saved: { omit: true },
+      retry: { omit: true },
+      expandButtons: { omit: true }
+    },
+  },
+  justname: {
+    title: 'Only provide a name',
+    model: 'tag',
+    oracle: true,
+    data: {
+      slug: { omit: true },
+      color: { omit: true },
+      description: { omit: true },
+      twitterTitle: { omit: true },
+      twitterDescription: { omit: true },
+      facebookTitle: { omit: true },
+      facebookDescription: { omit: true },
+      metaDescription: { omit: true },
+      metaTitle: { omit: true },
+      canonicalUrl: { omit: true },
+      save: { omit: true },
+      saved: { omit: true },
+      retry: { omit: true },
+      expandButtons: { omit: true }
+    },
+  },
+  descriptionlessfrontier: {
+    title: 'Description less than frontier (499 vs 500)',
+    model: 'tag',
+    oracle: true,
+    data: { description: { length: 499 } },
+  },
+  descriptionmorefrontier: {
+    title: 'Description more than frontier (501 vs 500)',
+    model: 'tag',
+    oracle: false,
+    data: { description: { length: 501 } },
+  },
+  descriptioninfrontier: {
+    title: 'Description in frontier (500 vs 500)',
+    model: 'tag',
+    oracle: true,
+    data: { description: { length: 500 } },
+  },
+  metatitlelessfrontier: {
+    title: 'Meta title less than frontier (299 vs 300)',
+    model: 'tag',
+    oracle: true,
+    data: { metaTitle: { length: 299 } },
+  },
+  metatitleinfrontier: {
+    title: 'Meta title in frontier (300 vs 300)',
+    model: 'tag',
+    oracle: true,
+    data: { metaTitle: { length: 300 } },
+  },
+  metatitleoverfrontier: {
+    title: 'Meta title over frontier (301 vs 300)',
+    model: 'tag',
+    oracle: false,
+    data: { metaTitle: { length: 301 } },
+  },
+  metadescriptionlessfrontier: {
+    title: 'Meta description less than frontier (499 vs 500)',
+    model: 'tag',
+    oracle: true,
+    data: { metaDescription: { length: 499 } },
+  },
+  metadescriptioninfrontier: {
+    title: 'Meta description in frontier (500 vs 500)',
+    model: 'tag',
+    oracle: true,
+    data: { metaDescription: { length: 500 } },
+  },
+  metadescriptionoverfrontier: {
+    title: 'Meta description over frontier (501 vs 500)',
+    model: 'tag',
+    oracle: false,
+    data: { metaDescription: { length: 501 } },
+  },
+  twittertitlelessfrontier: {
+    title: 'Twitter title less than frontier (299 vs 300)',
+    model: 'tag',
+    oracle: true,
+    data: { twitterTitle: { length: 299 } },
+  },
+  twittertitleinfrontier: {
+    title: 'Twitter title in frontier (300 vs 300)',
+    model: 'tag',
+    oracle: true,
+    data: { twitterTitle: { length: 300 } },
+  },
+  twittertitleoverfrontier: {
+    title: 'Twitter title over frontier (301 vs 300)',
+    model: 'tag',
+    oracle: false,
+    data: { twitterTitle: { length: 301 } },
+  },
+  twitterdescriptionlessfrontier: {
+    title: 'Twitter description less than frontier (499 vs 500)',
+    model: 'tag',
+    oracle: true,
+    data: { twitterDescription: { length: 499 } },
+  },
+  twitterdescriptioninfrontier: {
+    title: 'Twitter description in frontier (500 vs 500)',
+    model: 'tag',
+    oracle: true,
+    data: { twitterDescription: { length: 500 } },
+  },
+  twitterdescriptionoverfrontier: {
+    title: 'Twitter description over frontier (501 vs 500)',
+    model: 'tag',
+    oracle: false,
+    data: { twitterDescription: { length: 501 } },
+  },
+  facebooktitlelessfrontier: {
+    title: 'Facebook title less than frontier (299 vs 300)',
+    model: 'tag',
+    oracle: true,
+    data: { facebookTitle: { length: 299 } },
+  },
+  facebooktitleinfrontier: {
+    title: 'Facebook title in frontier (300 vs 300)',
+    model: 'tag',
+    oracle: true,
+    data: { facebookTitle: { length: 300 } },
+  },
+  facebooktitleoverfrontier: {
+    title: 'Facebook title over frontier (301 vs 300)',
+    model: 'tag',
+    oracle: false,
+    data: { facebookTitle: { length: 301 } },
+  },
+  facebookdescriptionlessfrontier: {
+    title: 'Facebook description less than frontier (499 vs 500)',
+    model: 'tag',
+    oracle: true,
+    data: { facebookDescription: { length: 499 } },
+  },
+  facebookdescriptioninfrontier: {
+    title: 'Facebook description in frontier (500 vs 500)',
+    model: 'tag',
+    oracle: true,
+    data: { facebookDescription: { length: 500 } },
+  },
+  facebookdescriptionoverfrontier: {
+    title: 'Facebook description in frontier (501 vs 500)',
+    model: 'tag',
+    oracle: false,
+    data: { facebookDescription: { length: 501 } },
   },
 } as const
 
@@ -412,13 +607,13 @@ export function getData({ pool, identifier }: { pool: DataPoolType, identifier: 
           slug: genName(config.data.slug || { once: true }),
           color: genHex(config.data.color || { once: true }),
           description: genNotes(config.data.description || { once: true }),
-          metaTitle: genName(config.data.meta || { once: true }),
+          metaTitle: genName(config.data.metaTitle || { once: true }),
           metaDescription: genNotes(config.data.metaDescription || { once: true }),
           canonicalUrl: genWebsite(config.data.canonicalUrl || { kind: 'regular' }),
-          twitterTitle: genName(config.data.twitter || { once: true }),
+          twitterTitle: genName(config.data.twitterTitle || { once: true }),
           twitterDescription: genNotes(config.data.twitterDescription || { once: true }),
-          facebookTitle: genName(config.data.twitter || { once: true }),
-          facebookDescription: genNotes(config.data.twitterDescription || { once: true }),
+          facebookTitle: genName(config.data.facebookTitle || { once: true }),
+          facebookDescription: genNotes(config.data.facebookDescription || { once: true }),
         }
       }
       break;
@@ -525,11 +720,13 @@ function genHex(options: FieldOption): string {
   if (options.omit) {
     res = ''
   } else if (options.kind === 'with_pound') {
-    res = faker.internet.color();
-    return res
+    res = '#' + faker.internet.color();
+  } else if (options.kind === 'invalid') {
+    res = faker.name.findName();
   } else if (options.kind === 'one_letter') {
     res = faker.random.alpha(1);
-  } else {
+  }
+  else {
     res = faker.internet.color();
   }
   if (res.startsWith('#')) {

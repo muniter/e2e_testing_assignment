@@ -4,7 +4,6 @@ import { MembersPage } from '../page/MembersPage';
 import { Cookie, nameDataScenario } from '../util/util'
 import { Scenarios, ScenarioConfig, DataPools, getData, generateCombinations } from '../util/dataGenerator';
 import { StaffPage } from '../page/StaffPage';
-import { SiteConfig } from '../../shared/SharedConfig';
 import { TagPage } from '../page/TagPage';
 
 // Run this tests in parallel
