@@ -559,7 +559,7 @@ export const Scenarios: ScenarioSchema = {
     data: { facebookDescription: { length: 500 } },
   },
   facebookdescriptionoverfrontier: {
-    title: 'Facebook description in frontier (501 vs 500)',
+    title: 'Facebook description over frontier (501 vs 500)',
     model: 'tag',
     oracle: false,
     data: { facebookDescription: { length: 501 } },
