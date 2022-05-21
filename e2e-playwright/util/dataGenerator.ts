@@ -276,6 +276,30 @@ export const Scenarios: ScenarioSchema = {
     oracle: false,
     data: { email: { omit: true } },
   },
+  semojiemail: {
+    title: '[BUG] Emoji email',
+    model: 'member',
+    oracle: false,
+    data: { email: { kind: 'emoji' } },
+  },
+  smultiplesarrobas: {
+    title: '[BUG] Email should allow multiple "@"',
+    model: 'member',
+    oracle: false,
+    data: { email: { kind: 'mutiple@' } },
+  },
+  sipaddressasdomain: {
+    title: '[BUG] Email should allow IP address as domain "whatever@[166.84.7.99]"',
+    model: 'member',
+    oracle: false,
+    data: { email: { kind: 'ip_domain' } },
+  },
+  sspecialdot: {
+    title: 'Email should not allow consecutive dots "."',
+    model: 'member',
+    oracle: false,
+    data: { email: { kind: 'special_dot' } },
+  },
   // semailonfrontier: {
   //   title: 'Email on frontier (74)',
   //   model: 'staff',
