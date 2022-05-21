@@ -862,7 +862,7 @@ export function generatePool(write: boolean = true, seed?: number): DataPool {
 
   if (write) {
     // Only pass write when we want to update the apriori data pool
-    writeFileSync('./pool.json', JSON.stringify(pool, null, 2));
+    writeFileSync(APRIORI_POOL_FILE, JSON.stringify(pool, null, 2));
   }
   return pool;
 }
