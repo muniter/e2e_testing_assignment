@@ -5,6 +5,7 @@ import { Cookie, nameDataScenario } from '../util/util'
 import { Scenarios, ScenarioConfig, DataPools, getData, generateCombinations } from '../util/dataGenerator';
 import { StaffPage } from '../page/StaffPage';
 import { SiteConfig } from '../../shared/SharedConfig';
+import { TagPage } from '../page/TagPage';
 
 // Run this tests in parallel
 test.describe.configure({ mode: 'parallel' })
@@ -42,12 +43,20 @@ async function runScenario(config: ScenarioTestConfig, cookie: Cookie) {
     const membersPage = new MembersPage(page, testinfo);
     // Create member with the given data, returns true if created successfully or false if the creation faileed
     res = await membersPage.CreateMember(data);
+
   } else if (scenario.model === 'staff') {
     // Go to the staff edit page
     const staffPage = new StaffPage(page, testinfo);
     await staffPage.open();
     // Edit the staff with the given data, returns true if saved successfully or false if the edition failed
     res = await staffPage.editStaff(data);
+
+  } else if (scenario.model === 'tag') {
+    const tagPage = new TagPage(page, testinfo);
+    await tagPage.open();
+    // Edit the staff with the given data, returns true if saved successfully or false if the edition failed
+    res = await tagPage.createTag(data);
+
   } else {
     throw new Error(`Unknown model: ${scenario.model}`);
   }
@@ -68,19 +77,19 @@ Object.entries(Scenarios).forEach(([identifier, scenario]) => {
   counter++;
 })
 
-let numberOfCombinations = 90 - 15 + 1 - counter
+// let numberOfCombinations = 90 - 15 + 1 - counter
 // console.log('Number of combination scenarios: ', numberOfCombinations)
-let combinations = generateCombinations(numberOfCombinations)
-combinations.forEach((combination) => {
-  let identifier_1 = combination[0]
-  let scenario_1 = Scenarios[identifier_1]
-  let identifier_2 = combination[1]
-  let scenario_2 = Scenarios[identifier_2]
-  let pool = oneDataPool();
-  let cookie: Cookie = { loggedIn: false, scenarios: [scenario_1, scenario_2], pool }
-  test(nameDataScenario(cookie, counter), async ({ page }, testinfo) => {
-    await runScenario({ page, testinfo, identifier: identifier_1, scenario: scenario_1 }, cookie);
-    await runScenario({ page, testinfo, identifier: identifier_2, scenario: scenario_2 }, cookie);
-  });
-  counter++;
-})
+// let combinations = generateCombinations(numberOfCombinations)
+// combinations.forEach((combination) => {
+//   let identifier_1 = combination[0]
+//   let scenario_1 = Scenarios[identifier_1]
+//   let identifier_2 = combination[1]
+//   let scenario_2 = Scenarios[identifier_2]
+//   let pool = oneDataPool();
+//   let cookie: Cookie = { loggedIn: false, scenarios: [scenario_1, scenario_2], pool }
+//   test(nameDataScenario(cookie, counter), async ({ page }, testinfo) => {
+//     await runScenario({ page, testinfo, identifier: identifier_1, scenario: scenario_1 }, cookie);
+//     await runScenario({ page, testinfo, identifier: identifier_2, scenario: scenario_2 }, cookie);
+//   });
+//   counter++;
+// })

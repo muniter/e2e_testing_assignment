@@ -14,6 +14,7 @@ export const Urls = {
   "member/list": URL + "/ghost/#/members",
   "member/new": URL + "/ghost/#/members/new",
   "post/list": URL + "/ghost/#/posts",
+  "tag/new": URL + "/ghost/#/tags/new",
 } as const
 
 export const SiteConfig = {

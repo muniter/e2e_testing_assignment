@@ -1,6 +1,7 @@
 import { writeFileSync, readFileSync } from 'fs';
 import { StaffData } from '../page/StaffPage';
 import { faker } from '@faker-js/faker';
+import { TagData } from '../page/TagPage';
 
 const APRIORI_POOL_FILE = './pool.json';  // Where to save the apriori pool
 const DATA_POOL_GEN_PER_SCENARIO = 100;  // How many 'smaller' parametrized data pools per scenario
@@ -11,9 +12,9 @@ export const DataPools: DataPoolType[] = ['apriori', 'dynamic', 'random'];
 
 // Data pool on disk (a priori) and generated at runtime (dynamic)
 type DataPool = Record<ScenarioIdentifier, ScenarioDataPool>;
-type Model = 'member' | 'staff';
+type Model = 'member' | 'staff' | 'tag';
 type ScenarioIdentifier = string
-type ScenarioDataPool = Member[] | Staff[];
+type ScenarioDataPool = Member[] | Staff[] | Tag[];
 
 // Fields needed to create a member
 type Member = {
@@ -25,6 +26,7 @@ type Member = {
 
 // Fields needed to create a staff
 type Staff = StaffData
+type Tag = TagData
 
 // Field options passed to the generator functions
 interface FieldOption {
@@ -300,24 +302,6 @@ export const Scenarios: ScenarioSchema = {
     oracle: false,
     data: { email: { kind: 'special_dot' } },
   },
-  // semailonfrontier: {
-  //   title: 'Email on frontier (74)',
-  //   model: 'staff',
-  //   oracle: true,
-  //   data: { email: { length: 74 } },
-  // },
-  // semailunderfrontier: {
-  //   title: 'Email under frontier (73)',
-  //   model: 'staff',
-  //   oracle: true,
-  //   data: { email: { length: 73 } },
-  // },
-  // semailoverfrontier: {
-  //   title: 'Email over frontier (75)',
-  //   model: 'staff',
-  //   oracle: false,
-  //   data: { email: { length: 75 } },
-  // },
   sinvalidemail: {
     title: 'Invalid email',
     model: 'staff',
@@ -378,12 +362,25 @@ export const Scenarios: ScenarioSchema = {
     oracle: true,
     data: { website: { length: 2000 } },
   },
+  // Tags
+  normal: {
+    title: 'Normal tag',
+    model: 'tag',
+    oracle: true,
+    data: { },
+  },
+  onelettercolor: {
+    title: 'Fail tag',
+    model: 'tag',
+    oracle: false,
+    data: { color: { kind: 'one_letter' } },
+  },
 } as const
 
 // Get a member or staff from any of the pools given a scenario configuration
-export function getData({ pool, identifier }: { pool: DataPoolType, identifier: string }): Member | Staff {
+export function getData({ pool, identifier }: { pool: DataPoolType, identifier: string }): Member | Staff | Tag {
   let config = Scenarios[identifier]
-  let data: Member | Staff | undefined = undefined;
+  let data: Member | Staff | Tag | undefined = undefined;
   if (!config) {
     throw new Error(`Unknown scenario: ${identifier}`)
   }
@@ -409,6 +406,20 @@ export function getData({ pool, identifier }: { pool: DataPoolType, identifier: 
           website: genWebsite(config.data.website || { omit: true }),
         } as Staff
         data = Object.fromEntries(Object.entries(data).filter(([_, v]) => v !== undefined));
+      } else if (config.model === 'tag') {
+        data = {
+          name: genName(config.data.name || { once: true }),
+          slug: genName(config.data.slug || { once: true }),
+          color: genHex(config.data.color || { once: true }),
+          description: genNotes(config.data.description || { once: true }),
+          metaTitle: genName(config.data.meta || { once: true }),
+          metaDescription: genNotes(config.data.metaDescription || { once: true }),
+          canonicalUrl: genWebsite(config.data.canonicalUrl || { kind: 'regular' }),
+          twitterTitle: genName(config.data.twitter || { once: true }),
+          twitterDescription: genNotes(config.data.twitterDescription || { once: true }),
+          facebookTitle: genName(config.data.twitter || { once: true }),
+          facebookDescription: genNotes(config.data.twitterDescription || { once: true }),
+        }
       }
       break;
     default:
@@ -506,6 +517,25 @@ function genNotes(options: FieldOption): string {
     ...options,
     generator,
   });
+}
+
+// Generate a hexadecimal color
+function genHex(options: FieldOption): string {
+  let res = '';
+  if (options.omit) {
+    res = ''
+  } else if (options.kind === 'with_pound') {
+    res = faker.internet.color();
+    return res
+  } else if (options.kind === 'one_letter') {
+    res = faker.random.alpha(1);
+  } else {
+    res = faker.internet.color();
+  }
+  if (res.startsWith('#')) {
+    res = res.slice(1);
+  }
+  return res;
 }
 
 // Generates a string from a given generator function matching the given
