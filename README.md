@@ -23,6 +23,7 @@ Las siguientes son las funcionalidades elegidas para realizar las pruebas.
 | 6   | **Editar un member**         | Se puede editar todos los datos de un member ya creado.                                                                |
 | 7   | **Eliminar un member**       | Se puede eliminar un member ya creado.                                                                                 |
 | 8   | **Filtrar members**          | Se puede filtrar los miembros por nombre y otros identificadores.                                                      |
+| 9   | **Crear un tag**             | Se puede crear un tag,  llenando todos sus campos                                                                      |
 
 ## Escenarios de prueba
 
