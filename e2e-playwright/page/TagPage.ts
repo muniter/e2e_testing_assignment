@@ -84,7 +84,6 @@ export class TagPage {
 
   async fillValues(fields: TagData): Promise<void> {
     let entries = Object.entries(fields);
-    console.log('The data', JSON.stringify(fields));
     let buttons = await this.page.$$('.gh-btn-expand');
     for (const button of buttons) {
       await button.click();
