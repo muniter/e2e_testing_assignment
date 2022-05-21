@@ -39,11 +39,13 @@ interface FieldOption {
   generator?: () => string,
 }
 
+type DataOptions = Partial<Record<keyof Member | keyof Staff | keyof Tag, FieldOption>>
+
 // Description of an scenario with it's data
 export interface ScenarioConfig {
   title: string,
   oracle: boolean,  // Wether the scenarios should pass or not
-  data: Record<string, FieldOption>,
+  data: DataOptions,
   model: Model,
   pool?: DataPoolType,  // Used after the fact, chosen randomly
 }
@@ -417,10 +419,6 @@ export const Scenarios: ScenarioSchema = {
       metaDescription: { omit: true },
       metaTitle: { omit: true },
       canonicalUrl: { omit: true },
-      save: { omit: true },
-      saved: { omit: true },
-      retry: { omit: true },
-      expandButtons: { omit: true }
     },
   },
   justname: {
@@ -438,10 +436,6 @@ export const Scenarios: ScenarioSchema = {
       metaDescription: { omit: true },
       metaTitle: { omit: true },
       canonicalUrl: { omit: true },
-      save: { omit: true },
-      saved: { omit: true },
-      retry: { omit: true },
-      expandButtons: { omit: true }
     },
   },
   descriptionlessfrontier: {

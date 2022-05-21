@@ -2,7 +2,7 @@ import { test, expect, TestInfo, Page } from '@playwright/test';
 import { LoginPage } from '../page/LoginPage';
 import { MembersPage } from '../page/MembersPage';
 import { Cookie, nameDataScenario } from '../util/util'
-import { Scenarios, ScenarioConfig, DataPools, getData, generateCombinations } from '../util/dataGenerator';
+import { Scenarios, ScenarioConfig, DataPools, getData } from '../util/dataGenerator';
 import { StaffPage } from '../page/StaffPage';
 import { TagPage } from '../page/TagPage';
 
@@ -75,20 +75,3 @@ Object.entries(Scenarios).forEach(([identifier, scenario]) => {
   });
   counter++;
 })
-
-// let numberOfCombinations = 90 - 15 + 1 - counter
-// console.log('Number of combination scenarios: ', numberOfCombinations)
-// let combinations = generateCombinations(numberOfCombinations)
-// combinations.forEach((combination) => {
-//   let identifier_1 = combination[0]
-//   let scenario_1 = Scenarios[identifier_1]
-//   let identifier_2 = combination[1]
-//   let scenario_2 = Scenarios[identifier_2]
-//   let pool = oneDataPool();
-//   let cookie: Cookie = { loggedIn: false, scenarios: [scenario_1, scenario_2], pool }
-//   test(nameDataScenario(cookie, counter), async ({ page }, testinfo) => {
-//     await runScenario({ page, testinfo, identifier: identifier_1, scenario: scenario_1 }, cookie);
-//     await runScenario({ page, testinfo, identifier: identifier_2, scenario: scenario_2 }, cookie);
-//   });
-//   counter++;
-// })
