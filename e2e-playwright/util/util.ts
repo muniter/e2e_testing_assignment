@@ -61,5 +61,5 @@ export function nameDataScenario(cookie: Cookie, counter: number) {
   if (parts[parts.length - 1] === '|') {
     parts.pop();
   }
-  return `${counter}. [${cookie.pool}]: ${parts.join(' ')}${multiple ? ' (multiple)' : ' (single)'}`
+  return `${counter}. [${cookie.pool}]: ${parts.join(' ')}`
 }

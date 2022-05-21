@@ -282,25 +282,25 @@ export const Scenarios: ScenarioSchema = {
   },
   semojiemail: {
     title: '[BUG] Emoji email',
-    model: 'member',
+    model: 'staff',
     oracle: false,
     data: { email: { kind: 'emoji' } },
   },
   smultiplesarrobas: {
     title: '[BUG] Email should allow multiple "@"',
-    model: 'member',
+    model: 'staff',
     oracle: false,
     data: { email: { kind: 'mutiple@' } },
   },
   sipaddressasdomain: {
     title: '[BUG] Email should allow IP address as domain "whatever@[166.84.7.99]"',
-    model: 'member',
+    model: 'staff',
     oracle: false,
     data: { email: { kind: 'ip_domain' } },
   },
   sspecialdot: {
     title: 'Email should not allow consecutive dots "."',
-    model: 'member',
+    model: 'staff',
     oracle: false,
     data: { email: { kind: 'special_dot' } },
   },
@@ -859,41 +859,4 @@ export function generatePool(write: boolean = true, seed?: number): DataPool {
 
 if (require.main === module) {
   generatePool(true, 12345);
-}
-
-function permute(input: any): Array<Array<string>> {
-  var out = [];
-
-  (function permute_r(input, current) {
-    if (input.length === 0) {
-      out.push(current);
-      return;
-    }
-
-    var next = input.slice(1);
-
-    for (var i = 0, n = input[0].length; i != n; ++i) {
-      // @ts-ignore
-      permute_r(next, current.concat([input[0][i]]));
-    }
-  }(input, []));
-
-  return out;
-}
-// Combine staff and member scenarios to create new scenarios
-export function generateCombinations(n: number) {
-  let scenarios = Object.entries(Scenarios);
-  let members = scenarios.filter(s => s[1].model === 'member').map(s => s[0]);
-  let staffs = scenarios.filter(s => s[1].model === 'staff').map(s => s[0]);
-  let combinations = permute([members, staffs]);
-  // Get n random items from the combinations
-  let result: Array<Array<string>> = [];
-  let prevSeed = faker.seed();
-  faker.seed(12345);
-  for (let i = 0; i < n; i++) {
-    let random = faker.datatype.number({ min: 0, max: combinations.length - 1 });
-    result.push(combinations[random]);
-  }
-  faker.seed(prevSeed);
-  return result;
 }
