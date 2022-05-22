@@ -7,9 +7,11 @@
     "pretest": "npx tsc --incremental -p tests/tsconfig.json",
     "playwright": "playwright test",
     "kraken-compile": "npx tsc --build ./features/web_src/tsconfig.json",
-    "kraken": "npm run kraken-compile && npx ts-node shared/krakenRunner.ts",
+    "kraken": "docker rm --force ghost-testing; npm run kraken-compile && npx ts-node shared/krakenRunner.ts",
     "reporter": "npx tsc --build ./shared && npx ts-node shared/reporter/index.ts",
-    "gendatapool": "npx ts-node e2e-playwright/util/dataGenerator.ts"
+    "gendatapool": "npx ts-node e2e-playwright/util/dataGenerator.ts",
+    "test-data": "docker rm --force ghost-testing; npx playwright test --workers 1",
+    "test-pw-regular": "docker rm --force ghost-testing; npx playwright test --project=regular --workers 1"
   },
   "keywords": [],
   "author": "",
