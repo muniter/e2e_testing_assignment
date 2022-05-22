@@ -1,0 +1,3549 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
+</head>
+
+<style>
+  img {
+    border: 1px solid #ccc;
+    margin: 5px;
+    height: 50vh;
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    margin: auto;
+  }
+
+  .failed {
+    color: red !important;
+    background-color: white !important;
+  }
+
+  .ok {
+    color: black !important;
+    background-color: white !important;
+  }
+</style>
+
+<script>
+</script>
+
+<body>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col col-auto">
+        <h1>Reporte VRT Ghost (playwright)</h1>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col col-auto">
+          <h5>Evaluating Ghost versions: 4.36 vs 4.41.1</h5>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col col-auto">
+            <p>Legend: Red naming on scenario or step means it failed the maximum selected difference of 2</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-center gy-2">
+    <!-- Scenario accordion -->
+    <div class="col col-xxl-8">
+      <div class="accordion accordion-flush" id="accordion-scenarios">
+        
+        
+        
+        
+        
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="scenario-header-1">
+            <button class="accordion-button failed collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#scenario-data-1" aria-expanded="true"
+              aria-controls="#scenario-data-1">
+              <i class="bi bi-x-lg"></i>Scenario 1: Create Member With Same Name
+            </button>
+          </h2>
+          <div id="scenario-data-1" class="accordion-collapse collapse"
+            aria-labelledby="scenario-header-1" data-bs-parent="#accordion-scenarios">
+            <div class="accordion-body">
+
+              <!-- Step accordion -->
+              
+              <div class="accordion" id="accordion-scenario-1-steps">
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-1-1">
+                    <button class="accordion-button failed  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-1-1" aria-expanded="true"
+                      aria-controls="#step-data-1-1">
+                      <i class="bi bi-x-lg"></i>Step 1 (2.5%): Open Login Page
+                    </button>
+                  </h2>
+                  <div id="step-data-1-1" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-1-1"
+                    data-bs-parent="accordion-scenario-1-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/2795a017-4331-45eb-ae0f-90a5ce9ec8a7.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create Member with same name/002_open_login_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create Member with same name/002_open_login_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-1-2">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-1-2" aria-expanded="true"
+                      aria-controls="#step-data-1-2">
+                      <i class="bi bi-check-lg"></i>Step 2 (0.1%): Create Member
+                    </button>
+                  </h2>
+                  <div id="step-data-1-2" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-1-2"
+                    data-bs-parent="accordion-scenario-1-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/ee779f32-ec3a-411d-8317-420673081ace.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create Member with same name/003_create_member.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create Member with same name/003_create_member.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-1-3">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-1-3" aria-expanded="true"
+                      aria-controls="#step-data-1-3">
+                      <i class="bi bi-check-lg"></i>Step 3 (0.2%): Create Member
+                    </button>
+                  </h2>
+                  <div id="step-data-1-3" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-1-3"
+                    data-bs-parent="accordion-scenario-1-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/08dfffa9-8270-4378-8b33-15e486dfcaa6.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create Member with same name/004_create_member.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create Member with same name/004_create_member.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        
+        
+        
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="scenario-header-2">
+            <button class="accordion-button failed collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#scenario-data-2" aria-expanded="true"
+              aria-controls="#scenario-data-2">
+              <i class="bi bi-x-lg"></i>Scenario 2: Create Member
+            </button>
+          </h2>
+          <div id="scenario-data-2" class="accordion-collapse collapse"
+            aria-labelledby="scenario-header-2" data-bs-parent="#accordion-scenarios">
+            <div class="accordion-body">
+
+              <!-- Step accordion -->
+              
+              <div class="accordion" id="accordion-scenario-2-steps">
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-2-1">
+                    <button class="accordion-button failed  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-2-1" aria-expanded="true"
+                      aria-controls="#step-data-2-1">
+                      <i class="bi bi-x-lg"></i>Step 1 (2.5%): Open Login Page
+                    </button>
+                  </h2>
+                  <div id="step-data-2-1" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-2-1"
+                    data-bs-parent="accordion-scenario-2-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/ebeb98d5-30f4-45a5-8590-ea61f883cff0.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create member/000_open_login_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create member/000_open_login_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-2-2">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-2-2" aria-expanded="true"
+                      aria-controls="#step-data-2-2">
+                      <i class="bi bi-check-lg"></i>Step 2 (0.1%): Create Member
+                    </button>
+                  </h2>
+                  <div id="step-data-2-2" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-2-2"
+                    data-bs-parent="accordion-scenario-2-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/e628cf11-c20e-4f15-93b6-f6891a098099.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create member/001_create_member.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create member/001_create_member.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        
+        
+        
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="scenario-header-3">
+            <button class="accordion-button failed collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#scenario-data-3" aria-expanded="true"
+              aria-controls="#scenario-data-3">
+              <i class="bi bi-x-lg"></i>Scenario 3: Create Member Duplicate Email
+            </button>
+          </h2>
+          <div id="scenario-data-3" class="accordion-collapse collapse"
+            aria-labelledby="scenario-header-3" data-bs-parent="#accordion-scenarios">
+            <div class="accordion-body">
+
+              <!-- Step accordion -->
+              
+              <div class="accordion" id="accordion-scenario-3-steps">
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-3-1">
+                    <button class="accordion-button failed  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-3-1" aria-expanded="true"
+                      aria-controls="#step-data-3-1">
+                      <i class="bi bi-x-lg"></i>Step 1 (2.5%): Open Login Page
+                    </button>
+                  </h2>
+                  <div id="step-data-3-1" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-3-1"
+                    data-bs-parent="accordion-scenario-3-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/6b605e0f-8851-4912-949f-d3dfad92e7cf.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create member duplicate email/009_open_login_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create member duplicate email/009_open_login_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-3-2">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-3-2" aria-expanded="true"
+                      aria-controls="#step-data-3-2">
+                      <i class="bi bi-check-lg"></i>Step 2 (0.1%): Create Member
+                    </button>
+                  </h2>
+                  <div id="step-data-3-2" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-3-2"
+                    data-bs-parent="accordion-scenario-3-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/37e7d9b8-daaf-44be-befd-30aedda0c65a.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create member duplicate email/010_create_member.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create member duplicate email/010_create_member.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-3-3">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-3-3" aria-expanded="true"
+                      aria-controls="#step-data-3-3">
+                      <i class="bi bi-check-lg"></i>Step 3 (0.2%): Create Member
+                    </button>
+                  </h2>
+                  <div id="step-data-3-3" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-3-3"
+                    data-bs-parent="accordion-scenario-3-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/d25f103f-0ba3-45d0-b67f-f7e0fd6efa81.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create member duplicate email/011_create_member.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create member duplicate email/011_create_member.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-3-4">
+                    <button class="accordion-button failed  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-3-4" aria-expanded="true"
+                      aria-controls="#step-data-3-4">
+                      <i class="bi bi-x-lg"></i>Step 4 (2.2%): Edit Member
+                    </button>
+                  </h2>
+                  <div id="step-data-3-4" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-3-4"
+                    data-bs-parent="accordion-scenario-3-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/dd11ebfc-cae6-45cc-815e-5053c0328ba0.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create member duplicate email/012_edit_member.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create member duplicate email/012_edit_member.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        
+        
+        
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="scenario-header-4">
+            <button class="accordion-button failed collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#scenario-data-4" aria-expanded="true"
+              aria-controls="#scenario-data-4">
+              <i class="bi bi-x-lg"></i>Scenario 4: Create Member Invalid Email
+            </button>
+          </h2>
+          <div id="scenario-data-4" class="accordion-collapse collapse"
+            aria-labelledby="scenario-header-4" data-bs-parent="#accordion-scenarios">
+            <div class="accordion-body">
+
+              <!-- Step accordion -->
+              
+              <div class="accordion" id="accordion-scenario-4-steps">
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-4-1">
+                    <button class="accordion-button failed  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-4-1" aria-expanded="true"
+                      aria-controls="#step-data-4-1">
+                      <i class="bi bi-x-lg"></i>Step 1 (2.5%): Open Login Page
+                    </button>
+                  </h2>
+                  <div id="step-data-4-1" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-4-1"
+                    data-bs-parent="accordion-scenario-4-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/c63fe99c-8b9e-499d-9f41-ef54436916f9.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create member invalid email/005_open_login_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create member invalid email/005_open_login_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-4-2">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-4-2" aria-expanded="true"
+                      aria-controls="#step-data-4-2">
+                      <i class="bi bi-check-lg"></i>Step 2 (0.1%): Create Member
+                    </button>
+                  </h2>
+                  <div id="step-data-4-2" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-4-2"
+                    data-bs-parent="accordion-scenario-4-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/1360487f-e730-4074-aa6c-d52b48dfe7ca.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create member invalid email/006_create_member.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create member invalid email/006_create_member.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        
+        
+        
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="scenario-header-5">
+            <button class="accordion-button failed collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#scenario-data-5" aria-expanded="true"
+              aria-controls="#scenario-data-5">
+              <i class="bi bi-x-lg"></i>Scenario 5: Create Member Retry
+            </button>
+          </h2>
+          <div id="scenario-data-5" class="accordion-collapse collapse"
+            aria-labelledby="scenario-header-5" data-bs-parent="#accordion-scenarios">
+            <div class="accordion-body">
+
+              <!-- Step accordion -->
+              
+              <div class="accordion" id="accordion-scenario-5-steps">
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-5-1">
+                    <button class="accordion-button failed  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-5-1" aria-expanded="true"
+                      aria-controls="#step-data-5-1">
+                      <i class="bi bi-x-lg"></i>Step 1 (2.5%): Open Login Page
+                    </button>
+                  </h2>
+                  <div id="step-data-5-1" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-5-1"
+                    data-bs-parent="accordion-scenario-5-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/d8bb75b4-9255-41f7-a824-82b585b8c5a0.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create member retry/013_open_login_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create member retry/013_open_login_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-5-2">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-5-2" aria-expanded="true"
+                      aria-controls="#step-data-5-2">
+                      <i class="bi bi-check-lg"></i>Step 2 (0.1%): Create Member
+                    </button>
+                  </h2>
+                  <div id="step-data-5-2" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-5-2"
+                    data-bs-parent="accordion-scenario-5-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/08cb4b70-daa8-4276-ad26-a4ef5279970d.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create member retry/014_create_member.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create member retry/014_create_member.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-5-3">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-5-3" aria-expanded="true"
+                      aria-controls="#step-data-5-3">
+                      <i class="bi bi-check-lg"></i>Step 3 (1.7%): Retry Member
+                    </button>
+                  </h2>
+                  <div id="step-data-5-3" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-5-3"
+                    data-bs-parent="accordion-scenario-5-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/2923a569-19ee-4516-bc40-1abe6fc87842.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create member retry/015_retry_member.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create member retry/015_retry_member.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        
+        
+        
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="scenario-header-6">
+            <button class="accordion-button failed collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#scenario-data-6" aria-expanded="true"
+              aria-controls="#scenario-data-6">
+              <i class="bi bi-x-lg"></i>Scenario 6: Create Member Without Name
+            </button>
+          </h2>
+          <div id="scenario-data-6" class="accordion-collapse collapse"
+            aria-labelledby="scenario-header-6" data-bs-parent="#accordion-scenarios">
+            <div class="accordion-body">
+
+              <!-- Step accordion -->
+              
+              <div class="accordion" id="accordion-scenario-6-steps">
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-6-1">
+                    <button class="accordion-button failed  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-6-1" aria-expanded="true"
+                      aria-controls="#step-data-6-1">
+                      <i class="bi bi-x-lg"></i>Step 1 (2.5%): Open Login Page
+                    </button>
+                  </h2>
+                  <div id="step-data-6-1" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-6-1"
+                    data-bs-parent="accordion-scenario-6-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/3fec700c-f3a8-4f9c-8cef-ac25acccb5c1.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create member without name/007_open_login_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create member without name/007_open_login_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-6-2">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-6-2" aria-expanded="true"
+                      aria-controls="#step-data-6-2">
+                      <i class="bi bi-check-lg"></i>Step 2 (0.1%): Create Member
+                    </button>
+                  </h2>
+                  <div id="step-data-6-2" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-6-2"
+                    data-bs-parent="accordion-scenario-6-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/0971fa8f-0761-494c-8955-0321044aee54.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create member without name/008_create_member.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create member without name/008_create_member.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        
+        
+        
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="scenario-header-7">
+            <button class="accordion-button failed collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#scenario-data-7" aria-expanded="true"
+              aria-controls="#scenario-data-7">
+              <i class="bi bi-x-lg"></i>Scenario 7: Create Multiple Post With The Same Title
+            </button>
+          </h2>
+          <div id="scenario-data-7" class="accordion-collapse collapse"
+            aria-labelledby="scenario-header-7" data-bs-parent="#accordion-scenarios">
+            <div class="accordion-body">
+
+              <!-- Step accordion -->
+              
+              <div class="accordion" id="accordion-scenario-7-steps">
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-7-1">
+                    <button class="accordion-button failed  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-7-1" aria-expanded="true"
+                      aria-controls="#step-data-7-1">
+                      <i class="bi bi-x-lg"></i>Step 1 (2.5%): Open Login Page
+                    </button>
+                  </h2>
+                  <div id="step-data-7-1" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-7-1"
+                    data-bs-parent="accordion-scenario-7-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/ece18ea3-d0e5-47d1-8a30-0d4ce8f04f8b.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create multiple post with the same title/036_open_login_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create multiple post with the same title/036_open_login_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-7-2">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-7-2" aria-expanded="true"
+                      aria-controls="#step-data-7-2">
+                      <i class="bi bi-check-lg"></i>Step 2 (0%): Open New Post Page
+                    </button>
+                  </h2>
+                  <div id="step-data-7-2" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-7-2"
+                    data-bs-parent="accordion-scenario-7-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/d4b54842-3a78-4adb-a94c-b5879921e763.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create multiple post with the same title/037_open_new_post_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create multiple post with the same title/037_open_new_post_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-7-3">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-7-3" aria-expanded="true"
+                      aria-controls="#step-data-7-3">
+                      <i class="bi bi-check-lg"></i>Step 3 (0.5%): Select Publish Option
+                    </button>
+                  </h2>
+                  <div id="step-data-7-3" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-7-3"
+                    data-bs-parent="accordion-scenario-7-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/e9ebcd5f-7e9a-465d-b081-0c304aa7f186.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create multiple post with the same title/038_select_publish_option.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create multiple post with the same title/038_select_publish_option.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-7-4">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-7-4" aria-expanded="true"
+                      aria-controls="#step-data-7-4">
+                      <i class="bi bi-check-lg"></i>Step 4 (1.5%): Open Posts Page
+                    </button>
+                  </h2>
+                  <div id="step-data-7-4" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-7-4"
+                    data-bs-parent="accordion-scenario-7-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/f6c0d51a-32f4-49e7-8894-ecbdfb06f5d8.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create multiple post with the same title/039_open_posts_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create multiple post with the same title/039_open_posts_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-7-5">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-7-5" aria-expanded="true"
+                      aria-controls="#step-data-7-5">
+                      <i class="bi bi-check-lg"></i>Step 5 (0%): Open New Post Page
+                    </button>
+                  </h2>
+                  <div id="step-data-7-5" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-7-5"
+                    data-bs-parent="accordion-scenario-7-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/94bb8f66-5617-43c7-b5e1-7e13096499cd.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create multiple post with the same title/040_open_new_post_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create multiple post with the same title/040_open_new_post_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-7-6">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-7-6" aria-expanded="true"
+                      aria-controls="#step-data-7-6">
+                      <i class="bi bi-check-lg"></i>Step 6 (0.2%): Select Publish Option
+                    </button>
+                  </h2>
+                  <div id="step-data-7-6" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-7-6"
+                    data-bs-parent="accordion-scenario-7-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/3768f6d2-4c6a-44cd-b1f4-95e5bc078152.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create multiple post with the same title/041_select_publish_option.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create multiple post with the same title/041_select_publish_option.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-7-7">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-7-7" aria-expanded="true"
+                      aria-controls="#step-data-7-7">
+                      <i class="bi bi-check-lg"></i>Step 7 (1.2%): Open Posts Page
+                    </button>
+                  </h2>
+                  <div id="step-data-7-7" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-7-7"
+                    data-bs-parent="accordion-scenario-7-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/d09a9eae-7944-400b-9900-da5c5bfd4577.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create multiple post with the same title/042_open_posts_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create multiple post with the same title/042_open_posts_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        
+        
+        
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="scenario-header-8">
+            <button class="accordion-button failed collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#scenario-data-8" aria-expanded="true"
+              aria-controls="#scenario-data-8">
+              <i class="bi bi-x-lg"></i>Scenario 8: Create Post
+            </button>
+          </h2>
+          <div id="scenario-data-8" class="accordion-collapse collapse"
+            aria-labelledby="scenario-header-8" data-bs-parent="#accordion-scenarios">
+            <div class="accordion-body">
+
+              <!-- Step accordion -->
+              
+              <div class="accordion" id="accordion-scenario-8-steps">
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-8-1">
+                    <button class="accordion-button failed  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-8-1" aria-expanded="true"
+                      aria-controls="#step-data-8-1">
+                      <i class="bi bi-x-lg"></i>Step 1 (2.5%): Open Login Page
+                    </button>
+                  </h2>
+                  <div id="step-data-8-1" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-8-1"
+                    data-bs-parent="accordion-scenario-8-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/0eda0283-ecf9-4377-bb9a-d2a3598003be.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create post/028_open_login_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create post/028_open_login_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-8-2">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-8-2" aria-expanded="true"
+                      aria-controls="#step-data-8-2">
+                      <i class="bi bi-check-lg"></i>Step 2 (0%): Open New Post Page
+                    </button>
+                  </h2>
+                  <div id="step-data-8-2" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-8-2"
+                    data-bs-parent="accordion-scenario-8-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/776cf29e-3eda-4d5c-9ba9-8e6dd27500a7.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create post/029_open_new_post_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create post/029_open_new_post_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-8-3">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-8-3" aria-expanded="true"
+                      aria-controls="#step-data-8-3">
+                      <i class="bi bi-check-lg"></i>Step 3 (0.2%): Select Publish Option
+                    </button>
+                  </h2>
+                  <div id="step-data-8-3" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-8-3"
+                    data-bs-parent="accordion-scenario-8-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/f404e4b0-2d6e-434a-bba0-de5886c96807.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create post/030_select_publish_option.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create post/030_select_publish_option.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-8-4">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-8-4" aria-expanded="true"
+                      aria-controls="#step-data-8-4">
+                      <i class="bi bi-check-lg"></i>Step 4 (1.5%): Open Posts Page
+                    </button>
+                  </h2>
+                  <div id="step-data-8-4" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-8-4"
+                    data-bs-parent="accordion-scenario-8-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/87f5319a-0972-4a40-9361-ac4981687d44.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create post/031_open_posts_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create post/031_open_posts_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        
+        
+        
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="scenario-header-9">
+            <button class="accordion-button failed collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#scenario-data-9" aria-expanded="true"
+              aria-controls="#scenario-data-9">
+              <i class="bi bi-x-lg"></i>Scenario 9: Create Post And Delete It
+            </button>
+          </h2>
+          <div id="scenario-data-9" class="accordion-collapse collapse"
+            aria-labelledby="scenario-header-9" data-bs-parent="#accordion-scenarios">
+            <div class="accordion-body">
+
+              <!-- Step accordion -->
+              
+              <div class="accordion" id="accordion-scenario-9-steps">
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-9-1">
+                    <button class="accordion-button failed  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-9-1" aria-expanded="true"
+                      aria-controls="#step-data-9-1">
+                      <i class="bi bi-x-lg"></i>Step 1 (2.5%): Open Login Page
+                    </button>
+                  </h2>
+                  <div id="step-data-9-1" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-9-1"
+                    data-bs-parent="accordion-scenario-9-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/faeeff36-7775-41bc-af7c-7f86d25b4a8b.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create post and delete it/048_open_login_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create post and delete it/048_open_login_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-9-2">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-9-2" aria-expanded="true"
+                      aria-controls="#step-data-9-2">
+                      <i class="bi bi-check-lg"></i>Step 2 (0%): Open New Post Page
+                    </button>
+                  </h2>
+                  <div id="step-data-9-2" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-9-2"
+                    data-bs-parent="accordion-scenario-9-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/7cb9ef1c-b1d0-47c3-a87e-494fd7d94276.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create post and delete it/049_open_new_post_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create post and delete it/049_open_new_post_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-9-3">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-9-3" aria-expanded="true"
+                      aria-controls="#step-data-9-3">
+                      <i class="bi bi-check-lg"></i>Step 3 (0.2%): Select Publish Option
+                    </button>
+                  </h2>
+                  <div id="step-data-9-3" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-9-3"
+                    data-bs-parent="accordion-scenario-9-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/78de510f-1466-4deb-a5a6-5ef9df86abdb.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create post and delete it/050_select_publish_option.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create post and delete it/050_select_publish_option.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-9-4">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-9-4" aria-expanded="true"
+                      aria-controls="#step-data-9-4">
+                      <i class="bi bi-check-lg"></i>Step 4 (1.5%): Open Posts Page
+                    </button>
+                  </h2>
+                  <div id="step-data-9-4" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-9-4"
+                    data-bs-parent="accordion-scenario-9-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/7d3b30ab-38b8-4162-ad45-9c6d9f8c2ec4.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create post and delete it/051_open_posts_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create post and delete it/051_open_posts_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-9-5">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-9-5" aria-expanded="true"
+                      aria-controls="#step-data-9-5">
+                      <i class="bi bi-check-lg"></i>Step 5 (0%): Open Post Settings
+                    </button>
+                  </h2>
+                  <div id="step-data-9-5" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-9-5"
+                    data-bs-parent="accordion-scenario-9-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/39e69097-95bf-47b1-8c79-30078e2e42cd.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create post and delete it/052_open_post_settings.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create post and delete it/052_open_post_settings.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-9-6">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-9-6" aria-expanded="true"
+                      aria-controls="#step-data-9-6">
+                      <i class="bi bi-check-lg"></i>Step 6 (0%): Confirm Delete
+                    </button>
+                  </h2>
+                  <div id="step-data-9-6" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-9-6"
+                    data-bs-parent="accordion-scenario-9-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/99be4534-0f22-4dc3-a088-48462aab8dad.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create post and delete it/053_confirm_delete.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create post and delete it/053_confirm_delete.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        
+        
+        
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="scenario-header-10">
+            <button class="accordion-button failed collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#scenario-data-10" aria-expanded="true"
+              aria-controls="#scenario-data-10">
+              <i class="bi bi-x-lg"></i>Scenario 10: Create Post And Edit It
+            </button>
+          </h2>
+          <div id="scenario-data-10" class="accordion-collapse collapse"
+            aria-labelledby="scenario-header-10" data-bs-parent="#accordion-scenarios">
+            <div class="accordion-body">
+
+              <!-- Step accordion -->
+              
+              <div class="accordion" id="accordion-scenario-10-steps">
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-10-1">
+                    <button class="accordion-button failed  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-10-1" aria-expanded="true"
+                      aria-controls="#step-data-10-1">
+                      <i class="bi bi-x-lg"></i>Step 1 (2.5%): Open Login Page
+                    </button>
+                  </h2>
+                  <div id="step-data-10-1" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-10-1"
+                    data-bs-parent="accordion-scenario-10-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/6cfa0d4b-c61c-4217-b6f9-e0b426ebaa1f.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create post and edit it/043_open_login_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create post and edit it/043_open_login_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-10-2">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-10-2" aria-expanded="true"
+                      aria-controls="#step-data-10-2">
+                      <i class="bi bi-check-lg"></i>Step 2 (0%): Open New Post Page
+                    </button>
+                  </h2>
+                  <div id="step-data-10-2" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-10-2"
+                    data-bs-parent="accordion-scenario-10-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/90bcc790-e6e3-4881-ac12-5d192cfd1e1e.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create post and edit it/044_open_new_post_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create post and edit it/044_open_new_post_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-10-3">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-10-3" aria-expanded="true"
+                      aria-controls="#step-data-10-3">
+                      <i class="bi bi-check-lg"></i>Step 3 (0.5%): Select Publish Option
+                    </button>
+                  </h2>
+                  <div id="step-data-10-3" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-10-3"
+                    data-bs-parent="accordion-scenario-10-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/98b205e7-09b7-4f87-81db-0713588e343f.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create post and edit it/045_select_publish_option.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create post and edit it/045_select_publish_option.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-10-4">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-10-4" aria-expanded="true"
+                      aria-controls="#step-data-10-4">
+                      <i class="bi bi-check-lg"></i>Step 4 (1.5%): Open Posts Page
+                    </button>
+                  </h2>
+                  <div id="step-data-10-4" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-10-4"
+                    data-bs-parent="accordion-scenario-10-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/8131078c-03eb-431b-b009-e159472af56b.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create post and edit it/046_open_posts_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create post and edit it/046_open_posts_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-10-5">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-10-5" aria-expanded="true"
+                      aria-controls="#step-data-10-5">
+                      <i class="bi bi-check-lg"></i>Step 5 (0.3%): Select Update Option
+                    </button>
+                  </h2>
+                  <div id="step-data-10-5" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-10-5"
+                    data-bs-parent="accordion-scenario-10-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/a016ce93-a7b5-4657-90af-496b76db8a25.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create post and edit it/047_select_update_option.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create post and edit it/047_select_update_option.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        
+        
+        
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="scenario-header-11">
+            <button class="accordion-button failed collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#scenario-data-11" aria-expanded="true"
+              aria-controls="#scenario-data-11">
+              <i class="bi bi-x-lg"></i>Scenario 11: Create Post Without Content
+            </button>
+          </h2>
+          <div id="scenario-data-11" class="accordion-collapse collapse"
+            aria-labelledby="scenario-header-11" data-bs-parent="#accordion-scenarios">
+            <div class="accordion-body">
+
+              <!-- Step accordion -->
+              
+              <div class="accordion" id="accordion-scenario-11-steps">
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-11-1">
+                    <button class="accordion-button failed  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-11-1" aria-expanded="true"
+                      aria-controls="#step-data-11-1">
+                      <i class="bi bi-x-lg"></i>Step 1 (2.5%): Open Login Page
+                    </button>
+                  </h2>
+                  <div id="step-data-11-1" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-11-1"
+                    data-bs-parent="accordion-scenario-11-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/a41aad34-6003-47ac-a174-7d531d4adf34.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create post without content/032_open_login_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create post without content/032_open_login_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-11-2">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-11-2" aria-expanded="true"
+                      aria-controls="#step-data-11-2">
+                      <i class="bi bi-check-lg"></i>Step 2 (0%): Open New Post Page
+                    </button>
+                  </h2>
+                  <div id="step-data-11-2" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-11-2"
+                    data-bs-parent="accordion-scenario-11-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/f92c7e40-7460-4418-be39-d7c72d1dfcdd.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create post without content/033_open_new_post_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create post without content/033_open_new_post_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-11-3">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-11-3" aria-expanded="true"
+                      aria-controls="#step-data-11-3">
+                      <i class="bi bi-check-lg"></i>Step 3 (0.2%): Select Publish Option
+                    </button>
+                  </h2>
+                  <div id="step-data-11-3" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-11-3"
+                    data-bs-parent="accordion-scenario-11-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/c977e78d-2592-4c0c-bb7e-890ff5d3c501.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create post without content/034_select_publish_option.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create post without content/034_select_publish_option.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-11-4">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-11-4" aria-expanded="true"
+                      aria-controls="#step-data-11-4">
+                      <i class="bi bi-check-lg"></i>Step 4 (1.5%): Open Posts Page
+                    </button>
+                  </h2>
+                  <div id="step-data-11-4" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-11-4"
+                    data-bs-parent="accordion-scenario-11-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/59bdc49e-87d0-4942-989a-5f1cee444308.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Create post without content/035_open_posts_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Create post without content/035_open_posts_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        
+        
+        
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="scenario-header-12">
+            <button class="accordion-button failed collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#scenario-data-12" aria-expanded="true"
+              aria-controls="#scenario-data-12">
+              <i class="bi bi-x-lg"></i>Scenario 12: Filter Member
+            </button>
+          </h2>
+          <div id="scenario-data-12" class="accordion-collapse collapse"
+            aria-labelledby="scenario-header-12" data-bs-parent="#accordion-scenarios">
+            <div class="accordion-body">
+
+              <!-- Step accordion -->
+              
+              <div class="accordion" id="accordion-scenario-12-steps">
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-12-1">
+                    <button class="accordion-button failed  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-12-1" aria-expanded="true"
+                      aria-controls="#step-data-12-1">
+                      <i class="bi bi-x-lg"></i>Step 1 (2.5%): Open Login Page
+                    </button>
+                  </h2>
+                  <div id="step-data-12-1" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-12-1"
+                    data-bs-parent="accordion-scenario-12-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/f39e267f-9e92-4c93-8412-0a7528c6f9d6.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Filter member/016_open_login_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Filter member/016_open_login_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-12-2">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-12-2" aria-expanded="true"
+                      aria-controls="#step-data-12-2">
+                      <i class="bi bi-check-lg"></i>Step 2 (0.1%): Create Member
+                    </button>
+                  </h2>
+                  <div id="step-data-12-2" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-12-2"
+                    data-bs-parent="accordion-scenario-12-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/ec0860f3-df57-4863-a9c5-6d1a0c532748.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Filter member/017_create_member.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Filter member/017_create_member.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-12-3">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-12-3" aria-expanded="true"
+                      aria-controls="#step-data-12-3">
+                      <i class="bi bi-check-lg"></i>Step 3 (0.2%): Create Member
+                    </button>
+                  </h2>
+                  <div id="step-data-12-3" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-12-3"
+                    data-bs-parent="accordion-scenario-12-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/9dc17c29-116e-4b3a-91f8-961e85beceb7.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Filter member/018_create_member.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Filter member/018_create_member.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-12-4">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-12-4" aria-expanded="true"
+                      aria-controls="#step-data-12-4">
+                      <i class="bi bi-check-lg"></i>Step 4 (0.3%): Filter Members
+                    </button>
+                  </h2>
+                  <div id="step-data-12-4" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-12-4"
+                    data-bs-parent="accordion-scenario-12-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/a8fdcd5e-0426-443b-830f-26ae07ef44a9.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Filter member/019_filter_members.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Filter member/019_filter_members.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        
+        
+        
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="scenario-header-13">
+            <button class="accordion-button failed collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#scenario-data-13" aria-expanded="true"
+              aria-controls="#scenario-data-13">
+              <i class="bi bi-x-lg"></i>Scenario 13: Filter Member Delete
+            </button>
+          </h2>
+          <div id="scenario-data-13" class="accordion-collapse collapse"
+            aria-labelledby="scenario-header-13" data-bs-parent="#accordion-scenarios">
+            <div class="accordion-body">
+
+              <!-- Step accordion -->
+              
+              <div class="accordion" id="accordion-scenario-13-steps">
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-13-1">
+                    <button class="accordion-button failed  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-13-1" aria-expanded="true"
+                      aria-controls="#step-data-13-1">
+                      <i class="bi bi-x-lg"></i>Step 1 (2.5%): Open Login Page
+                    </button>
+                  </h2>
+                  <div id="step-data-13-1" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-13-1"
+                    data-bs-parent="accordion-scenario-13-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/e54dc683-2800-46d9-a648-5fcf08664e01.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Filter member delete/020_open_login_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Filter member delete/020_open_login_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-13-2">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-13-2" aria-expanded="true"
+                      aria-controls="#step-data-13-2">
+                      <i class="bi bi-check-lg"></i>Step 2 (0.1%): Create Member
+                    </button>
+                  </h2>
+                  <div id="step-data-13-2" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-13-2"
+                    data-bs-parent="accordion-scenario-13-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/64b9ac53-c9a6-44be-90c9-af077f5c35f8.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Filter member delete/021_create_member.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Filter member delete/021_create_member.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-13-3">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-13-3" aria-expanded="true"
+                      aria-controls="#step-data-13-3">
+                      <i class="bi bi-check-lg"></i>Step 3 (0.2%): Create Member
+                    </button>
+                  </h2>
+                  <div id="step-data-13-3" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-13-3"
+                    data-bs-parent="accordion-scenario-13-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/f8371e3b-5d89-43b0-baa1-3ea611bb33c2.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Filter member delete/022_create_member.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Filter member delete/022_create_member.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-13-4">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-13-4" aria-expanded="true"
+                      aria-controls="#step-data-13-4">
+                      <i class="bi bi-check-lg"></i>Step 4 (0.3%): Filter Members
+                    </button>
+                  </h2>
+                  <div id="step-data-13-4" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-13-4"
+                    data-bs-parent="accordion-scenario-13-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/268b18bf-a739-4bdc-9438-29c15e037c33.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Filter member delete/023_filter_members.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Filter member delete/023_filter_members.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        
+        
+        
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="scenario-header-14">
+            <button class="accordion-button failed collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#scenario-data-14" aria-expanded="true"
+              aria-controls="#scenario-data-14">
+              <i class="bi bi-x-lg"></i>Scenario 14: Filter Member Remove Label
+            </button>
+          </h2>
+          <div id="scenario-data-14" class="accordion-collapse collapse"
+            aria-labelledby="scenario-header-14" data-bs-parent="#accordion-scenarios">
+            <div class="accordion-body">
+
+              <!-- Step accordion -->
+              
+              <div class="accordion" id="accordion-scenario-14-steps">
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-14-1">
+                    <button class="accordion-button failed  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-14-1" aria-expanded="true"
+                      aria-controls="#step-data-14-1">
+                      <i class="bi bi-x-lg"></i>Step 1 (2.5%): Open Login Page
+                    </button>
+                  </h2>
+                  <div id="step-data-14-1" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-14-1"
+                    data-bs-parent="accordion-scenario-14-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/882612a0-284d-45e2-a82f-ee09a255f42a.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Filter member remove label/024_open_login_page.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Filter member remove label/024_open_login_page.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-14-2">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-14-2" aria-expanded="true"
+                      aria-controls="#step-data-14-2">
+                      <i class="bi bi-check-lg"></i>Step 2 (0.1%): Create Member
+                    </button>
+                  </h2>
+                  <div id="step-data-14-2" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-14-2"
+                    data-bs-parent="accordion-scenario-14-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/fb496115-bae3-4404-9e7b-4674c2cb682a.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Filter member remove label/025_create_member.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Filter member remove label/025_create_member.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-14-3">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-14-3" aria-expanded="true"
+                      aria-controls="#step-data-14-3">
+                      <i class="bi bi-check-lg"></i>Step 3 (0.2%): Create Member
+                    </button>
+                  </h2>
+                  <div id="step-data-14-3" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-14-3"
+                    data-bs-parent="accordion-scenario-14-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/8b513d71-0e4c-4e78-95ec-0041d8e3209e.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Filter member remove label/026_create_member.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Filter member remove label/026_create_member.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="step-header-14-4">
+                    <button class="accordion-button ok  collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#step-data-14-4" aria-expanded="true"
+                      aria-controls="#step-data-14-4">
+                      <i class="bi bi-check-lg"></i>Step 4 (0.3%): Filter Members
+                    </button>
+                  </h2>
+                  <div id="step-data-14-4" class="accordion-collapse collapse"
+                    aria-labelledby="step-header-14-4"
+                    data-bs-parent="accordion-scenario-14-steps">
+                    <div class="accordion-body">
+                      <div class="row justify-content-center gy-2">
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Difference</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="screenshots/playwright/report_4.36_4.41.1images/4eb569a6-25b1-479a-b0f7-7e077bed966a.png"
+                              alt="step in Ghost version 4.36" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Previous (4.36)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.36/Filter member remove label/027_filter_members.png"
+                              alt="step in Ghost version 4.41.1" />
+                          </div>
+                        </div>
+                        <div class="row justify-content-center gy-2">
+                          <div class="col col-auto">
+                            <h4>Post (4.41.1)</h4>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col col-auto">
+                            <hr>
+                            <img loading="lazy" class="img-fluid step-image" src="./screenshots/playwright/4.41.1/Filter member remove label/027_filter_members.png"
+                              alt="difference" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
