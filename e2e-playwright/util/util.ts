@@ -39,7 +39,6 @@ export async function startGhostAndSetup() {
 }
 
 export type Cookie = {
-  loggedIn: boolean,
   scenarios: ScenarioConfig[],
   pool: DataPoolType,
 }

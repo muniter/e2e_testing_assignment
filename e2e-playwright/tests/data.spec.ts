@@ -29,14 +29,14 @@ async function runScenario(config: ScenarioTestConfig, cookie: Cookie) {
   const data = getData({ identifier: identifier, pool: cookie.pool })
   let res: boolean;
 
+
   // Login
-  if (!cookie.loggedIn) {
-    const loginPage = new LoginPage(page, testinfo);
-    await loginPage.open();
-    await loginPage.login();
-    expect(await loginPage.userIsLoggedIn()).toBeTruthy();
-    cookie.loggedIn = true;
-  }
+  const loginPage = new LoginPage(page, testinfo);
+  await loginPage.open();
+  await loginPage.login();
+  expect(await loginPage.userIsLoggedIn()).toBeTruthy();
+
+
   if (scenario.model === 'member') {
     // Go to members page
     const membersPage = new MembersPage(page, testinfo);
@@ -68,7 +68,7 @@ let counter = 1
 Object.entries(Scenarios).forEach(([identifier, scenario]) => {
   // Run each scenario individually
   let pool = oneDataPool();
-  let cookie: Cookie = { loggedIn: false, scenarios: [scenario], pool: pool }
+  let cookie: Cookie = { scenarios: [scenario], pool: pool }
   test(nameDataScenario(cookie, counter), async ({ page }, testinfo) => {
     await runScenario({ page, testinfo, identifier, scenario }, cookie);
     scenariosRun.push(cookie);
